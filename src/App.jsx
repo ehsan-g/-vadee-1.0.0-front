@@ -1,0 +1,50 @@
+import React from 'react';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import Divider from '@material-ui/core/Divider';
+import Container from '@material-ui/core/Container';
+// import ArtWork from './pages/ArtWork';
+import Main from './pages/Main';
+import Header from './components/nav/Header';
+// import EnterForm from './pages/auth/LoginForm';
+// import RegisterForm from './pages/auth/RegisterForm';
+// import UserProfile from './pages/UserProfile';
+// import Cart from './pages/Cart';
+// import Sell from './pages/Sell';
+import Footer from './components/nav/Footer';
+// import AdminPanel from './pages/admin/AdminPanel';
+// import UserEdit from './pages/admin/UserEdit';
+// import ArtworkEdit from './pages/admin/ArtworkEdit';
+
+// Create an enhanced history that syncs navigation events with the store
+
+const App = () => (
+  <>
+    <BrowserRouter>
+      <Header />
+      <Container maxWidth="lg">
+        <React.StrictMode>
+          <Switch>
+            <Route exact path="/" component={Main} />
+            {/* <Route exact path="/sell" component={Sell} />
+            <Route path="/artworks/:workId" component={ArtWork} />
+            <Route
+              path="/admin-panel/artwork/:artworkId/edit"
+              component={ArtworkEdit}
+            />
+            <Route path="/cart/shippingAddress/:workId?" component={Cart} />
+            <Route path="/cart/placeOrder/:workId?" component={Cart} />
+            <Route path="/orders/:orderId" component={Cart} />
+            <Route exact path="/login" component={EnterForm} />
+            <Route exact path="/register" component={RegisterForm} />
+            <Route exact path="/profile" component={UserProfile} />
+            <Route path="/admin-panel/user/:userId/edit" component={UserEdit} />
+            <Route exact path="/admin-panel/:route" component={AdminPanel} /> */}
+          </Switch>
+        </React.StrictMode>
+      </Container>
+      <Divider style={{ maxWidth: '70%', margin: 'auto' }} variant="middle" />
+      <Footer />
+    </BrowserRouter>
+  </>
+);
+export default App;
