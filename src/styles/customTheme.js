@@ -1,14 +1,12 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
-const customTheme = createMuiTheme({
-  direction: 'rtl',
-
+const customTheme = createTheme({
   palette: {
     primary: {
-      main: '#7954A1',
+      main: '#A2A28F',
     },
     secondary: {
-      main: '#7954A1',
+      main: '#99CCCC',
     },
     background: {
       default: '#ffffff',
@@ -20,8 +18,6 @@ const customTheme = createMuiTheme({
   },
 
   components: {
-    direction: 'rtl',
-    // Style sheet name => example Link component ⚛️
     MuiAppBar: {
       styleOverrides: {
         colorPrimary: {
@@ -53,31 +49,31 @@ const customTheme = createMuiTheme({
             textDecoration: 'none',
           },
         },
-
         subtitle1: {
           fontSize: '12px',
           margin: '2px',
         },
         subtitle2: {
-          margin: '10px',
+          margin: '0px',
+          fontSize: '13px',
         },
         colorPrimary: {
           color: 'white',
         },
 
         body1: {
-          // fontSize: '11px',
+          // fontWeight: '100',
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         contained: {
-          backgroundColor: 'black',
-          padding: '5px 15px 5px 15px',
-          margin: 2,
+          textTransform: 'none',
+          minWidth: '80px',
           color: 'white',
-          minWidth: '41px',
+          borderRadius: 0,
+          maxHeight: 32,
           '&:hover': {
             color: 'white',
             backgroundColor: '#secondary',
@@ -85,9 +81,7 @@ const customTheme = createMuiTheme({
           },
         },
         outlined: {
-          margin: 2,
-          padding: '0px 15px 0px 15px',
-          minWidth: '41px',
+          borderRadius: 0,
           '&:hover': {
             borderColor: 'black',
             textDecoration: 'none',

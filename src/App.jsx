@@ -3,6 +3,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 // import ArtWork from './pages/ArtWork';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Main from './pages/Main';
 import Header from './components/nav/Header';
 // import EnterForm from './pages/auth/LoginForm';
@@ -20,6 +21,7 @@ import Footer from './components/nav/Footer';
 const App = () => (
   <>
     <BrowserRouter>
+      <CssBaseline />
       <Header />
       <Container maxWidth="lg">
         <React.StrictMode>

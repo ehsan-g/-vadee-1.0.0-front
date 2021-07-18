@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import customTheme from './styles/customTheme';
 import history from './history';
 import store from './store';
+import './styles/css/style.css';
 
 ReactDOM.render(
   <Router history={history}>
