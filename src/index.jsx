@@ -2,19 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
+import { ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import customTheme from './styles/customTheme';
 import history from './history';
 import store from './store';
-import { ThemeProvider } from '@material-ui/core/styles';
 
 ReactDOM.render(
   <Router history={history}>
     <Provider store={store}>
-        <ThemeProvider theme={customTheme}>
-          <App />
-        </ThemeProvider>
+      <ThemeProvider theme={customTheme}>
+        <App />
+      </ThemeProvider>
     </Provider>
   </Router>,
 
