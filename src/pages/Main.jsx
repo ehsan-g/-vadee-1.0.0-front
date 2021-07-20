@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/carousel/Carousel';
 
 const Main = () => (
   <Grid
