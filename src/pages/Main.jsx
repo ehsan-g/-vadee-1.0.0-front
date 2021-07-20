@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Carousel from '../components/Carousel';
 
 const Main = () => (
   <Grid
@@ -8,8 +9,8 @@ const Main = () => (
     justifyContent="center"
     alignItems="center"
   >
-    <Grid item xs>
-      Slider
+    <Grid item xs={12} sx={{ width: '100%' }}>
+      <Carousel />
     </Grid>
     <Grid item xs>
       Artists You Follow

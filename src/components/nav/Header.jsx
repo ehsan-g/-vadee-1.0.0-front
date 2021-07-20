@@ -47,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header = () => (
-  <Container maxWidth="lg" sx={{ marginTop: 2 }}>
+  <Container maxWidth="lg" sx={{ marginTop: 5, marginBottom: 5 }}>
     <AppBar position="static" elevation={0}>
       <Toolbar>
         <Grid container direction="row">
