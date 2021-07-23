@@ -57,12 +57,9 @@ const customTheme = createTheme({
           margin: '0px',
           fontSize: '13px',
         },
-        colorPrimary: {
-          color: 'white',
-        },
-
-        body1: {
-          // fontWeight: '100',
+        h6: {
+          padding: 0,
+          lineHeight: 1,
         },
       },
     },
