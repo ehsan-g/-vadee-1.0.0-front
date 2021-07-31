@@ -39,7 +39,6 @@ const customTheme = createTheme({
         root: {
           alignContent: 'center',
           padding: '2px',
-          color: 'secondary',
         },
         underlineNone: {
           // Some CSS
@@ -104,11 +103,28 @@ const customTheme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: 'secondary',
-          right: 30,
-          transformOrigin: 'top right',
+          '&.Mui-focused': {
+            color: 'black',
+            textDecoration: 'none',
+          },
+          // right: 30,
+          // transformOrigin: 'top right',
           // transition: 'transform 0.6s cubic-bezier(0.61, 1, 0.88, 1)',
           // transform: 'translate(1px, 9px) scale(0.75)',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        },
+      },
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 0,
         },
       },
     },

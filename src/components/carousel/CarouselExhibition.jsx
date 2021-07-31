@@ -4,7 +4,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-import { Typography } from '@material-ui/core';
+import {
+  Typography,
+  Grid,
+  Box,
+  CardActionArea,
+  CardContent,
+  Card,
+} from '@material-ui/core';
+import CardMedia from '@material-ui/core/CardMedia';
 import { Link } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -95,97 +103,93 @@ function SamplePrevArrow(props) {
   );
 }
 
-export default class CarouselArtist extends Component {
+export default class CarouselExhibition extends Component {
   render() {
     const settings = {
       dots: false,
       speed: 500,
       infinite: true,
-      slidesToShow: 5,
-      slidesToScroll: 6,
+      slidesToShow: 2,
+      slidesToScroll: 1,
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
       responsive: [
         {
-          breakpoint: 900,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-          },
-        },
-        {
           breakpoint: 680,
           settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
+            slidesToShow: 1,
+            slidesToScroll: 1,
           },
         },
       ],
     };
     return (
       <>
-        <div
-          style={{
-            maxWidth: `850px`,
-            display: 'block',
-          }}
-        >
-          <Slider {...settings}>
-            {itemData.map((item) => (
-              <div className="artists-images" key={item.title}>
-                <img
-                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format 1x,
-                ${item.img}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                  loading="lazy"
-                />
-                <Typography
-                  variant="subtitle1"
-                  sx={{ padding: 0, margin: 0, lineHeight: 1, color: 'black' }}
+        <Slider {...settings}>
+          {itemData.map((item) => (
+            <Card sx={{ display: 'flex !important' }} elevation={0}>
+              <CardMedia
+                sx={{ width: 140, height: 100 }}
+                image={item.img}
+                title="Contemplative Reptile"
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent
+                  sx={{ flex: '1 0 auto', paddingLeft: 2, paddingTop: 4 }}
                 >
-                  {item.title}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                    lineHeight: 1,
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {item.title}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                    lineHeight: 1,
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {item.title}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                    lineHeight: 1,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  <Link style={{ color: '#99CCCC' }} to="#">
-                    Browse Gallery
-                  </Link>
-                </Typography>
-              </div>
-            ))}
-          </Slider>
-        </div>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      padding: 0,
+                      margin: 0,
+                      lineHeight: 1,
+                      color: 'black',
+                    }}
+                  >
+                    Artist name
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      padding: 0,
+                      margin: 0,
+                      lineHeight: 1,
+                      color: 'black',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    The exhibition title
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      padding: 0,
+                      margin: 0,
+                      lineHeight: 1,
+                      color: 'black',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Online exclusive, July 12 - July 14
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      padding: 0,
+                      margin: 0,
+                      lineHeight: 1,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    <Link style={{ color: '#A2A28F' }} to="#">
+                      Browse Gallery
+                    </Link>
+                  </Typography>
+                </CardContent>
+              </Box>
+            </Card>
+          ))}
+        </Slider>
       </>
     );
   }

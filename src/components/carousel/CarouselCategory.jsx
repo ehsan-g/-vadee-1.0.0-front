@@ -1,7 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-import { Typography, Grid } from '@material-ui/core';
+import {
+  Typography,
+  Grid,
+  CardActionArea,
+  CardContent,
+  Card,
+} from '@material-ui/core';
+import CardMedia from '@material-ui/core/CardMedia';
 import { Link } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -56,70 +63,74 @@ const itemData = [
     title: 'Bike',
   },
 ];
-export default class CarouselMid extends Component {
+
+export default class CarouselCategory extends Component {
   render() {
     const settings = {
-      className: 'slider variable-width',
       dots: false,
       infinite: true,
-      centerMode: true,
       slidesToShow: 3,
       slidesToScroll: 1,
       variableWidth: true,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 900,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+          },
+        },
+        {
+          breakpoint: 680,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+      ],
     };
     return (
       <>
         <div>
           <Slider {...settings}>
             {itemData.map((item) => (
-              <Grid className="mid-images" key={item.title} sx={{ padding: 2 }}>
-                <img
-                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format 1x,
-                ${item.img}?w=250&h=180&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                  loading="lazy"
-                />
-                <Typography
-                  variant="subtitle1"
-                  sx={{ padding: 0, margin: 0, lineHeight: 1, color: 'black' }}
-                >
-                  {item.title}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                    lineHeight: 1,
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {item.title}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                    lineHeight: 1,
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {item.title}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                    lineHeight: 1,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  <Link to="#">Browse Gallery</Link>
-                </Typography>
+              <Grid
+                className="mid-images"
+                key={item.title}
+                sx={{ padding: 2, textAlign: 'left' }}
+              >
+                <Card sx={{ width: 260 }} elevation={0}>
+                  <CardActionArea>
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={item.img}
+                      title="Contemplative Reptile"
+                    />
+                    <CardContent>
+                      <Typography variant="subtitle1">{item.title}</Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      marginBottom: 3,
+                      lineHeight: 1,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    <Link style={{ color: '#99CCCC' }} to="#">
+                      Browse Gallery
+                    </Link>
+                  </Typography>
+                </Card>
               </Grid>
             ))}
           </Slider>

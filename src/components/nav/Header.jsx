@@ -53,7 +53,7 @@ const Header = () => (
         <Grid container direction="row">
           <Grid item xs={3}>
             <img
-              src="/static/logo.png"
+              src="/static/logo.svg"
               alt="Paella dish"
               style={{ width: '80%' }}
             />

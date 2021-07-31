@@ -30,7 +30,6 @@ const App = () => (
             <Route exact path="/admin-panel/:route" component={AdminPanel} /> */}
         </Switch>
       </React.StrictMode>
-      <Divider style={{ maxWidth: '70%', margin: 'auto' }} variant="middle" />
       <Footer />
     </BrowserRouter>
   </>
