@@ -105,10 +105,10 @@ const Footer = () => (
     <Grid
       container
       direction="row"
-      justifyContent="flex-end"
+      justifyContent="center"
       alignItems="center"
       spacing={1}
-      sx={{ padding: 3, backgroundColor: '#99CCCC', textAlign: 'center' }}
+      sx={{ padding: 3, backgroundColor: '#99CCCC', textAlign: 'left' }}
     >
       <Grid item xs={2}>
         <img
@@ -117,9 +117,9 @@ const Footer = () => (
           style={{ width: '30%' }}
         />
       </Grid>
-      <Grid container direction="column" item xs={10} spacing={2}>
+      <Grid container direction="column" item xs={8} spacing={2}>
         <Grid item>
-          <Typography sx={{ color: 'white' }} variant="body1">
+          <Typography sx={{ color: 'white', paddingTop: 2 }} variant="body1">
             CThe textbox may contain any arbitrary value, but it is advantageous
             to suggest possible values to the user,The textbox may contain any
             arbitrary value, but it is advantageous to suggest possible values
@@ -143,7 +143,8 @@ const Footer = () => (
                   sx={{
                     color: 'white',
                     backgroundColor: 'black',
-                    padding: '0.25rem',
+                    padding: '0.45rem',
+                    marginLeft: 1,
                   }}
                   type="submit"
                 >
@@ -154,6 +155,7 @@ const Footer = () => (
           </FormControl>
         </Grid>
       </Grid>
+      <Grid item xs={1} />
     </Grid>
 
     <Grid
