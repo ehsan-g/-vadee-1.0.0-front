@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiUrl from '../env';
 
 // export default function theAxios() {
 // new code for docker-compose
@@ -10,10 +11,10 @@ import axios from 'axios';
 //   return axios.defaults.baseURL;
 // }
 
-export default axios.create({
-  baseURL: `${window.location.origin}`,
-});
-
 // export default axios.create({
-//   baseURL: 'http://localhost:3000',
+//   baseURL: `${window.location.origin}`,
 // });
+console.log(process);
+export default axios.create({
+  baseURL: apiUrl,
+});

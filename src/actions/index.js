@@ -86,29 +86,31 @@ export const headerStatus = (status) => async (dispatch) => {
   dispatch({ type: 'HEADER_HIDDEN', payload: status });
 };
 
-export const fetchAllArtWorks = (keyword = '') => async (dispatch) => {
-  try {
-    const response = await artworksBase.get(`/api/artworks${keyword}`);
-    dispatch({ type: ARTWORK_LIST_REQUEST });
-    dispatch({
-      type: ARTWORK_LIST_SUCCESS,
-      payload: response.data,
-    });
-  } catch (e) {
-    // check for generic and custom message to return using ternary statement
-    dispatch({
-      type: ARTWORK_LIST_FAIL,
-      payload:
-        e.response && e.response.data.detail
-          ? e.response.data.detail
-          : e.message,
-    });
-  }
-};
+export const fetchAllArtWorks =
+  (keyword = '') =>
+  async (dispatch) => {
+    try {
+      const response = await artworksBase.get(`artworks${keyword}/`);
+      dispatch({ type: ARTWORK_LIST_REQUEST });
+      dispatch({
+        type: ARTWORK_LIST_SUCCESS,
+        payload: response.data,
+      });
+    } catch (e) {
+      // check for generic and custom message to return using ternary statement
+      dispatch({
+        type: ARTWORK_LIST_FAIL,
+        payload:
+          e.response && e.response.data.detail
+            ? e.response.data.detail
+            : e.message,
+      });
+    }
+  };
 
 export const fetchOneArtWork = (workId) => async (dispatch) => {
   try {
-    const response = await artworksBase.get(`/api/artworks/${workId}/`);
+    const response = await artworksBase.get(`artworks/${workId}/`);
     await dispatch({ type: ARTWORK_DETAILS_REQUEST });
     dispatch({
       type: ARTWORK_DETAILS_SUCCESS,
@@ -127,7 +129,7 @@ export const fetchOneArtWork = (workId) => async (dispatch) => {
 };
 
 export const addToCart = (workId) => async (dispatch, getState) => {
-  const { data } = await artworksBase.get(`/api/artworks/${workId}/`);
+  const { data } = await artworksBase.get(`artworks/${workId}/`);
   dispatch({ type: CART_ADD_REQUEST });
   dispatch({
     type: CART_ADD_ITEM,
@@ -173,7 +175,7 @@ export const login = (email, password) => async (dispatch) => {
         'Content-type': 'application/json',
       },
     };
-    const { data } = await axios.post('/api/users/login/', {
+    const { data } = await axios.post('users/login/', {
       username: email,
       password,
       config,
@@ -205,51 +207,50 @@ export const logout = () => (dispatch) => {
   cleanMyOrders();
 };
 
-export const register = (firstName, lastName, email, password) => async (
-  dispatch
-) => {
-  try {
-    dispatch({ type: USER_REGISTER_REQUEST });
-    const config = {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    };
-    const { data } = await axios.post('/api/users/register/', {
-      firstName,
-      lastName,
-      email,
-      username: email,
-      password,
-      config,
-    });
-    dispatch({
-      type: USER_REGISTER_SUCCESS,
-      payload: data,
-    });
-    localStorage.setItem('userInfo', JSON.stringify(data));
+export const register =
+  (firstName, lastName, email, password) => async (dispatch) => {
+    try {
+      dispatch({ type: USER_REGISTER_REQUEST });
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
+      const { data } = await axios.post('users/register/', {
+        firstName,
+        lastName,
+        email,
+        username: email,
+        password,
+        config,
+      });
+      dispatch({
+        type: USER_REGISTER_SUCCESS,
+        payload: data,
+      });
+      localStorage.setItem('userInfo', JSON.stringify(data));
 
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data,
-    });
-  } catch (e) {
-    // check for generic and custom message to return using ternary statement
-    dispatch({
-      type: USER_REGISTER_FAIL,
-      payload:
-        e.response && e.response.data.detail
-          ? e.response.data.detail
-          : e.message,
-    });
-  }
-};
+      dispatch({
+        type: USER_LOGIN_SUCCESS,
+        payload: data,
+      });
+    } catch (e) {
+      // check for generic and custom message to return using ternary statement
+      dispatch({
+        type: USER_REGISTER_FAIL,
+        payload:
+          e.response && e.response.data.detail
+            ? e.response.data.detail
+            : e.message,
+      });
+    }
+  };
 
 export const fetchArtistDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ARTIST_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/artists/${id}/`);
+    const { data } = await axios.get(`artists/${id}/`);
     dispatch({
       type: ARTIST_DETAILS_SUCCESS,
       payload: data,
@@ -280,7 +281,7 @@ export const fetchUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/${id}/`, config);
+    const { data } = await axios.get(`users/${id}/`, config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -312,11 +313,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/users/profile/update/`,
-      user,
-      config
-    );
+    const { data } = await axios.put(`users/profile/update/`, user, config);
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -377,7 +374,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/orders/add/`, order, config);
+    const { data } = await axios.post(`orders/add/`, order, config);
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -407,7 +404,7 @@ export const fetchOrderDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`/api/orders/${id}/`, config);
+    const { data } = await axios.get(`orders/${id}/`, config);
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -437,7 +434,7 @@ export const fetchUserOrderList = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`/api/orders/myOrders/`, config);
+    const { data } = await axios.get(`orders/myOrders/`, config);
 
     dispatch({
       type: MY_ORDERS_SUCCESS,
@@ -468,7 +465,7 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.put(
-      `/api/orders/${id}/pay/`,
+      `orders/${id}/pay/`,
       paymentResult,
       config
     );
@@ -502,7 +499,7 @@ export const fetchUsers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/`, config);
+    const { data } = await axios.get(`users/`, config);
     dispatch({
       type: USER_LIST_SUCCESS,
       payload: data,
@@ -527,7 +524,7 @@ export const deleteUser = (selectedUsers) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const { data } = await axios.delete(`/api/users/delete/`, {
+    const { data } = await axios.delete(`users/delete/`, {
       headers: {
         'Content-type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
@@ -553,42 +550,40 @@ export const deleteUser = (selectedUsers) => async (dispatch, getState) => {
   }
 };
 
-export const deleteArtwork = (selectedArtworks) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: ARTWORK_DELETE_REQUEST });
+export const deleteArtwork =
+  (selectedArtworks) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ARTWORK_DELETE_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const { data } = await axios.delete(`/api/artworks/delete/`, {
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-      data: {
-        selectedArtworks,
-      },
-    });
+      const { data } = await axios.delete(`artworks/delete/`, {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+        data: {
+          selectedArtworks,
+        },
+      });
 
-    dispatch({
-      type: ARTWORK_DELETE_SUCCESS,
-      payload: data,
-    });
-  } catch (e) {
-    // check for generic and custom message to return using ternary statement
-    dispatch({
-      type: ARTWORK_DELETE_FAIL,
-      payload:
-        e.response && e.response.data.detail
-          ? e.response.data.detail
-          : e.message,
-    });
-  }
-};
+      dispatch({
+        type: ARTWORK_DELETE_SUCCESS,
+        payload: data,
+      });
+    } catch (e) {
+      // check for generic and custom message to return using ternary statement
+      dispatch({
+        type: ARTWORK_DELETE_FAIL,
+        payload:
+          e.response && e.response.data.detail
+            ? e.response.data.detail
+            : e.message,
+      });
+    }
+  };
 
 export const updateUser = (user) => async (dispatch, getState) => {
   try {
@@ -604,11 +599,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/users/update/${user._id}/`,
-      user,
-      config
-    );
+    const { data } = await axios.put(`users/update/${user._id}/`, user, config);
 
     dispatch({
       type: USER_UPDATE_SUCCESS,
@@ -645,7 +636,7 @@ export const updateArtwork = (artwork) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/artworks/update/${artwork._id}/`,
+      `artworks/update/${artwork._id}/`,
       artwork,
       config
     );
@@ -684,7 +675,7 @@ export const fetchArtists = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/artists/`, config);
+    const { data } = await axios.get(`artists/`, config);
     dispatch({
       type: ARTIST_LIST_SUCCESS,
       payload: data,
@@ -716,7 +707,7 @@ export const createArtwork = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/artworks/create/`, {}, config);
+    const { data } = await axios.post(`artworks/create/`, {}, config);
     dispatch({
       type: ARTWORK_CREATE_SUCCESS,
       payload: data,
@@ -745,7 +736,7 @@ export const fetchOrders = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`/api/orders/`, config);
+    const { data } = await axios.get(`orders/`, config);
 
     dispatch({
       type: ORDER_LIST_SUCCESS,
@@ -775,7 +766,7 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.put(`/api/orders/${orderId}/deliver/`, config);
+    const { data } = await axios.put(`orders/${orderId}/deliver/`, config);
 
     dispatch({
       type: ORDER_DELIVER_SUCCESS,

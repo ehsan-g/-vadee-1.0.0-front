@@ -3,89 +3,39 @@ import React from 'react';
 import Slider from 'react-slick';
 import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../../styles/carouselTop.scss';
 
-const itemData = [
-  {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-  },
-];
-
-export default function CarouselTop() {
+export default function CarouselTop({ artworks }) {
   const settings = {
+    className: 'center',
     dots: true,
-    infinite: true,
     speed: 500,
-    slidesToShow: 1,
     slidesToScroll: 1,
+    slidesToShow: 1,
   };
   return (
     <div>
       <Slider {...settings}>
-        {itemData.map((item) => (
-          <div className="images" key={item.title}>
+        {artworks.map((artwork) => (
+          <div className="images" key={artwork.title}>
             <img
-              src={`${item.img}?w=1440&h=400&fit=crop&auto=format 1x,
-                ${item.img}?w=1440&h=400&fit=crop&auto=format&dpr=2 2x`}
+              src={`${artwork.image}?w=1440&h=500&fit=crop&auto=format 1x,
+                ${artwork.image}?w=1440&h=400&fit=crop&auto=format&dpr=2 2x`}
               style={{ maxHeight: '500px' }}
-              alt={item.title}
+              alt={artwork.title}
               loading="lazy"
             />
             <Typography component="p" variant="subtitle1">
               Vadee Collection
             </Typography>
             <Typography variant="h5" component="h5">
-              {item.title}
+              {artwork.title}
             </Typography>
             <Typography variant="h4" component="h4">
-              {item.title}
+              {artwork.title}
             </Typography>
             <Typography variant="subtitle2" component="span">
               <Link to="#">Browse Works</Link>
@@ -96,3 +46,7 @@ export default function CarouselTop() {
     </div>
   );
 }
+
+CarouselTop.propTypes = {
+  artworks: PropTypes.array.isRequired,
+};
