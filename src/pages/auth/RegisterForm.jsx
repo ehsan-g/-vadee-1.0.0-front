@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-final-form';
 import { TextField, Checkboxes } from 'mui-rff';
-import { Typography, Grid, Button, CssBaseline } from '@material-ui/core';
+import { Typography, Grid, Button, CssBaseline } from '@mui/material';
 import { toast } from 'react-toastify';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { headerStatus, register } from '../../actions/index.js';

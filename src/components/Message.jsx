@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Alert from '@material-ui/core/Alert';
+import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export default function Message({ icon, variant, children, severity }) {
   return (

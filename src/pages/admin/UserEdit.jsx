@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-final-form';
 import { TextField, Checkboxes } from 'mui-rff';
-import { Typography, Grid, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Grid, Button } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import {

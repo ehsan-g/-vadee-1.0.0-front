@@ -2,12 +2,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import cx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { makeStyles } from '@mui/styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import TextInfoContent from '@mui-treasury/components/content/textInfo';
 import { useOverShadowStyles } from '@mui-treasury/styles/shadow/over';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import Message from '../Message';
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({

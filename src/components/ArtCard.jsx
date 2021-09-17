@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import { Grid, Typography } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
+import ImageListItem from '@mui/material/ImageListItem';
+import { Grid, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 

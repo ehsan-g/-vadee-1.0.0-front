@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';

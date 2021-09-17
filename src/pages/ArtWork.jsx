@@ -2,20 +2,20 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import IconButton from '@material-ui/core/IconButton';
-import { Typography, Button } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import IconButton from '@mui/material/IconButton';
+import { Typography, Button } from '@mui/material';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Divider from '@material-ui/core/Divider';
-import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
-import MilitaryTechOutlinedIcon from '@material-ui/icons/MilitaryTechOutlined';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Divider from '@mui/material/Divider';
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
+import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
+import CircularProgress from '@mui/material/CircularProgress';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { fetchOneArtWork, addToCart, fetchArtistDetails } from '../actions';

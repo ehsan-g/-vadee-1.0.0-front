@@ -14,7 +14,6 @@ import apiUrl from '../env';
 // export default axios.create({
 //   baseURL: `${window.location.origin}`,
 // });
-console.log(process);
 export default axios.create({
   baseURL: apiUrl,
 });

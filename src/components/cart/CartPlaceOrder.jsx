@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Button, Grid, Paper } from '@material-ui/core';
+import { Typography, Button, Grid, Paper } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { cartStep } from '../../actions/index';
 import PlaceOrderButton from './PlaceOrderButton';

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import Slider from 'react-slick';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import 'slick-carousel/slick/slick.css';

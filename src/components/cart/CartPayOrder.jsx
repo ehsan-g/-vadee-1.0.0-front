@@ -2,9 +2,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import SelectInput from '@material-ui/core/Select/SelectInput';
+import SelectInput from '@mui/material/Select/SelectInput';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { cartStep, payOrder, fetchOrderDetails } from '../../actions/index';
 import Loader from '../Loader';

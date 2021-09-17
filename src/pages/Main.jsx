@@ -1,12 +1,12 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
-import { Typography, CardActionArea, Button, Box } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
+import { Typography, CardActionArea, Button, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
-import Stack from '@material-ui/core/Stack';
-import { makeStyles } from '@material-ui/styles';
+import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
+import { makeStyles } from '@mui/styles';
 import { fetchAllArtWorks, cleanTheCart } from '../actions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';

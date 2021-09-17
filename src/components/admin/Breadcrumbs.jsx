@@ -1,8 +1,8 @@
 import React from 'react';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Link } from 'react-router-dom';
-import Stack from '@material-ui/core/Stack';
-import { Typography } from '@material-ui/core';
+import Stack from '@mui/material/Stack';
+import { Typography } from '@mui/material';
 
 export default function AdminBreadcrumbs() {
   const breadcrumbs = [

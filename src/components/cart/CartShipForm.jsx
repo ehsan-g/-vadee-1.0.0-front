@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { Form } from 'react-final-form';
 import { TextField, Checkboxes, Radios, Select } from 'mui-rff';
-import { Paper, Grid, Button, MenuItem } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Paper, Grid, Button, MenuItem } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {

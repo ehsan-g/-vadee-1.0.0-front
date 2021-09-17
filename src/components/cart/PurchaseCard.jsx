@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from 'react-redux';
-import Grid from '@material-ui/core/Grid';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import Grid from '@mui/material/Grid';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { useParams } from 'react-router';
 import { fetchOneArtWork, addToCart, headerStatus } from '../../actions/index';
 

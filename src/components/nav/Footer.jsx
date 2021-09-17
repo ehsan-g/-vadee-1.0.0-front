@@ -6,16 +6,16 @@ import {
   IconButton,
   Box,
   TextField,
-} from '@material-ui/core';
-import { styled } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import TelegramIcon from '@material-ui/icons/Telegram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import FormControl from '@material-ui/core/FormControl';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FormControl from '@mui/material/FormControl';
 
 const Item = styled(Typography)(({ theme }) => ({
   ...theme.typography.body1,

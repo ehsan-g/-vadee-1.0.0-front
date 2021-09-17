@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 import ImageUploading from 'react-images-uploading';
-import { Grid, Button, Box } from '@material-ui/core';
+import { Grid, Button, Box } from '@mui/material';
 
 export default function UploadImage() {
   const [images, setImages] = useState([]);

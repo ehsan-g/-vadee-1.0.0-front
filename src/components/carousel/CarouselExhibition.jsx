@@ -11,13 +11,13 @@ import {
   CardActionArea,
   CardContent,
   Card,
-} from '@material-ui/core';
-import CardMedia from '@material-ui/core/CardMedia';
+} from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
 import { Link } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ArrowBackIosNewIcon from '@material-ui/icons/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const itemData = [
   {

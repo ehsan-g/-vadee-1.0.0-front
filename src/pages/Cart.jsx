@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/button-has-type */
 import React, { useEffect } from 'react';
-import Box from '@material-ui/core/Box';
-import Tab from '@material-ui/core/Tab';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
 import TabContext from '@material-ui/lab/TabContext';
 import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@mui/styles';
+import Grid from '@mui/material/Grid';
 import { useHistory, useParams } from 'react-router';
 import { CartReceipt } from '../components/cart/CartReceipt';
 import CartShipForm from '../components/cart/CartShipForm';
