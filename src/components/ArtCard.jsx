@@ -31,6 +31,7 @@ export default function ArtCard({ artwork }) {
   return (
     <Grid
       sx={{
+        marginBottom: 5,
         opacity: 0.6,
         ':hover': {
           opacity: 1,

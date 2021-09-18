@@ -54,13 +54,13 @@ export default function PurchaseCard() {
     }
   }, [artwork, cartItems, dispatch, orderById, theCart, workId]);
 
-  theCart.shippingPrice = (Number(artwork.price) > 100000 ? 0 : 10000).toFixed(
+  theCart.shipping_price = (Number(artwork.price) > 100000 ? 0 : 10000).toFixed(
     0
   );
   theCart.taxPrice = (artwork.price * 0.09).toFixed(0);
   theCart.totalCartPrice =
     Number(artwork.price) +
-    Number(theCart.shippingPrice) +
+    Number(theCart.shipping_price) +
     Number(theCart.taxPrice);
   const classes = useStyles();
 
@@ -135,7 +135,7 @@ export default function PurchaseCard() {
                 </Grid>
                 <Grid item xs>
                   <Typography variant="subtitle1" color="textSecondary">
-                    {`${theCart.shippingPrice} تومان`}
+                    {`${theCart.shipping_price} تومان`}
                   </Typography>
                 </Grid>
               </Grid>

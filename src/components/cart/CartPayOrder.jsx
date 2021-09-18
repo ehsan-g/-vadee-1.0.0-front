@@ -45,7 +45,7 @@ function CartPayOrder() {
       dispatch(cartStep('4'));
     } else if (!orderById || orderById._id !== Number(orderId)) {
       dispatch(fetchOrderDetails(orderId));
-    } else if (orderById && !orderById.isPaid) {
+    } else if (orderById && !orderById.is_paid) {
       if (!window.paypal) {
         addPayPalScript();
       } else {
@@ -68,7 +68,7 @@ function CartPayOrder() {
 
           <Grid style={{ margin: 100 }}>
             {orderById &&
-            !orderById.isPaid &&
+            !orderById.is_paid &&
             orderById.paymentMethod === 'PayPal Payment' ? (
               <Grid>
                 {loadingPay && <Loader />}

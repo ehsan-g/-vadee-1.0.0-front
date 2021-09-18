@@ -42,7 +42,7 @@ export default function SideFilter() {
                   id="panel-bh-header"
                 >
                   <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                    {`تاریخ ثبت: ${order.createAt} `}
+                    {`تاریخ ثبت: ${order.created_at} `}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>

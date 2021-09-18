@@ -82,11 +82,11 @@ export function AccountUserOrdersCard({ order }) {
         <Typography variant="subtitle1">{`کد‌پستی: ${order.shippingAddress.postalcode}`}</Typography>
         <Typography variant="subtitle1">{` تلفن: ${order.shippingAddress.phone}`}</Typography>
         <Typography variant="subtitle1">{`ارسال: ${order.shippingAddress.deliverymethod}`}</Typography>
-        <Typography variant="subtitle1">{`حمل و نقل: ${order.shippingPrice}`}</Typography>
+        <Typography variant="subtitle1">{`حمل و نقل: ${order.shipping_price}`}</Typography>
         <Typography variant="subtitle1">{`مالیات: ${order.taxPrice}`}</Typography>
         <Typography variant="subtitle1">{`جمع: ${order.totalPrice}`}</Typography>
         <Typography variant="subtitle1">{`طریفه پرداخت: ${order.paymentMethod}`}</Typography>
-        {order.isPaid ? (
+        {order.is_paid ? (
           <>
             <Message variant="outlined" severity="success" sx={{ margin: 0 }}>
               پرداخت شده

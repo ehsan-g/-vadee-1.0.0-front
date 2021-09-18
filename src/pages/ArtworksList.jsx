@@ -79,22 +79,6 @@ function ArtworksList() {
         </Message>
       ) : (
         <>
-          {/* <Hidden mdDown>
-            <Grid sx={{ marginBottom: 60 }}>
-              <Paper
-                elevation={0}
-                sx={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                }}
-              >
-                <Carousel />
-              </Paper>
-            </Grid>
-          </Hidden> */}
-
           <Grid container direction="row" spacing={0}>
             <Grid item xs sx={{ marginTop: 0 }}>
               <Divider style={{ margin: 'auto' }} variant="middle" />
@@ -109,7 +93,7 @@ function ArtworksList() {
                 <ImageList
                   variant="masonry"
                   cols={3}
-                  gap={12}
+                  gap={30}
                   sx={{ paddingRight: 5 }}
                 >
                   {artworks.map((artwork) => (

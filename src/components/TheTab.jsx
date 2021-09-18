@@ -34,7 +34,7 @@ export default function TheTab(props) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {props.theArt.aboutWork}
+        {props.theArt.about_work}
       </TabPanel>
       <TabPanel value={value} index={1}>
         {props.theArt.provenance}

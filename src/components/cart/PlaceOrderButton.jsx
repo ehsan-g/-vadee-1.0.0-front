@@ -24,7 +24,7 @@ export default function PlaceOrderButton() {
   const {
     cartItems,
     shippingAddress,
-    shippingPrice,
+    shipping_price,
     taxPrice,
     totalCartPrice,
   } = theCart;
@@ -46,7 +46,7 @@ export default function PlaceOrderButton() {
         user: userInfo,
         cartItems,
         shippingAddress,
-        shippingPrice,
+        shipping_price,
         taxPrice,
         totalCartPrice,
         paymentMethod: options[selectedIndex],

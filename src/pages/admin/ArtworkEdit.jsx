@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ArtworkEdit() {
   const history = useHistory();
-  const [accountOwner, setAccountOwner] = useState('');
+  const [created_by, setAccountOwner] = useState('');
   const [artist, setArtist] = useState('');
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
@@ -55,14 +55,14 @@ export default function ArtworkEdit() {
   const [isAnEdition, setIsAnEdition] = useState(false);
   const [editionNum, setEditionNum] = useState('');
   const [editionSize, setEditionSize] = useState('');
-  const [isSigned, setIsSigned] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState('');
+  const [is_signed, setIsSigned] = useState('');
+  const [is_authenticated, setIsAuthenticated] = useState('');
   const [frame, setFrame] = useState('');
   const [isPrice, setIsPrice] = useState(false);
   const [price, setPrice] = useState('');
-  const [aboutWork, setAboutWork] = useState('');
+  const [about_work, setabout_work] = useState('');
   const [provenance, setProvenance] = useState('');
-  const [artLocation, setArtLocation] = useState('');
+  const [art_location, setart_location] = useState('');
   const [quantity, setQuantity] = useState('');
   const [uploading, setUploading] = useState(false);
 
@@ -97,7 +97,7 @@ export default function ArtworkEdit() {
       dispatch(fetchArtists());
     } else {
       dispatch(fetchArtistDetails(artwork.artist));
-      setAccountOwner(artwork.accountOwner);
+      setAccountOwner(artwork.created_by);
       setArtist(artwork.artist);
       setTitle(artwork.title);
       setSubtitle(artwork.subtitle);
@@ -114,14 +114,14 @@ export default function ArtworkEdit() {
       setIsAnEdition(artwork.isAnEdition);
       setEditionNum(artwork.editionNum);
       setEditionSize(artwork.editionSize);
-      setIsSigned(artwork.isSigned);
-      setIsAuthenticated(artwork.isAuthenticated);
+      setIsSigned(artwork.is_signed);
+      setIsAuthenticated(artwork.is_authenticated);
       setIsPrice(artwork.isPrice);
       setFrame(artwork.frame);
       setPrice(artwork.price);
-      setAboutWork(artwork.aboutWork);
+      setabout_work(artwork.about_work);
       setProvenance(artwork.provenance);
-      setArtLocation(artwork.artLocation);
+      setart_location(artwork.art_location);
       setQuantity(artwork.quantity);
     }
   }, [artwork, dispatch, successUpdate, history, artworkId]);
@@ -139,7 +139,7 @@ export default function ArtworkEdit() {
     dispatch(
       updateArtwork({
         _id: artwork._id,
-        accountOwner,
+        created_by,
         artist,
         title,
         subtitle,
@@ -156,14 +156,14 @@ export default function ArtworkEdit() {
         isAnEdition,
         editionNum,
         editionSize,
-        isSigned,
-        isAuthenticated,
+        is_signed,
+        is_authenticated,
         frame,
         isPrice,
         price,
-        aboutWork,
+        about_work,
         provenance,
-        artLocation,
+        art_location,
         quantity,
       })
     );
@@ -215,7 +215,7 @@ export default function ArtworkEdit() {
                 صاحب اکانت
               </InputLabel>
               <Select
-                defaultValue={artwork.accountOwner}
+                defaultValue={artwork.created_by}
                 labelId="demo-simple-select-outlined-label"
                 id="demo-simple-select-outlined"
                 onChange={(e) => setAccountOwner(e.target.value)}
@@ -373,7 +373,7 @@ export default function ArtworkEdit() {
           style={{ minWidth: '100%' }}
           required
         >
-          {artwork && artwork.accountOwner && users && (
+          {artwork && artwork.created_by && users && (
             <>
               <InputLabel
                 htmlFor="uncontrolled-native"
@@ -543,9 +543,9 @@ export default function ArtworkEdit() {
       size: 6,
       field: (
         <Checkboxes
-          name="isSigned"
+          name="is_signed"
           formControlProps={{ margin: 'none' }}
-          data={{ label: 'امضا شده', value: isSigned }}
+          data={{ label: 'امضا شده', value: is_signed }}
           onChange={(e) => setIsSigned(e.target.checked)}
         />
       ),
@@ -554,9 +554,9 @@ export default function ArtworkEdit() {
       size: 6,
       field: (
         <Checkboxes
-          name="isAuthenticated"
+          name="is_authenticated"
           formControlProps={{ margin: 'none' }}
-          data={{ label: 'بررسی اصالت شده', value: isAuthenticated }}
+          data={{ label: 'بررسی اصالت شده', value: is_authenticated }}
           onChange={(e) => setIsAuthenticated(e.target.checked)}
         />
       ),
@@ -614,9 +614,9 @@ export default function ArtworkEdit() {
             minRows={3}
             placeholder="Minimum 3 rows"
             style={{ maxWidth: '100%', minWidth: '100%' }}
-            value={aboutWork || ''}
+            value={about_work || ''}
             margin="normal"
-            onChange={(e) => setAboutWork(e.target.value)}
+            onChange={(e) => setabout_work(e.target.value)}
           />
         </>
       ),
@@ -649,7 +649,7 @@ export default function ArtworkEdit() {
           margin="normal"
           style={{ minWidth: '100%' }}
         >
-          {artwork && artwork.accountOwner && users && (
+          {artwork && artwork.created_by && users && (
             <>
               <InputLabel
                 htmlFor="uncontrolled-native"
@@ -662,8 +662,8 @@ export default function ArtworkEdit() {
                 defaultValue={1}
                 labelId="Classification"
                 id="demo-simple-select-outlined"
-                onChange={(e) => setArtLocation(e.target.value)}
-                label="artLocation"
+                onChange={(e) => setart_location(e.target.value)}
+                label="art_location"
               >
                 <MenuItem value={1} key={1}>
                   تهران
@@ -796,7 +796,7 @@ export default function ArtworkEdit() {
           <Form
             onSubmit={onSubmit}
             validate={validate}
-            initialValues={{ isAnEdition, isSigned, isAuthenticated, isPrice }}
+            initialValues={{ isAnEdition, is_signed, is_authenticated, isPrice }}
             render={({ handleSubmit, submitting }) => (
               <form onSubmit={handleSubmit} noValidate>
                 <Grid container alignItems="flex-start" spacing={2}>

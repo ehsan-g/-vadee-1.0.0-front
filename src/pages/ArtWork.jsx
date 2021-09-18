@@ -231,7 +231,7 @@ function Artwork() {
               </Link>
               <Typography variant="subtitle1" color="#666666">
                 <RoomOutlinedIcon />
-                {theArt.artLocation}
+                {theArt.art_location}
               </Typography>
               <Typography
                 variant="subtitle1"

@@ -37,22 +37,22 @@ import { fetchOrders, deliverOrder, fetchOrderDetails } from '../../actions';
 
 function createData(
   _id,
-  createAt,
+  created_at,
   paymentMethod,
   taxPrice,
-  shippingPrice,
+  shipping_price,
   totalPrice,
-  isPaid,
+  is_paid,
   isDelivered
 ) {
   return {
     _id,
-    createAt,
+    created_at,
     paymentMethod,
     taxPrice,
-    shippingPrice,
+    shipping_price,
     totalPrice,
-    isPaid,
+    is_paid,
     isDelivered,
   };
 }
@@ -91,7 +91,7 @@ const headCells = [
     label: 'آی‌دی',
   },
   {
-    id: 'createAt',
+    id: 'created_at',
     numeric: true,
     disablePadding: false,
     label: 'تاریخ ثبت',
@@ -109,7 +109,7 @@ const headCells = [
     label: 'مالیات',
   },
   {
-    id: 'shippingPrice',
+    id: 'shipping_price',
     numeric: false,
     disablePadding: false,
     label: 'خمل و نقل',
@@ -121,7 +121,7 @@ const headCells = [
     label: 'مبلغ کل',
   },
   {
-    id: 'isPaid',
+    id: 'is_paid',
     numeric: false,
     disablePadding: false,
     label: 'وضعیت پرداخت',
@@ -303,12 +303,12 @@ export default function UserList() {
     orders.forEach((theOrder) => {
       const data = createData(
         theOrder._id,
-        theOrder.createAt,
+        theOrder.created_at,
         theOrder.paymentMethod,
         theOrder.taxPrice,
-        theOrder.shippingPrice,
+        theOrder.shipping_price,
         theOrder.totalPrice,
-        theOrder.isPaid ? (
+        theOrder.is_paid ? (
           <>
             <Tooltip title={theOrder.paymentMethod}>
               <IconButton>
@@ -503,16 +503,16 @@ export default function UserList() {
                           >
                             {row._id}
                           </TableCell>
-                          <TableCell align="right">{row.createAt}</TableCell>
+                          <TableCell align="right">{row.created_at}</TableCell>
                           <TableCell align="right">
                             {row.paymentMethod}
                           </TableCell>
                           <TableCell align="right">{row.taxPrice}</TableCell>
                           <TableCell align="right">
-                            {row.shippingPrice}
+                            {row.shipping_price}
                           </TableCell>
                           <TableCell align="right">{row.totalPrice}</TableCell>
-                          <TableCell align="right">{row.isPaid}</TableCell>
+                          <TableCell align="right">{row.is_paid}</TableCell>
                           <TableCell align="right">{row.isDelivered}</TableCell>
                         </TableRow>
                       );
