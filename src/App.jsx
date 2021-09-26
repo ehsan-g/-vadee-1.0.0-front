@@ -5,6 +5,7 @@ import Main from './pages/Main';
 import Header from './components/nav/Header';
 import Footer from './components/nav/Footer';
 import ArtworksList from './pages/ArtworksList';
+import UserProfile from './pages/UserProfile';
 
 const App = () => (
   <>
@@ -15,6 +16,8 @@ const App = () => (
         <Switch>
           <Route exact path="/" component={Main} />
           <Route path="/artworks/" component={ArtworksList} />
+          <Route exact path="/profile" component={UserProfile} />
+
           {/* <Route path="/artworks/:workId" component={ArtWork} />
           <Route
             path="/admin-panel/artwork/:artworkId/edit"
@@ -25,7 +28,6 @@ const App = () => (
           <Route path="/orders/:orderId" component={Cart} />
           <Route exact path="/login" component={EnterForm} />
           <Route exact path="/register" component={RegisterForm} />
-          <Route exact path="/profile" component={UserProfile} />
           <Route path="/admin-panel/user/:userId/edit" component={UserEdit} />
           <Route exact path="/admin-panel/:route" component={AdminPanel} /> */}
         </Switch>

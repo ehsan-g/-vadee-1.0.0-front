@@ -40,7 +40,7 @@ export default function Cart() {
       dispatch(headerStatus(false));
       return function cleanup() {
         dispatch(headerStatus(true));
-        // dispatch(cleanTheCart());
+        // dispatch(cleanLocalCart());
       };
     }
     if (orderId) {

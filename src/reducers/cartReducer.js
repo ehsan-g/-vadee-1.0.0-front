@@ -1,11 +1,11 @@
 /* eslint-disable no-case-declarations */
 import {
-  CART_ADD_ITEM,
+  CART_CREATE_SUCCESS,
   CART_SAVE_SHIPPING_ADDRESS,
   CART_REMOVE_ITEMS,
   CHANGE_CART_STEP,
   CART_SAVE_PAYMENT_METHOD,
-  CART_ADD_REQUEST,
+  CART_CREATE_REQUEST,
 } from '../constants/cartConstants';
 
 export default (
@@ -13,9 +13,9 @@ export default (
   action
 ) => {
   switch (action.type) {
-    case CART_ADD_REQUEST:
+    case CART_CREATE_REQUEST:
       return { loadingCart: true, cartItems: [], shippingAddress: {} };
-    case CART_ADD_ITEM:
+    case CART_CREATE_SUCCESS:
       const item = action.payload;
       const existItem = state.cartItems.find(
         (x) => x.artworkId === item.artworkId

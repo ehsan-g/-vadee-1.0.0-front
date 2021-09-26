@@ -13,10 +13,6 @@ const customTheme = createTheme({
     },
   },
 
-  typography: {
-    fontFamily: 'Farhang',
-  },
-
   components: {
     MuiAppBar: {
       styleOverrides: {
@@ -40,25 +36,33 @@ const customTheme = createTheme({
           alignContent: 'center',
           padding: '2px',
         },
-        underlineNone: {
-          // Some CSS
-          color: 'black',
-          '&:hover': {
-            color: 'black',
-            textDecoration: 'none',
-          },
-        },
         subtitle1: {
-          fontSize: '12px',
-          margin: '2px',
+          color: '#c5c5c5',
+          fontWeight: 500,
+          fontSize: '13px',
+          lineHeight: '14px',
         },
         subtitle2: {
-          margin: '0px',
-          fontSize: '13px',
+          color: '#A2A28F',
+          fontWeight: 500,
+          fontSize: '16px',
+          lineHeight: '14px',
         },
-        h6: {
-          padding: 0,
-          lineHeight: 1,
+        body1: {
+          color: '#000000',
+          fontWeight: 200,
+          fontSize: '12px',
+          lineHeight: '14px',
+        },
+        body2: {
+          fontSize: '14px',
+          lineHeight: '18px',
+          fontWeight: 400,
+        },
+        span: {
+          color: '#636363',
+          fontSize: '10px',
+          lineHeight: '18px',
         },
       },
     },
@@ -69,7 +73,6 @@ const customTheme = createTheme({
           minWidth: '80px',
           color: 'white',
           borderRadius: 0,
-          maxHeight: 32,
           '&:hover': {
             color: 'white',
             backgroundColor: '#secondary',

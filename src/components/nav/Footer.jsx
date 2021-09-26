@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import {
   Grid,
@@ -12,121 +13,122 @@ import InputBase from '@mui/material/InputBase';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import TelegramIcon from '@mui/icons-material/Telegram';
+import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FormControl from '@mui/material/FormControl';
-
-const Item = styled(Typography)(({ theme }) => ({
-  ...theme.typography.body1,
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
-function FormRow({ item1, item2, item3 }) {
-  return (
-    <>
-      <Grid item xs={2} />
-      <Grid item xs={3}>
-        <Link to="#">
-          <Item>{item1}</Item>
-        </Link>
-      </Grid>
-      <Grid item xs={3}>
-        <Link to="#">
-          <Item>{item2}</Item>
-        </Link>
-      </Grid>
-      <Grid item xs={3}>
-        <Link to="#">
-          <Item>{item3}</Item>
-        </Link>
-      </Grid>
-    </>
-  );
-}
-
-FormRow.propTypes = {
-  item1: PropTypes.string,
-  item2: PropTypes.string,
-  item3: PropTypes.string,
-};
 
 const Footer = () => (
   <Box sx={{ flexGrow: 1 }}>
     <Grid
       container
       direction="row"
-      justifyContent="flex-end"
-      alignItems="center"
-      item
-      xs={12}
-      spacing={1}
-      sx={{ padding: 3, backgroundColor: '#A2A28F' }}
-    >
-      <Grid xs={10} item>
-        <Grid container item spacing={1}>
-          <FormRow item1="Photographers" item2="About Us" item3="Terms" />
-        </Grid>
-        <Grid container item spacing={1}>
-          <FormRow item1="Photos" item2="Submissions" item3="Career" />
-        </Grid>
-        <Grid container spacing={1}>
-          <FormRow item1="Galleries" item2="Policy" item3="Support" />
-        </Grid>
-        <Grid container spacing={1}>
-          <FormRow item1="‌Books" item2="Contact" item3="Help Center" />
-        </Grid>
-      </Grid>
-
-      <Grid container direction="column" xs={2} item>
-        <Grid item>
-          <IconButton
-            sx={{ backgroundColor: '#99CCCC' }}
-            aria-label="Instagram"
-          >
-            <InstagramIcon sx={{ color: 'white' }} />
-          </IconButton>
-          <IconButton sx={{ backgroundColor: '#99CCCC' }} aria-label="Telegram">
-            <TelegramIcon sx={{ color: 'white' }} />
-          </IconButton>
-        </Grid>
-        <Grid item>
-          <IconButton sx={{ backgroundColor: '#99CCCC' }} aria-label="LinkedIn">
-            <LinkedInIcon sx={{ color: 'white' }} />
-          </IconButton>
-          <IconButton sx={{ backgroundColor: '#99CCCC' }} aria-label="Twitter">
-            <TwitterIcon sx={{ color: 'white' }} />
-          </IconButton>
-        </Grid>
-      </Grid>
-    </Grid>
-
-    <Grid
-      container
-      direction="row"
       justifyContent="center"
       alignItems="center"
       spacing={1}
-      sx={{ padding: 3, backgroundColor: '#99CCCC', textAlign: 'left' }}
+      sx={{
+        paddingTop: 4,
+        paddingBottom: 4,
+        paddingRight: 10,
+        paddingLeft: 10,
+        backgroundColor: 'black',
+        textAlign: 'left',
+      }}
     >
       <Grid item xs={2}>
         <img
-          src="/static/VADEE Icon-01.svg"
-          alt="logo"
-          style={{ width: '30%' }}
+          src="/static/VADEE Icon-02.svg"
+          alt="Logo"
+          style={{ maxWidth: '35%' }}
         />
       </Grid>
-      <Grid container direction="column" item xs={8} spacing={2}>
+      <Grid item xs={2}>
+        <Typography sx={{ paddingTop: 2 }} variant="subtitle1">
+          CThe textbox may contain any arbitrary value, but it is advantageous
+          to suggest possible values to the user,The textbox may contain any
+          arbitrary value, but it is advantageous to suggest possible values to
+          the usery suggest similar.
+        </Typography>
+      </Grid>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        item
+        xs={2}
+      >
         <Grid item>
-          <Typography sx={{ color: 'white', paddingTop: 2 }} variant="body1">
+          <Typography variant="subtitle1">About Us</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">Contract</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">Help Center</Typography>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        item
+        xs={2}
+      >
+        <Grid item>
+          <Typography variant="subtitle1">Terms & Conditions</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">Copyright Policy</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">Privacy Policy</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">Cookie Policy</Typography>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        item
+        xs={1}
+      >
+        <Grid item>
+          <IconButton>
+            <LinkedInIcon color="primary" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <IconButton>
+            <InstagramIcon color="primary" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <IconButton>
+            <FacebookIcon color="primary" />
+          </IconButton>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        item
+        xs={3}
+      >
+        <Grid item xs={2}>
+          <Typography sx={{ paddingTop: 2 }} variant="subtitle1">
             CThe textbox may contain any arbitrary value, but it is advantageous
             to suggest possible values to the user,The textbox may contain any
-            arbitrary value, but it is advantageous to suggest possible values
-            to the usery suggest similar.
+            arbitrary value,
           </Typography>
         </Grid>
-        <Grid item container>
+        <Grid item xs={2} sx={{ marginTop: 2 }}>
           <FormControl fullWidth>
             <form style={{ display: 'flex', width: '100%' }}>
               <Grid item xs={8}>
@@ -138,14 +140,14 @@ const Footer = () => (
                   id="fullWidth"
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={4}>
                 <Button
                   sx={{
                     color: 'white',
-                    backgroundColor: 'black',
-                    padding: '0.45rem',
-                    marginLeft: 1,
+                    width: '100%',
+                    padding: '0.5rem !important',
                   }}
+                  variant="contained"
                   type="submit"
                 >
                   Subscribe
@@ -155,7 +157,6 @@ const Footer = () => (
           </FormControl>
         </Grid>
       </Grid>
-      <Grid item xs={1} />
     </Grid>
 
     <Grid
@@ -164,20 +165,37 @@ const Footer = () => (
       justifyContent="flex-start"
       alignItems="center"
       spacing={1}
-      sx={{ padding: 3, backgroundColor: 'black' }}
+      sx={{ paddingLeft: 10, paddingRight: 10, backgroundColor: 'black' }}
     >
       <Grid item xs={2}>
-        <img
-          src="/static/logo.svg"
-          alt="Paella dish"
-          style={{ width: '80%' }}
-        />
+        <img src="/static/logo.svg" alt="Logo" style={{ maxWidth: '50%' }} />
       </Grid>
-      <Grid item xs={10}>
-        <Typography color="secondary" variant="subtitle2">
-          <strong> @ Vadee.art {new Date().getFullYear()}</strong> | Web
-          Development.
+      <Grid item xs={6}>
+        <Typography sx={{ paddingTop: 2 }} variant="subtitle1">
+          {`@ Vadee.art ${new Date().getFullYear()}  All Rights Reserved.`}
         </Typography>
+      </Grid>
+      <Grid
+        item
+        xs={1}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ display: 'inline-flex', margin: 'auto' }}
+      >
+        <Typography
+          sx={{ color: 'white', marginRight: 1 }}
+          variant="subtitle1"
+          component="span"
+        >
+          $
+        </Typography>
+        <div>
+          <img src="/static/usa.png" alt="Logo" style={{ maxWidth: '20px' }} />
+        </div>
+      </Grid>
+      <Grid item xs={3} sx={{ textAlign: 'end' }}>
+        <img src="/static/visaa.png" alt="Logo" style={{ maxWidth: '30%' }} />
       </Grid>
     </Grid>
   </Box>

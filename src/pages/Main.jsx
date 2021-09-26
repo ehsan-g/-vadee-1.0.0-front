@@ -7,7 +7,7 @@ import { useHistory, Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
-import { fetchAllArtWorks, cleanTheCart } from '../actions';
+import { fetchAllArtWorks, cleanLocalCart } from '../actions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -24,10 +24,10 @@ const Main = () => {
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(cleanTheCart());
+    dispatch(cleanLocalCart());
     dispatch({ type: ARTWORK_DETAILS_RESET });
     return () => {
-      dispatch(cleanTheCart());
+      dispatch(cleanLocalCart());
     };
   }, [dispatch]);
 

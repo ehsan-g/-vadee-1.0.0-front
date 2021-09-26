@@ -12,7 +12,8 @@ import { useHistory, Link } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Divider from '@mui/material/Divider';
 import ArtCard from '../components/ArtCard';
-import { fetchAllArtWorks, cleanTheCart } from '../actions';
+import { fetchAllArtWorks } from '../actions/artworkAction';
+import { cleanLocalCart } from '../actions/cartAction';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { ARTWORK_DETAILS_RESET } from '../constants/artworkConstants';
@@ -43,10 +44,10 @@ function ArtworksList() {
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(cleanTheCart());
+    dispatch(cleanLocalCart());
     dispatch({ type: ARTWORK_DETAILS_RESET });
     return () => {
-      dispatch(cleanTheCart());
+      dispatch(cleanLocalCart());
     };
   }, [dispatch]);
 

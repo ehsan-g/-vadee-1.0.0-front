@@ -12,6 +12,7 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { useHistory } from 'react-router';
+import UserMenu from './UserMenu';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -55,8 +56,9 @@ const Header = () => {
   const history = useHistory();
 
   const [current, setCurrent] = useState(1);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (value) => {
+  const handleNavigation = (value) => {
     console.log(value);
     if (value === 'photographers') {
       setCurrent(0);
@@ -70,6 +72,10 @@ const Header = () => {
     }
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ marginTop: 5, marginBottom: 5 }}>
       <AppBar position="static" elevation={0}>
@@ -81,7 +87,7 @@ const Header = () => {
                 alt="Paella dish"
                 style={{ width: '80%' }}
               />
-              <Typography variant="subtitle2" color="secondary">
+              <Typography variant="subtitle1" color="secondary">
                 Change you lense, change your story
               </Typography>
             </Grid>
@@ -123,6 +129,7 @@ const Header = () => {
               </Grid>
               <Grid item>
                 <IconButton
+                  onClick={handleClick}
                   size="medium"
                   sx={{
                     border: '1px solid #A2A28F',
@@ -132,6 +139,8 @@ const Header = () => {
                 >
                   <PersonOutlineIcon fontSize="inherit" />
                 </IconButton>
+                {/* Menu to login and Register, ... */}
+                <UserMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
               </Grid>
             </Grid>
           </Grid>
@@ -149,52 +158,34 @@ const Header = () => {
           <Grid item>
             <Link
               to="#"
-              onClick={() => handleClick('photographers')}
-              style={{ color: current === 0 && '#99CCCC' }}
+              onClick={() => handleNavigation('photographers')}
+              style={{ color: current === 0 ? '#99CCCC' : 'black' }}
             >
-              <Typography variant="body1">Photographers</Typography>
+              <Typography variant="body2" sx={{ padding: 1 }}>
+                Photographers
+              </Typography>
             </Link>
           </Grid>
-          <span
-            style={{
-              lineHeight: 0.7,
-              fontWeight: 'bolder',
-              fontSize: '2rem',
-              marginLeft: 4,
-              marginRight: 4,
-              color: '#99CCCC',
-            }}
-          >
-            .
-          </span>
           <Grid item>
             <Link
               to="#"
-              onClick={() => handleClick('artworks')}
-              style={{ color: current === 1 && '#99CCCC' }}
+              onClick={() => handleNavigation('artworks')}
+              style={{ color: current === 1 ? '#99CCCC' : 'black' }}
             >
-              <Typography variant="body1">Artworks</Typography>
+              <Typography variant="body2" sx={{ padding: 1 }}>
+                Artworks
+              </Typography>
             </Link>
           </Grid>
-          <span
-            style={{
-              lineHeight: 0.7,
-              fontWeight: 'bolder',
-              fontSize: '2rem',
-              marginLeft: 4,
-              marginRight: 4,
-              color: '#99CCCC',
-            }}
-          >
-            .
-          </span>
           <Grid item>
             <Link
               to="#"
-              onClick={() => handleClick('regions')}
-              style={{ color: current === 2 && '#99CCCC' }}
+              onClick={() => handleNavigation('regions')}
+              style={{ color: current === 2 ? '#99CCCC' : 'black' }}
             >
-              <Typography variant="body1">Regions</Typography>
+              <Typography variant="body2" sx={{ padding: 1 }}>
+                Regions
+              </Typography>
             </Link>
           </Grid>
         </Grid>

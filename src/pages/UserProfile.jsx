@@ -1,19 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Tab from '@mui/material/Tab';
+import { Tab, Grid, Button } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Grid, Button } from '@mui/material';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import TabContext from '@material-ui/lab/TabContext';
-import TabList from '@material-ui/lab/TabList';
-import TabPanel from '@material-ui/lab/TabPanel';
-import AccountUserTab from '../components/account/AccountUserForm';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import AccountUserTab from '../components/profile/ProfileForm';
 import { headerStatus } from '../actions/index';
-import AccountUserOrders from '../components/account/AccountUserOrders';
+import AccountUserOrders from '../components/profile/ProfileOrders';
 
 export default function UserProfile() {
   const dispatch = useDispatch();

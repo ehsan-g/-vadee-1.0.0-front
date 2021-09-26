@@ -32,7 +32,7 @@ export const userLoginReducer = (state = {}, action) => {
     case USER_LOGIN_REQUEST:
       return { loading: true };
     case USER_LOGIN_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { loading: false, success: true, userInfo: action.payload };
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
@@ -47,7 +47,7 @@ export const userRegisterReducer = (state = {}, action) => {
     case USER_REGISTER_REQUEST:
       return { loading: true };
     case USER_REGISTER_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { loading: false, success: true, userInfo: action.payload };
     case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
@@ -62,7 +62,7 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
     case USER_DETAILS_REQUEST:
       return { ...state, loading: true };
     case USER_DETAILS_SUCCESS:
-      return { loading: false, user: action.payload };
+      return { loading: false, success: true, user: action.payload };
     case USER_DETAILS_FAIL:
       return { loading: false, error: action.payload };
     case USER_DETAILS_RESET:
@@ -95,7 +95,7 @@ export const usersReducer = (state = { users: [], loading: true }, action) => {
     case USER_LIST_REQUEST:
       return { loading: true };
     case USER_LIST_SUCCESS:
-      return { loading: false, users: action.payload };
+      return { loading: false, success: true, users: action.payload };
     case USER_LIST_FAIL:
       return { loading: false, error: action.payload };
     case USER_LIST_RESET:
