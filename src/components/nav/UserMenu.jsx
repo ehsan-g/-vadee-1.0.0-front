@@ -65,12 +65,14 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
   const handleCloseLogin = () => {
     setLoginDialogue(false);
   };
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     dispatch(login(values.email, values.password));
   };
 
   // register
-  const handleCloseRegister = () => {
+  const handleCloseRegister = (e) => {
+    e.preventDefault();
     setRegisterDialogue(false);
   };
   const handleRegister = () => {
@@ -81,7 +83,6 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
 
   // Don't have an account?
   const handleSwitchToRegister = () => {
-    console.log('huh');
     setLoginDialogue(false);
     setRegisterDialogue(true);
   };
@@ -183,175 +184,22 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
               minHeight: 400,
             }}
           >
-            <Grid
-              container
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Grid item xs={10} sx={{ marginTop: 2, textAlign: 'center' }}>
-                <img
-                  src="/static/logo.svg"
-                  alt="Logo"
-                  style={{ width: '60%', margin: 20 }}
-                />
-                <Typography variant="subtitle2">Login</Typography>
-              </Grid>
-              <Grid item xs={10} sx={{ margin: 2, width: '100%' }}>
-                <TextField
-                  id="email-login"
-                  type="email"
-                  value={values.email}
-                  onChange={handleChange('email')}
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ borderRadius: '10px' }}
-                  required
-                />
-              </Grid>
+            <form onSubmit={handleLogin}>
               <Grid
-                item
-                xs={10}
                 container
                 direction="row"
-                sx={{ margin: 1, width: '100%' }}
+                alignItems="center"
+                justifyContent="center"
               >
-                <Grid item xs={12}>
-                  <FormControl sx={{ width: '100%' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      type={values.showPassword ? 'text' : 'password'}
-                      value={values.password}
-                      onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {values.showPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label="Password"
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sx={{ marginTop: 1, marginBottom: 1 }}>
-                  <Link to="#">
-                    <Typography variant="subtitle1" color="primary">
-                      Forgot Password?
-                    </Typography>
-                  </Link>
-                </Grid>
-                <Grid item xs={12} sx={{ marginTop: 4 }}>
-                  <LoadingButton
-                    loading={loading}
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleLogin}
-                    sx={{ width: '100%', marginBottom: 2 }}
-                  >
-                    Login
-                  </LoadingButton>
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{ marginTop: 1, marginBottom: 1, textAlign: 'center' }}
-                  >
-                    <Link to="#" onClick={handleSwitchToRegister}>
-                      <Typography variant="subtitle1" color="primary">
-                        Don't have an account?
-                        <Typography
-                          variant="subtitle1"
-                          component="span"
-                          color="secondary"
-                        >
-                          Sign up
-                        </Typography>
-                      </Typography>
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Grid>
-              {error && (
-                <Grid sx={{ marginTop: 2 }}>
-                  <Message variant="" severity="error">
-                    {error}
-                  </Message>
-                </Grid>
-              )}
-            </Grid>
-          </Box>
-        </Dialog>
-        {/* Register dialogue */}
-        <Dialog open={registerDialogue} onClose={handleCloseRegister}>
-          <Box
-            sx={{
-              maxWidth: 450,
-              minHeight: 400,
-            }}
-          >
-            <Grid
-              container
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Grid
-                item
-                xs={10}
-                sx={{ marginTop: 2, marginBottom: 2, textAlign: 'center' }}
-              >
-                <img
-                  src="/static/logo.svg"
-                  alt="Paella dish"
-                  style={{ width: '60%', marginTop: 20 }}
-                />
-                <Typography variant="subtitle1" color="primary">
-                  Change you lense, change your story
-                </Typography>
-              </Grid>
-              <Grid item xs={10} sx={{ margin: 1, width: '100%' }}>
-                <FormControl sx={{ width: '100%' }} variant="outlined">
-                  <TextField
-                    id="first-name"
-                    type="text"
-                    value={values.firstName}
-                    onChange={handleChange('firstName')}
-                    label="First name"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ borderRadius: '10px' }}
+                <Grid item xs={10} sx={{ marginTop: 2, textAlign: 'center' }}>
+                  <img
+                    src="/static/logo.svg"
+                    alt="Logo"
+                    style={{ width: '60%', margin: 20 }}
                   />
-                </FormControl>
-              </Grid>
-              <Grid item xs={10} sx={{ margin: 1, width: '100%' }}>
-                <FormControl sx={{ width: '100%' }} variant="outlined">
-                  <TextField
-                    id="last-name"
-                    type="text"
-                    value={values.lastName}
-                    onChange={handleChange('lastName')}
-                    label="Last name"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ borderRadius: '10px' }}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={10} sx={{ margin: 1, width: '100%' }}>
-                <FormControl sx={{ width: '100%' }} variant="outlined">
+                  <Typography variant="subtitle2">Login</Typography>
+                </Grid>
+                <Grid item xs={10} sx={{ margin: 2, width: '100%' }}>
                   <TextField
                     id="email-login"
                     type="email"
@@ -363,107 +211,272 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
                     sx={{ borderRadius: '10px' }}
                     required
                   />
-                </FormControl>
-              </Grid>
-              <Grid
-                item
-                xs={10}
-                container
-                direction="row"
-                sx={{ margin: 1, width: '100%' }}
-              >
-                <Grid item xs={12}>
-                  <FormControl
-                    sx={{ width: '100%' }}
-                    variant="outlined"
-                    required
-                  >
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      type={values.showPassword ? 'text' : 'password'}
-                      value={values.password}
-                      onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {values.showPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label="Password"
-                    />
-                  </FormControl>
                 </Grid>
-                <Grid item xs={12} sx={{ marginTop: 1, marginBottom: 1 }}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={handleCheck}
-                        inputProps={{ 'aria-label': 'controlled' }}
+                <Grid
+                  item
+                  xs={10}
+                  container
+                  direction="row"
+                  sx={{ margin: 1, width: '100%' }}
+                >
+                  <Grid item xs={12}>
+                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Password
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        value={values.password}
+                        onChange={handleChange('password')}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {values.showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        label="Password"
                       />
-                    }
-                    label={
-                      <Typography component="span">
-                        "I agree on the
-                        <Typography component="span" color="secondary">
-                          Terms of Use Privacy Policy Conditions
-                        </Typography>
-                        and to receiving emails from VADEE"
-                      </Typography>
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12} sx={{ marginTop: 4 }}>
-                  <LoadingButton
-                    loading={loading}
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleRegister}
-                    sx={{ width: '100%', marginBottom: 2 }}
-                  >
-                    Register
-                  </LoadingButton>
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{ marginTop: 1, marginBottom: 1, textAlign: 'center' }}
-                  >
-                    <Link to="#" onClick={handleSwitchToLgin}>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sx={{ marginTop: 1, marginBottom: 1 }}>
+                    <Link to="#">
                       <Typography variant="subtitle1" color="primary">
-                        Already have an account?
-                        <Typography
-                          variant="subtitle1"
-                          component="span"
-                          color="secondary"
-                        >
-                          Sign in
-                        </Typography>
+                        Forgot Password?
                       </Typography>
                     </Link>
                   </Grid>
+                  <Grid item xs={12} sx={{ marginTop: 4 }}>
+                    <LoadingButton
+                      type="submit"
+                      loading={loading}
+                      variant="contained"
+                      color="secondary"
+                      sx={{ width: '100%', marginBottom: 2 }}
+                    >
+                      Login
+                    </LoadingButton>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{
+                        marginTop: 1,
+                        marginBottom: 1,
+                        textAlign: 'center',
+                      }}
+                    >
+                      <Link to="#" onClick={handleSwitchToRegister}>
+                        <Typography variant="subtitle1" color="primary">
+                          Don't have an account?
+                          <Typography
+                            variant="subtitle1"
+                            component="span"
+                            color="secondary"
+                          >
+                            Sign up
+                          </Typography>
+                        </Typography>
+                      </Link>
+                    </Grid>
+                  </Grid>
                 </Grid>
+                {error && (
+                  <Grid sx={{ marginTop: 2 }}>
+                    <Message variant="" severity="error">
+                      {error}
+                    </Message>
+                  </Grid>
+                )}
               </Grid>
-              {error && (
-                <Grid sx={{ marginTop: 2 }}>
-                  <Message variant="" severity="error">
-                    {error}
-                  </Message>
+            </form>
+          </Box>
+        </Dialog>
+        {/* Register dialogue */}
+        <Dialog open={registerDialogue} onClose={handleCloseRegister}>
+          <Box
+            sx={{
+              maxWidth: 450,
+              minHeight: 400,
+            }}
+          >
+            <form onSubmit={handleRegister}>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Grid
+                  item
+                  xs={10}
+                  sx={{ marginTop: 2, marginBottom: 2, textAlign: 'center' }}
+                >
+                  <img
+                    src="/static/logo.svg"
+                    alt="Paella dish"
+                    style={{ width: '60%', marginTop: 20 }}
+                  />
+                  <Typography variant="subtitle1" color="primary">
+                    Change you lense, change your story
+                  </Typography>
                 </Grid>
-              )}
-            </Grid>
+                <Grid item xs={10} sx={{ margin: 1, width: '100%' }}>
+                  <FormControl sx={{ width: '100%' }} variant="outlined">
+                    <TextField
+                      id="first-name"
+                      type="text"
+                      value={values.firstName}
+                      onChange={handleChange('firstName')}
+                      label="First name"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ borderRadius: '10px' }}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={10} sx={{ margin: 1, width: '100%' }}>
+                  <FormControl sx={{ width: '100%' }} variant="outlined">
+                    <TextField
+                      id="last-name"
+                      type="text"
+                      value={values.lastName}
+                      onChange={handleChange('lastName')}
+                      label="Last name"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ borderRadius: '10px' }}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={10} sx={{ margin: 1, width: '100%' }}>
+                  <FormControl sx={{ width: '100%' }} variant="outlined">
+                    <TextField
+                      id="email-login"
+                      type="email"
+                      value={values.email}
+                      onChange={handleChange('email')}
+                      label="Email"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ borderRadius: '10px' }}
+                      required
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  xs={10}
+                  container
+                  direction="row"
+                  sx={{ margin: 1, width: '100%' }}
+                >
+                  <Grid item xs={12}>
+                    <FormControl
+                      sx={{ width: '100%' }}
+                      variant="outlined"
+                      required
+                    >
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Password
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        value={values.password}
+                        onChange={handleChange('password')}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {values.showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        label="Password"
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sx={{ marginTop: 1, marginBottom: 1 }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={handleCheck}
+                          inputProps={{ 'aria-label': 'controlled' }}
+                        />
+                      }
+                      label={
+                        <Typography component="span">
+                          "I agree on the
+                          <Typography component="span" color="secondary">
+                            Terms of Use Privacy Policy Conditions
+                          </Typography>
+                          and to receiving emails from VADEE"
+                        </Typography>
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12} sx={{ marginTop: 4 }}>
+                    <LoadingButton
+                      type="submit"
+                      loading={loading}
+                      variant="contained"
+                      color="secondary"
+                      sx={{ width: '100%', marginBottom: 2 }}
+                    >
+                      Register
+                    </LoadingButton>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{
+                        marginTop: 1,
+                        marginBottom: 1,
+                        textAlign: 'center',
+                      }}
+                    >
+                      <Link to="#" onClick={handleSwitchToLgin}>
+                        <Typography variant="subtitle1" color="primary">
+                          Already have an account?
+                          <Typography
+                            variant="subtitle1"
+                            component="span"
+                            color="secondary"
+                          >
+                            Sign in
+                          </Typography>
+                        </Typography>
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                {error && (
+                  <Grid sx={{ marginTop: 2 }}>
+                    <Message variant="" severity="error">
+                      {error}
+                    </Message>
+                  </Grid>
+                )}
+              </Grid>
+            </form>
           </Box>
         </Dialog>
       </div>

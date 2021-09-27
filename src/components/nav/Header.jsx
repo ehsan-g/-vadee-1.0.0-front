@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Grid, Button, Typography, Switch } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import UserMenu from './UserMenu';
 
 const Search = styled('div')(({ theme }) => ({
@@ -54,12 +54,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Header = () => {
   const history = useHistory();
+  const location = useLocation();
 
   const [current, setCurrent] = useState(1);
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const [isHeader, setIsHeader] = useState(true);
+
+  useEffect(() => {
+    if (location.pathname === '/users/profile') {
+      setIsHeader(false);
+    } else {
+      setIsHeader(true);
+    }
+  }, [location, history]);
+
   const handleNavigation = (value) => {
-    console.log(value);
     if (value === 'photographers') {
       setCurrent(0);
       history.push(`/${value}`);
@@ -78,118 +88,122 @@ const Header = () => {
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: 5, marginBottom: 5 }}>
-      <AppBar position="static" elevation={0}>
-        <Toolbar>
-          <Grid container direction="row">
-            <Grid item xs={12} md={4}>
-              <img
-                src="/static/logo.svg"
-                alt="Paella dish"
-                style={{ width: '80%' }}
-              />
-              <Typography variant="subtitle1" color="secondary">
-                Change you lense, change your story
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon color="primary" />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Search>
-            </Grid>
-            <Grid item xs container direction="row" spacing={1}>
+      {isHeader && (
+        <>
+          <AppBar position="static" elevation={0}>
+            <Toolbar>
+              <Grid container direction="row">
+                <Grid item xs={12} md={4}>
+                  <img
+                    src="/static/logo.svg"
+                    alt="logo"
+                    style={{ width: '80%' }}
+                  />
+                  <Typography variant="subtitle1" color="secondary">
+                    Change you lense, change your story
+                  </Typography>
+                </Grid>
+                <Grid item xs={7} md={6}>
+                  <Search>
+                    <SearchIconWrapper>
+                      <SearchIcon color="primary" />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      placeholder="Search…"
+                      inputProps={{ 'aria-label': 'search' }}
+                    />
+                  </Search>
+                </Grid>
+                <Grid item xs container direction="row" spacing={1}>
+                  <Grid item>
+                    <IconButton
+                      size="medium"
+                      sx={{
+                        border: '1px solid #A2A28F',
+                        borderRadius: '10%',
+                        padding: '1px',
+                      }}
+                    >
+                      <NotificationsNoneIcon fontSize="inherit" />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <IconButton
+                      size="medium"
+                      sx={{
+                        border: '1px solid #A2A28F',
+                        borderRadius: '10%',
+                        padding: '1px',
+                      }}
+                    >
+                      <MailOutlineIcon fontSize="inherit" />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <IconButton
+                      onClick={handleClick}
+                      size="medium"
+                      sx={{
+                        border: '1px solid #A2A28F',
+                        borderRadius: '10%',
+                        padding: '1px',
+                      }}
+                    >
+                      <PersonOutlineIcon fontSize="inherit" />
+                    </IconButton>
+                    {/* Menu to login and Register, ... */}
+                    <UserMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Toolbar>
+          </AppBar>
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="flex-end"
+            spacing={1}
+            sx={{ paddingLeft: 3 }}
+          >
+            <Grid item xs={12} container direction="row">
               <Grid item>
-                <IconButton
-                  size="medium"
-                  sx={{
-                    border: '1px solid #A2A28F',
-                    borderRadius: '10%',
-                    padding: '1px',
-                  }}
+                <Link
+                  to="#"
+                  onClick={() => handleNavigation('photographers')}
+                  style={{ color: current === 0 ? '#99CCCC' : 'black' }}
                 >
-                  <NotificationsNoneIcon fontSize="inherit" />
-                </IconButton>
+                  <Typography variant="body2" sx={{ padding: 1 }}>
+                    Photographers
+                  </Typography>
+                </Link>
               </Grid>
               <Grid item>
-                <IconButton
-                  size="medium"
-                  sx={{
-                    border: '1px solid #A2A28F',
-                    borderRadius: '10%',
-                    padding: '1px',
-                  }}
+                <Link
+                  to="#"
+                  onClick={() => handleNavigation('artworks')}
+                  style={{ color: current === 1 ? '#99CCCC' : 'black' }}
                 >
-                  <MailOutlineIcon fontSize="inherit" />
-                </IconButton>
+                  <Typography variant="body2" sx={{ padding: 1 }}>
+                    Artworks
+                  </Typography>
+                </Link>
               </Grid>
               <Grid item>
-                <IconButton
-                  onClick={handleClick}
-                  size="medium"
-                  sx={{
-                    border: '1px solid #A2A28F',
-                    borderRadius: '10%',
-                    padding: '1px',
-                  }}
+                <Link
+                  to="#"
+                  onClick={() => handleNavigation('regions')}
+                  style={{ color: current === 2 ? '#99CCCC' : 'black' }}
                 >
-                  <PersonOutlineIcon fontSize="inherit" />
-                </IconButton>
-                {/* Menu to login and Register, ... */}
-                <UserMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+                  <Typography variant="body2" sx={{ padding: 1 }}>
+                    Regions
+                  </Typography>
+                </Link>
               </Grid>
             </Grid>
           </Grid>
-        </Toolbar>
-      </AppBar>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="flex-end"
-        spacing={1}
-        sx={{ paddingLeft: 3 }}
-      >
-        <Grid item xs={12} container direction="row">
-          <Grid item>
-            <Link
-              to="#"
-              onClick={() => handleNavigation('photographers')}
-              style={{ color: current === 0 ? '#99CCCC' : 'black' }}
-            >
-              <Typography variant="body2" sx={{ padding: 1 }}>
-                Photographers
-              </Typography>
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link
-              to="#"
-              onClick={() => handleNavigation('artworks')}
-              style={{ color: current === 1 ? '#99CCCC' : 'black' }}
-            >
-              <Typography variant="body2" sx={{ padding: 1 }}>
-                Artworks
-              </Typography>
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link
-              to="#"
-              onClick={() => handleNavigation('regions')}
-              style={{ color: current === 2 ? '#99CCCC' : 'black' }}
-            >
-              <Typography variant="body2" sx={{ padding: 1 }}>
-                Regions
-              </Typography>
-            </Link>
-          </Grid>
-        </Grid>
-      </Grid>
+        </>
+      )}
     </Container>
   );
 };

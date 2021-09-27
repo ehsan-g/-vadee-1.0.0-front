@@ -7,8 +7,8 @@ import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
-import { Grid, Box, Typography, Paper, Hidden } from '@mui/material';
-import { useHistory, Link } from 'react-router-dom';
+import { Grid, Box, Paper, Hidden } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Divider from '@mui/material/Divider';
 import ArtCard from '../components/ArtCard';
@@ -43,6 +43,19 @@ function ArtworksList() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const artworksList = useSelector((state) => state.artworks);
+  const { error, loading, artworks, pages } = artworksList;
+
+  const favArtwork = useSelector((state) => state.favArtwork);
+  const { artworkId } = favArtwork;
+
+  let keyword = history.location.search;
+
+  useEffect(() => {
+    dispatch(fetchAllArtWorks(keyword));
+  }, [dispatch, keyword, artworkId]);
+
+  // clean up
   useEffect(() => {
     dispatch(cleanLocalCart());
     dispatch({ type: ARTWORK_DETAILS_RESET });
@@ -50,17 +63,6 @@ function ArtworksList() {
       dispatch(cleanLocalCart());
     };
   }, [dispatch]);
-
-  const artworksList = useSelector((state) => state.artworks);
-  const { error, loading, artworks, pages } = artworksList;
-
-  let keyword = history.location.search;
-
-  useEffect(() => {
-    dispatch(fetchAllArtWorks(keyword));
-  }, [dispatch, keyword]);
-
-  const classes = useStyles();
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -70,9 +72,11 @@ function ArtworksList() {
     history.push(`/artworks/?keyword=${keyword}&page=${value}`);
   };
 
+  const classes = useStyles();
+
   return (
     <div style={{ minHeight: '100vh' }}>
-      {loading === undefined ? (
+      {!artworks ? (
         <Loader />
       ) : error ? (
         <Message variant="outlined" severity="error">

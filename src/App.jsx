@@ -1,25 +1,36 @@
-import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {
+  Switch,
+  Route,
+  BrowserRouter,
+  useLocation,
+  useHistory,
+} from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Main from './pages/Main';
 import Header from './components/nav/Header';
 import Footer from './components/nav/Footer';
 import ArtworksList from './pages/ArtworksList';
+import ArtWork from './pages/ArtWork';
 import UserProfile from './pages/UserProfile';
 
-const App = () => (
-  <>
-    <BrowserRouter>
-      <CssBaseline />
-      <Header />
-      <React.StrictMode>
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route path="/artworks/" component={ArtworksList} />
-          <Route exact path="/profile" component={UserProfile} />
+const App = () => {
+  const location = useLocation();
+  const history = useHistory();
 
-          {/* <Route path="/artworks/:workId" component={ArtWork} />
-          <Route
+  return (
+    <>
+      <BrowserRouter>
+        <CssBaseline />
+        <Header />
+        <React.StrictMode>
+          <Switch>
+            <Route exact path="/" component={Main} />
+            <Route path="/artworks/:workId" component={ArtWork} />
+            <Route path="/artworks/" component={ArtworksList} />
+            <Route exact path="/users/profile" component={UserProfile} />
+
+            {/* <Route
             path="/admin-panel/artwork/:artworkId/edit"
             component={ArtworkEdit}
           />
@@ -30,10 +41,12 @@ const App = () => (
           <Route exact path="/register" component={RegisterForm} />
           <Route path="/admin-panel/user/:userId/edit" component={UserEdit} />
           <Route exact path="/admin-panel/:route" component={AdminPanel} /> */}
-        </Switch>
-      </React.StrictMode>
-      <Footer />
-    </BrowserRouter>
-  </>
-);
+          </Switch>
+        </React.StrictMode>
+        <Footer />
+      </BrowserRouter>
+    </>
+  );
+};
+
 export default App;

@@ -33,9 +33,9 @@ export const fetchAllArtWorks =
     }
   };
 
-export const fetchProductById = (itemId) => async (dispatch) => {
+export const fetchOneArtWork = (workId) => async (dispatch) => {
   try {
-    const response = await artworksBase.get(`/artworks/${itemId}`);
+    const response = await artworksBase.get(`/artworks/${workId}`);
     await dispatch({ type: ARTWORK_DETAILS_REQUEST });
     dispatch({
       type: ARTWORK_DETAILS_SUCCESS,

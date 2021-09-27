@@ -9,6 +9,18 @@ import {
   USER_LOGOUT,
   USER_DETAILS_RESET,
   USER_LIST_RESET,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
+  USER_FAVORITE_ARTWORK_REQUEST,
+  USER_FAVORITE_ARTWORK_SUCCESS,
+  USER_FAVORITE_ARTWORK_FAIL,
+  USER_FAVORITE_ARTWORK_LIST_REQUEST,
+  USER_FAVORITE_ARTWORK_LIST_FAIL,
+  USER_FAVORITE_ARTWORK_LIST_SUCCESS,
 } from '../constants/userConstants';
 
 export const login = (username, password) => async (dispatch) => {
@@ -55,7 +67,6 @@ export const logout = () => (dispatch) => {
 
 export const register =
   (firstName, lastName, email, password) => async (dispatch) => {
-    console.log(firstName, lastName, email, password);
     try {
       // eslint-disable-next-line no-undef
       const formData = new FormData();
@@ -97,3 +108,145 @@ export const register =
       });
     }
   };
+
+export const fetchUserDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_DETAILS_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await artworksBase.get(`users/${id}/`, config);
+
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (e) {
+    // check for generic and custom message to return using ternary statement
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload:
+        e.response && e.response.data.detail
+          ? e.response.data.detail
+          : e.message,
+    });
+  }
+};
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await artworksBase.put(
+      `users/profile/update/`,
+      user,
+      config
+    );
+
+    dispatch({
+      type: USER_UPDATE_PROFILE_SUCCESS,
+      payload: data,
+    });
+    // login the user with new data and update local storage
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    });
+    localStorage.setItem('userInfo', JSON.stringify(data));
+  } catch (e) {
+    // check for generic and custom message to return using ternary statement
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        e.response && e.response.data.detail
+          ? e.response.data.detail
+          : e.message,
+    });
+  }
+};
+
+export const favArtwork = (artworkId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_FAVORITE_ARTWORK_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await artworksBase.put(
+      `users/favorite/${artworkId}/`,
+      {}, // since there is no form we need this
+      config
+    );
+
+    dispatch({
+      type: USER_FAVORITE_ARTWORK_SUCCESS,
+      payload: data,
+    });
+  } catch (e) {
+    // check for generic and custom message to return using ternary statement
+    dispatch({
+      type: USER_FAVORITE_ARTWORK_FAIL,
+      payload:
+        e.response && e.response.data.detail
+          ? e.response.data.detail
+          : e.message,
+    });
+  }
+};
+
+export const fetchFavArtworkList = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_FAVORITE_ARTWORK_LIST_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await artworksBase.get(`users/profile/favorites/`, config);
+
+    dispatch({
+      type: USER_FAVORITE_ARTWORK_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (e) {
+    // check for generic and custom message to return using ternary statement
+    dispatch({
+      type: USER_FAVORITE_ARTWORK_LIST_FAIL,
+      payload:
+        e.response && e.response.data.detail
+          ? e.response.data.detail
+          : e.message,
+    });
+  }
+};

@@ -15,6 +15,8 @@ import {
   usersReducer,
   userDeleteReducer,
   userUpdateReducer,
+  favArtworkReducer,
+  favArtworkListReducer,
 } from './userReducer';
 import {
   orderCreateReducer,
@@ -37,6 +39,8 @@ export default combineReducers({
   userDetails: userDetailsReducer,
   artworkUpdate: artworkUpdateReducer, // update artwork from admin
   userUpdateProfile: userUpdateProfileReducer,
+  favArtwork: favArtworkReducer,
+  favArtworkList: favArtworkListReducer,
   userList: usersReducer,
   userDeleteList: userDeleteReducer,
   artworkCreate: artworkCreateReducer,

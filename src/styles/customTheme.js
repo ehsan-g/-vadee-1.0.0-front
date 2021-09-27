@@ -24,6 +24,9 @@ const customTheme = createTheme({
     },
     MuiTab: {
       styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
         colorPrimary: {
           backgroundColor: 'white',
           color: 'black',

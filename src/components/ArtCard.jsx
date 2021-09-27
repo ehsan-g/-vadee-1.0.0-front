@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
@@ -5,10 +6,33 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { Grid, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { favArtwork } from '../actions/userAction';
+import { ARTWORK_LIST_RESET } from '../constants/artworkConstants';
 
 export default function ArtCard({ artwork }) {
+  const dispatch = useDispatch();
+
+  const [isFav, setIsFav] = useState(false);
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const { user } = userDetails;
+
+  useEffect(() => {
+    if (user) {
+      for (let i = 0; i < artwork.favorites.length; i++) {
+        if (artwork.favorites[i] === user._id) {
+          setIsFav(true);
+        } else {
+          setIsFav(true);
+        }
+      }
+    }
+  }, [user, artwork]);
+
   return (
     <Grid
       sx={{
@@ -22,14 +46,18 @@ export default function ArtCard({ artwork }) {
       <ImageListItem style={{ color: '#666666' }}>
         <ImageListItemBar
           style={{ background: 'transparent' }}
-          actionPosition="left"
+          actionPosition="right"
           actionIcon={
             <IconButton
-              onClick={() => alert('در حال حاضر راه اندازی نشده است')}
+              onClick={() => dispatch(favArtwork(artwork._id))}
               aria-label={`star ${artwork.title}`}
-              style={{ zIndex: 10, bottom: '90px' }}
+              style={{ zIndex: 10, bottom: '70px' }}
             >
-              <FavoriteBorder style={{ color: 'white' }} />
+              {isFav ? (
+                <FavoriteIcon />
+              ) : (
+                <FavoriteBorder style={{ color: 'white' }} />
+              )}
             </IconButton>
           }
         />

@@ -14,7 +14,7 @@ export default function CarouselTop({ artworks }) {
     dots: true,
     speed: 500,
     slidesToScroll: 1,
-    slidesToShow: 1,
+    slidesToShow: 3,
   };
   return (
     <div>

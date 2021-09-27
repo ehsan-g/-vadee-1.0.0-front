@@ -25,6 +25,12 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
+  USER_FAVORITE_ARTWORK_REQUEST,
+  USER_FAVORITE_ARTWORK_SUCCESS,
+  USER_FAVORITE_ARTWORK_FAIL,
+  USER_FAVORITE_ARTWORK_LIST_SUCCESS,
+  USER_FAVORITE_ARTWORK_LIST_REQUEST,
+  USER_FAVORITE_ARTWORK_LIST_FAIL,
 } from '../constants/userConstants';
 
 export const userLoginReducer = (state = {}, action) => {
@@ -118,7 +124,6 @@ export const userDeleteReducer = (state = {}, action) => {
   }
 };
 
-// admin panel edit user
 export const userUpdateReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case USER_UPDATE_REQUEST:
@@ -129,6 +134,32 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
       return { loading: false, error: action.payload };
     case USER_UPDATE_RESET:
       return { user: {} };
+    default:
+      return state;
+  }
+};
+
+export const favArtworkReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_FAVORITE_ARTWORK_REQUEST:
+      return { loading: true };
+    case USER_FAVORITE_ARTWORK_SUCCESS:
+      return { loading: false, success: true, artworkId: action.payload };
+    case USER_FAVORITE_ARTWORK_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const favArtworkListReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_FAVORITE_ARTWORK_LIST_REQUEST:
+      return { loading: true };
+    case USER_FAVORITE_ARTWORK_LIST_SUCCESS:
+      return { loading: false, success: true, favArtworks: action.payload };
+    case USER_FAVORITE_ARTWORK_LIST_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

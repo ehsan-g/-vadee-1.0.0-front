@@ -7,7 +7,8 @@ import { useHistory, Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
-import { fetchAllArtWorks, cleanLocalCart } from '../actions';
+import { fetchAllArtWorks } from '../actions/artworkAction';
+import { cleanLocalCart } from '../actions/cartAction';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -159,13 +160,13 @@ const Main = () => {
             overflowX: 'scroll',
           }}
         >
-          <Stack direction="row" spacing={1}>
-            {/* {itemData.map((item) => (
+          {/* <Stack direction="row" spacing={1}> */}
+          {/* {itemData.map((item) => (
               <Button key={item.title} color="secondary" variant="contained">
                 {item.title}
               </Button>
             ))} */}
-          </Stack>
+          {/* </Stack> */}
         </Box>
       </Grid>
 

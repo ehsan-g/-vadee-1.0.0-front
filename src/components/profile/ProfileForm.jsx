@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Paper, Grid, Button, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useHistory } from 'react-router-dom';
-import { fetchUserDetails, updateUserProfile } from '../../actions/index';
+import { fetchUserDetails, updateUserProfile } from '../../actions/userAction';
 import Message from '../Message';
 import Loader from '../Loader';
 import { USER_UPDATE_PROFILE_RESET } from '../../constants/userConstants';
@@ -37,15 +37,26 @@ function ProfileForm() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [message, setMessage] = useState();
+  const [values, setValues] = React.useState({
+    firstName: '',
+    lastName: '',
+    country: '',
+    city: '',
+    phoneNumber: '',
+    postalCode: '',
+    address: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { error, loading, user } = userDetails;
+  const {
+    error: profileError,
+    loading: profileLoading,
+    success: profileSuccess,
+    user,
+  } = userDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -53,36 +64,44 @@ function ProfileForm() {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
+  // value change
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
   useEffect(() => {
     if (!userInfo) {
       history.push('/login');
-    } else if (!user || !user.firstName || success) {
+    } else if (!profileSuccess) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(fetchUserDetails('profile'));
     } else {
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-      setEmail(user.email);
+      setValues({
+        ...values,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        country: user.country,
+        city: user.city,
+        phoneNumber: user.phoneNumber,
+        postalCode: user.postalCode,
+        address: user.address,
+        email: user.email,
+      });
     }
-  }, [dispatch, history, userInfo, user, success]);
+  }, [dispatch, history, userInfo, user, profileSuccess]);
 
   const handleSubmit = async () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(300);
-    if (password !== confirmPassword) {
-      setMessage('پسورد متفاوت وارد شده است');
-    } else {
+    if (values.password === values.confirmPassword) {
       dispatch(
         updateUserProfile({
           id: user._id,
-          firstName,
-          lastName,
-          email,
-          password,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
         })
       );
-      setMessage('');
-
       dispatch(fetchUserDetails('profile'));
     }
   };
@@ -90,67 +109,130 @@ function ProfileForm() {
   const classes = useStyles();
 
   return (
-    <div style={{ maxWidth: 600 }}>
+    <div>
       <form onSubmit={handleSubmit} noValidate className={classes.root}>
-        <Paper style={{ padding: 10 }} elevation={0}>
-          <Grid container alignItems="flex-start" spacing={2}>
-            <Grid item xs={12} />
-
-            <Grid item xs={12}>
+        <Paper sx={{ padding: 2 }} elevation={0}>
+          <Grid container direction="row" alignItems="flex-start" spacing={2}>
+            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
-                label="نام"
+                label="First Name"
                 name="firstName"
-                value={firstName || ''}
+                value={values.firstName || ''}
                 margin="none"
-                variant="filled"
-                placeholder="نام خود را وارد کنید"
-                onChange={(e) => setFirstName(e.target.value)}
+                variant="outlined"
+                sx={{ width: '100%' }}
+                placeholder="Please enter your name"
+                onChange={handleChange('firstName')}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
-                label="نام خانوادگی"
+                label="Last Name"
                 name="lastName"
-                value={lastName || ''}
+                value={values.lastName || ''}
                 margin="none"
-                variant="filled"
-                onChange={(e) => setLastName(e.target.value)}
+                sx={{ width: '100%' }}
+                variant="outlined"
+                onChange={handleChange('lastName')}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
-                label="ایمیل"
+                label="Country"
+                name="country"
+                value={values.country || ''}
+                margin="none"
+                sx={{ width: '100%' }}
+                variant="outlined"
+                onChange={handleChange('country')}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+              <TextField
+                label="City"
+                name="city"
+                value={values.city || ''}
+                margin="none"
+                sx={{ width: '100%' }}
+                variant="outlined"
+                onChange={handleChange('city')}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+              <TextField
+                label="Phone"
+                name="phoneNumber"
+                value={values.phoneNumber || ''}
+                margin="none"
+                sx={{ width: '100%' }}
+                variant="outlined"
+                onChange={handleChange('phoneNumber')}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+              <TextField
+                label="Postal Code"
+                name="postalCode"
+                value={values.postalCode || ''}
+                margin="none"
+                sx={{ width: '100%' }}
+                variant="outlined"
+                onChange={handleChange('postalCode')}
+              />
+            </Grid>
+            <Grid item xs={12} sx={{ width: '100%' }}>
+              <TextField
+                label="Address"
+                name="address"
+                value={values.address || ''}
+                margin="none"
+                sx={{ width: '100%' }}
+                variant="outlined"
+                onChange={handleChange('address')}
+              />
+            </Grid>
+            <Grid item xs={12} sx={{ width: '100%' }}>
+              <TextField
+                label="Email"
                 name="email"
                 type="email"
-                value={email || ''}
+                value={values.email || ''}
                 margin="none"
-                variant="filled"
+                sx={{ width: '100%' }}
+                variant="outlined"
                 disabled
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ width: '100%' }}>
               <TextField
-                label="پسوزد"
+                label="Password"
                 name="password"
-                value={password || ''}
+                value={values.password || ''}
                 margin="none"
-                variant="filled"
+                sx={{ width: '100%' }}
+                variant="outlined"
                 type="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange('password')}
               />
             </Grid>
 
-            <Grid item style={{ marginTop: 16 }}>
-              <Button variant="contained" color="primary" type="submit">
-                ذخیره
+            <Grid item xs={12} sx={{ width: '100%', marginTop: 5 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ width: '100%' }}
+              >
+                Save
               </Button>
             </Grid>
           </Grid>
         </Paper>
       </form>
-      {message && <Message severity="error">{message}</Message>}
-      {error && <Message severity="error">{error}</Message>}
-      {loading && <Loader />}
+      {profileError && (
+        <Message severity="profileError">{profileError}</Message>
+      )}
+      {profileLoading && <Loader />}
     </div>
   );
 }

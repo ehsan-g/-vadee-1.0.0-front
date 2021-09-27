@@ -18,11 +18,12 @@ import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { fetchOneArtWork, addToCart, fetchArtistDetails } from '../actions';
+import { fetchOneArtWork } from '../actions/artworkAction';
+import { addToCart } from '../actions/cartAction';
 import Dialog from '../components/Dialog';
 import TheTab from '../components/TheTab';
-import Carousel2 from '../components/Carousel2';
-import Carousel3 from '../components/Carousel3';
+// import Carousel2 from '../../components/Carousel2';
+// import Carousel3 from '../../components/Carousel3';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,7 @@ function Artwork() {
   const { userInfo } = userLogin;
 
   const theArtwork = useSelector((state) => state.theArtwork);
-  const { error, loading, artwork } = theArtwork;
+  const { error, loading, success, artwork } = theArtwork;
 
   const theCart = useSelector((state) => state.theCart);
   const { loadingCart } = theCart;
@@ -61,12 +62,10 @@ function Artwork() {
   const { theArtist } = artistDetails;
 
   useEffect(() => {
-    if (!artwork._id) {
+    if (!success && workId) {
       dispatch(fetchOneArtWork(workId));
-    } else if (artwork.artist) {
-      dispatch(fetchArtistDetails(artwork.artist));
     }
-  }, [dispatch, workId, artwork]);
+  }, [dispatch, workId, success]);
 
   useEffect(() => {
     if (artwork.quantity < 1) {
@@ -255,7 +254,7 @@ function Artwork() {
               elevation={0}
               sx={{ direction: 'ltr', marginBottom: 5, maxWidth: '100%' }}
             >
-              <Carousel2 />
+              {/* <Carousel2 /> */}
             </Paper>
           </Hidden>
         </Grid>

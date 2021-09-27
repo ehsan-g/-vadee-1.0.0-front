@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Tab, Grid, Button } from '@mui/material';
+import { Tab, Grid, Typography } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -10,19 +10,13 @@ import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import AccountUserTab from '../components/profile/ProfileForm';
-import { headerStatus } from '../actions/index';
-import AccountUserOrders from '../components/profile/ProfileOrders';
+import ProfileForm from '../components/profile/ProfileForm';
+import ProfileFavorite from '../components/profile/ProfileFavorite';
+// import AccountUserOrders from '../components/profile/ProfileOrders';
 
 export default function UserProfile() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(headerStatus(false));
-    return function cleanup() {
-      dispatch(headerStatus(true));
-    };
-  }, [dispatch]);
   const [value, setValue] = useState('1');
 
   const handleChange = (event, newValue) => {
@@ -31,44 +25,54 @@ export default function UserProfile() {
 
   return (
     <>
-      <Grid>
-        <Button href="/" color="inherit">
-          {'< صقحه اصلی'}
-        </Button>
+      <Grid
+        container
+        direction="row"
+        sx={{
+          textAlign: 'left',
+          paddingLeft: 5,
+          paddingRight: 5,
+        }}
+      >
+        <Grid item xs={12} md={4}>
+          <img src="/static/logo.svg" alt="logo" style={{ width: '60%' }} />
+          <Typography variant="body1" color="primary">
+            Change you lense, change your story
+          </Typography>
+        </Grid>
       </Grid>
       <Grid
         container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
+        direction="row"
+        alignItems="start"
+        sx={{
+          paddingLeft: 2,
+          paddingRight: 2,
+          marginTop: 5,
+          minHeight: '80vh',
+        }}
       >
-        <Grid item xs={8}>
-          <Box sx={{ width: '100%', typography: 'body1' }}>
+        <Grid item md={8} xs={12}>
+          <Box sx={{ typography: 'body1' }}>
             <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList
                   onChange={handleChange}
                   aria-label="lab API tabs example"
-                  centered
                 >
-                  <Tab icon={<SettingsIcon />} label="تنظیمات" value="1" />
-                  <Tab
-                    icon={<FavoriteIcon />}
-                    label="مورد علاقه"
-                    disabled
-                    value="2"
-                  />
-                  <Tab icon={<ShoppingBasketIcon />} label="خریدها" value="3" />
+                  <Tab label="My Profile" value="1" />
+                  <Tab label="My orders" disabled value="2" />
+                  <Tab label="Saves & Follows" value="3" />
                 </TabList>
               </Box>
 
               <Box>
                 <TabPanel value="1">
-                  <AccountUserTab />
+                  <ProfileForm />
                 </TabPanel>
-                <TabPanel value="2">ki</TabPanel>
+                <TabPanel value="2">{/* <AccountUserOrders /> */}</TabPanel>
                 <TabPanel value="3">
-                  <AccountUserOrders />
+                  <ProfileFavorite />
                 </TabPanel>
               </Box>
             </TabContext>
