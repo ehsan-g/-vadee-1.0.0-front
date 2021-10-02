@@ -72,13 +72,14 @@ const customTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         contained: {
+          backgroundColor: 'black',
           textTransform: 'none',
           minWidth: '80px',
           color: 'white',
           borderRadius: 0,
           '&:hover': {
             color: 'white',
-            backgroundColor: '#secondary',
+            backgroundColor: '#A2A28F',
             textDecoration: 'none',
           },
         },

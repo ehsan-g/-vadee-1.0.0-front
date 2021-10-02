@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
@@ -8,11 +9,11 @@ import { makeStyles } from '@mui/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Container, Divider } from '@mui/material';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import Divider from '@mui/material/Divider';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -22,13 +23,14 @@ import { fetchOneArtWork } from '../actions/artworkAction';
 import { addToCart } from '../actions/cartAction';
 import Dialog from '../components/Dialog';
 import TheTab from '../components/TheTab';
+import { favArtwork } from '../actions/userAction';
 // import Carousel2 from '../../components/Carousel2';
 // import Carousel3 from '../../components/Carousel3';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginTop: 100,
+    // marginTop: 100,
     marginBottom: 100,
   },
   container: {
@@ -36,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     paddingLeft: '16px',
-    paddingRight: '16px',
     paddingTop: '16px',
     marginLeft: theme.spacing(2),
   },
@@ -58,8 +59,22 @@ function Artwork() {
   const theCart = useSelector((state) => state.theCart);
   const { loadingCart } = theCart;
 
-  const artistDetails = useSelector((state) => state.artistDetails);
-  const { theArtist } = artistDetails;
+  const [isFav, setIsFav] = useState(false);
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const { user } = userDetails;
+
+  useEffect(() => {
+    if (user && success) {
+      for (let i = 0; i < artwork.favorites.length; i++) {
+        if (artwork.favorites[i] === user._id) {
+          setIsFav(true);
+        } else {
+          setIsFav(true);
+        }
+      }
+    }
+  }, [user, artwork]);
 
   useEffect(() => {
     if (!success && workId) {
@@ -68,7 +83,7 @@ function Artwork() {
   }, [dispatch, workId, success]);
 
   useEffect(() => {
-    if (artwork.quantity < 1) {
+    if (artwork && artwork.quantity < 1) {
       setDisabled(true);
     }
   }, [artwork]);
@@ -82,103 +97,116 @@ function Artwork() {
     }
   };
 
-  let classification;
-  switch (artwork.classifications) {
-    case '1':
-      classification = 'Unique';
-      break;
-    case '2':
-      classification = 'Limited edition';
-      break;
-    case '3':
-      classification = 'Open edition';
-      break;
-    case '4':
-      classification = 'Unknown edition';
-      break;
-    default:
-      classification = '1';
-  }
-
   const classes = useStyles();
 
   const renderElement = () => {
     const theArt = artwork;
     return (
-      <>
-        <Grid container direction="row">
-          <Grid item xs={10} md={8} align="center">
-            <Paper className={classes.paper} elevation={0}>
-              <img
-                src={`${theArt.image}`}
-                alt="Art work"
-                style={{ maxWidth: '100%', height: 'auto' }}
-              />
-            </Paper>
-            <Paper className={classes.paper} elevation={0}>
-              <IconButton
-                onClick={() => alert('در حال حاضر راه اندازی نشده است')}
-              >
-                <FavoriteBorder style={{ color: 'black' }} />
-              </IconButton>
-            </Paper>
+      <Container maxWidth="lg">
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          // alignItems="left"
+          // sx={{ paddingLeft: 10, paddingRight: 10 }}
+        >
+          <Grid item xs={1} sx={{ position: 'relative', marginLeft: 3 }}>
+            <Button
+              size="small"
+              // sx={{ textTransform: 'none' }}
+              onClick={() => dispatch(favArtwork(artwork._id))}
+              sx={{
+                position: 'absolute',
+                bottom: 0,
+                marginBottom: 3,
+                left: 0,
+                fontSize: 15,
+                textTransform: 'none',
+              }}
+            >
+              {isFav ? 'Save' : 'UnSave'}
+            </Button>
+            <Button
+              size="small"
+              sx={{
+                position: 'absolute',
+                bottom: 0,
+                marginBottom: 0,
+                left: 0,
+                fontSize: 15,
+                textTransform: 'none',
+              }}
+              onClick={() => dispatch(favArtwork(artwork._id))}
+            >
+              Share
+            </Button>
+          </Grid>
+          <Grid item xs={10} md={6} sx={{ textAlign: 'center' }}>
+            <img
+              src={`${theArt.image}`}
+              alt="Art work"
+              style={{ width: '100%', maxWidth: '500px' }}
+            />
           </Grid>
           <Grid item xs={10} md>
             <Paper className={classes.paper} elevation={0}>
-              <Grid item xs={12}>
-                <Typography>
-                  {!theArtist && !theArtist.firstName ? (
-                    <CircularProgress />
-                  ) : (
-                    `${theArtist.firstName} ${theArtist.lastName}`
-                  )}
-                </Typography>
-              </Grid>
               <Grid
                 container
+                direction="row"
                 justifyContent="flex-start"
-                alignItems="flex-start"
+                alignItems="center"
               >
-                <IconButton
-                  style={{
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                    padding: 0,
-                  }}
-                >
-                  <AddCircleOutlineIcon style={{ color: 'black' }} />
-                </IconButton>
-                <Link
-                  to="#"
-                  onClick={() => alert('در حال حاضر راه اندازی نشده است')}
-                >
-                  <Typography
-                    variant="body2"
-                    style={{
-                      fontSize: '1rem',
-                    }}
-                  >
-                    دنبال‌کردن
+                <Grid item xs={12} md={2}>
+                  <img
+                    style={{ maxWidth: '55px', marginTop: 5 }}
+                    src={theArt.artist && theArt.artist.photo}
+                    alt="artist"
+                  />
+                </Grid>
+                <Grid item xs>
+                  <Typography>
+                    {theArt.artist &&
+                      `${theArt.artist.firstName} ${theArt.artist.lastName}`}
                   </Typography>
-                </Link>
+                  <Typography>
+                    {theArt.artist &&
+                      `${theArt.artist.nationality}, ${theArt.artist.birthday}`}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    sx={{
+                      backgroundColor: '#A2A28F',
+                      color: 'black',
+                      lineHeight: '0.5rem',
+                      '&:hover': {
+                        backgroundColor: 'black',
+                      },
+                    }}
+                    disabled={disabled}
+                  >
+                    Follow
+                  </Button>
+                </Grid>
               </Grid>
               <Grid>
-                <Typography color="#666666" variant="body1">
+                <Divider
+                  className={classes.divider}
+                  style={{ marginTop: 20, marginBottom: 20 }}
+                />
+                <Typography color="#666666" variant="h6">
                   {theArt.title}
                 </Typography>
-                <Typography color="#666666" variant="body1">
+                <Typography color="#666666" variant="body2">
                   {theArt.subtitle}
                 </Typography>
-                <Typography color="#666666" variant="body1">
-                  {classification}
-                </Typography>
-                <Typography color="#666666" variant="subtitle1">
+                <Typography color="#666666" variant="body2">
                   {theArt.year}
                 </Typography>
-                <Typography color="#666666" variant="body1">
+                <Typography color="#666666" variant="body2">
                   {theArt.medium}
                 </Typography>
-                <Typography color="#666666" variant="subtitle1">
+                <Typography color="#666666" variant="body2">
                   {theArt.unit === '0' && ' in '}
                   {theArt.unit === '1' && ' cm '}
                   {!theArt.unit && ' cm '}
@@ -193,14 +221,12 @@ function Artwork() {
                   </span>
                 </Typography>
                 {theArt.editionNum > 0 && (
-                  <Typography variant="subtitle1">
-                    {theArt.editionNum} از {theArt.editionSize} شماره
+                  <Typography variant="body2">
+                    {theArt.editionNum} from {theArt.editionSize} Number
                   </Typography>
                 )}
-                <Typography color="#666666" variant="subtitle1">
-                  {classification === 'Unique'
-                    ? null
-                    : `${theArt.quantity} عدد باقیمانده`}
+                <Typography color="#666666" variant="body2">
+                  {`${theArt.quantity} Remaining`}
                 </Typography>
               </Grid>
               <Divider
@@ -208,12 +234,10 @@ function Artwork() {
                 style={{ marginTop: 20, marginBottom: 20 }}
               />
               <Typography
-                variant="subtitle2"
+                variant="body2"
                 style={{ marginTop: 30, marginBottom: 30 }}
               >
-                <span style={{ position: 'absolute' }}>
-                  {theArt.price} تومان
-                </span>
+                <span style={{ position: 'absolute' }}>$ {theArt.price}</span>
               </Typography>
               <Button
                 onClick={(e) => onAddToCart(e)}
@@ -222,7 +246,7 @@ function Artwork() {
                 fullWidth
                 disabled={disabled}
               >
-                {loadingCart ? <CircularProgress /> : ` خرید اثر`}
+                {loadingCart ? <CircularProgress /> : `Purchase Artwork`}
               </Button>
 
               <Link to="/">
@@ -243,22 +267,47 @@ function Artwork() {
             </Paper>
           </Grid>
         </Grid>
-        <Grid container justifyContent="flex-start" alignItems="flex-start">
-          <Grid item xs={10} md={8}>
-            <Paper className={classes.paper} elevation={0}>
-              <TheTab theArt={theArt} />
-            </Paper>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="baseline"
+        >
+          <Grid item xs={1} sx={{ position: 'relative', marginLeft: 3 }}>
+            <Typography variant="subtitle1" sx={{ marginTop: 5 }}>
+              {theArt && theArt.artist && `${theArt.artist.firstName}`} <br />
+              {theArt && theArt.artist && `${theArt.artist.lastName}`} <br />
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  backgroundColor: '#A2A28F',
+                  color: 'black',
+                  marginTop: 1,
+                  lineHeight: '0.5rem',
+                  '&:hover': {
+                    backgroundColor: 'black',
+                  },
+                }}
+                disabled={disabled}
+              >
+                Follow
+              </Button>
+            </Typography>
           </Grid>
-          <Hidden mdDown>
-            <Paper
-              elevation={0}
-              sx={{ direction: 'ltr', marginBottom: 5, maxWidth: '100%' }}
-            >
-              {/* <Carousel2 /> */}
-            </Paper>
-          </Hidden>
+          <Grid item xs={10}>
+            <TheTab theArt={theArt} />
+          </Grid>
         </Grid>
-      </>
+        <Hidden mdDown>
+          <Paper
+            elevation={0}
+            sx={{ direction: 'ltr', marginBottom: 5, maxWidth: '100%' }}
+          >
+            {/* <Carousel2 /> */}
+          </Paper>
+        </Hidden>
+      </Container>
     );
   };
 

@@ -21,25 +21,34 @@ export default function TheTab(props) {
     setValue(newValue);
   };
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <div style={{ maxWidth: '500px', textAlign: 'center' }}>
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+        }}
+      >
         <Tabs
           indicatorColor="secondary"
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="در مورد اثر" {...a11yProps(0)} />
-          <Tab label="پیشینه" {...a11yProps(1)} />
+          <Tab label="Biography" {...a11yProps(0)} />
+          <Tab label="Achievements" {...a11yProps(1)} />
+          <Tab label="CV" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         {props.theArt.about_work}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {props.theArt.provenance}
+        {props.theArt.about_work}
       </TabPanel>
-    </Box>
+      <TabPanel value={value} index={2}>
+        {props.theArt.about_work}
+      </TabPanel>
+    </div>
   );
 }
 
