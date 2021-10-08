@@ -556,7 +556,7 @@ export default function ArtworkEdit() {
         <Checkboxes
           name="is_authenticated"
           formControlProps={{ margin: 'none' }}
-          data={{ label: 'بررسی اصالت شده', value: is_authenticated }}
+          data={{ label: 'authenticity', value: is_authenticated }}
           onChange={(e) => setIsAuthenticated(e.target.checked)}
         />
       ),

@@ -5,7 +5,6 @@ import {
   artworkUpdateReducer,
   artworkCreateReducer,
 } from './artworkReducer.js';
-import { artistDetailsReducer, artistsReducer } from './artistReducer';
 import cartReducer from './cartReducer.js';
 import {
   userLoginReducer,
@@ -27,6 +26,7 @@ import {
   orderDeliverReducer,
 } from './orderReducer';
 import headerReducer from './headerReducer';
+import { artistArtworksReducer } from './artistReducer.js';
 
 export default combineReducers({
   headerStatus: headerReducer,
@@ -37,6 +37,7 @@ export default combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
+  artistArtworkList: artistArtworksReducer,
   artworkUpdate: artworkUpdateReducer, // update artwork from admin
   userUpdateProfile: userUpdateProfileReducer,
   favArtwork: favArtworkReducer,
@@ -45,8 +46,6 @@ export default combineReducers({
   userDeleteList: userDeleteReducer,
   artworkCreate: artworkCreateReducer,
   userUpdate: userUpdateReducer, // update user from admin
-  artistList: artistsReducer,
-  artistDetails: artistDetailsReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   ordersList: orderListReducer,

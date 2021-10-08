@@ -24,6 +24,7 @@ import { addToCart } from '../actions/cartAction';
 import Dialog from '../components/Dialog';
 import TheTab from '../components/TheTab';
 import { favArtwork } from '../actions/userAction';
+import CarouselArtist from '../components/carousel/CarouselArtists';
 // import Carousel2 from '../../components/Carousel2';
 // import Carousel3 from '../../components/Carousel3';
 
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     paddingLeft: '16px',
+    paddingRight: '16px',
     paddingTop: '16px',
     marginLeft: theme.spacing(2),
   },
@@ -102,15 +104,9 @@ function Artwork() {
   const renderElement = () => {
     const theArt = artwork;
     return (
-      <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-start"
-          // alignItems="left"
-          // sx={{ paddingLeft: 10, paddingRight: 10 }}
-        >
-          <Grid item xs={1} sx={{ position: 'relative', marginLeft: 3 }}>
+      <Container maxWidth="lg" sx={{ padding: 0 }}>
+        <Grid container direction="row" justifyContent="flex-start">
+          <Grid item xs={2} md={1} sx={{ position: 'relative', marginLeft: 3 }}>
             <Button
               size="small"
               // sx={{ textTransform: 'none' }}
@@ -141,14 +137,14 @@ function Artwork() {
               Share
             </Button>
           </Grid>
-          <Grid item xs={10} md={6} sx={{ textAlign: 'center' }}>
+          <Grid item xs={8} md={6} sx={{ textAlign: 'center' }}>
             <img
               src={`${theArt.image}`}
               alt="Art work"
               style={{ width: '100%', maxWidth: '500px' }}
             />
           </Grid>
-          <Grid item xs={10} md>
+          <Grid item xs={12} md>
             <Paper className={classes.paper} elevation={0}>
               <Grid
                 container
@@ -156,15 +152,15 @@ function Artwork() {
                 justifyContent="flex-start"
                 alignItems="center"
               >
-                <Grid item xs={12} md={2}>
+                <Grid item xs={4} md={2}>
                   <img
                     style={{ maxWidth: '55px', marginTop: 5 }}
                     src={theArt.artist && theArt.artist.photo}
                     alt="artist"
                   />
                 </Grid>
-                <Grid item xs>
-                  <Typography>
+                <Grid item xs={6} md>
+                  <Typography variant="subtitle2">
                     {theArt.artist &&
                       `${theArt.artist.firstName} ${theArt.artist.lastName}`}
                   </Typography>
@@ -178,7 +174,7 @@ function Artwork() {
                     sx={{
                       backgroundColor: '#A2A28F',
                       color: 'black',
-                      lineHeight: '0.5rem',
+                      lineHeight: '0.4rem',
                       '&:hover': {
                         backgroundColor: 'black',
                       },
@@ -273,40 +269,51 @@ function Artwork() {
           justifyContent="flex-start"
           alignItems="baseline"
         >
-          <Grid item xs={1} sx={{ position: 'relative', marginLeft: 3 }}>
-            <Typography variant="subtitle1" sx={{ marginTop: 5 }}>
-              {theArt && theArt.artist && `${theArt.artist.firstName}`} <br />
-              {theArt && theArt.artist && `${theArt.artist.lastName}`} <br />
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{
-                  backgroundColor: '#A2A28F',
-                  color: 'black',
-                  marginTop: 1,
-                  lineHeight: '0.5rem',
-                  '&:hover': {
-                    backgroundColor: 'black',
-                  },
-                }}
-                disabled={disabled}
-              >
-                Follow
-              </Button>
-            </Typography>
-          </Grid>
-          <Grid item xs={10}>
+          <Hidden mdDown>
+            <Grid item xs={1} sx={{ position: 'relative', marginLeft: 3 }}>
+              <Typography variant="subtitle2" sx={{ marginTop: 5 }}>
+                {theArt && theArt.artist && `${theArt.artist.firstName}`} <br />
+                {theArt && theArt.artist && `${theArt.artist.lastName}`} <br />
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{
+                    backgroundColor: '#A2A28F',
+                    color: 'black',
+                    marginTop: 1,
+                    lineHeight: '0.4rem',
+                    '&:hover': {
+                      backgroundColor: 'black',
+                    },
+                  }}
+                  disabled={disabled}
+                >
+                  Follow
+                </Button>
+              </Typography>
+            </Grid>
+          </Hidden>
+          <Grid item xs={10} sx={{ marginLeft: 4 }}>
             <TheTab theArt={theArt} />
           </Grid>
         </Grid>
-        <Hidden mdDown>
-          <Paper
-            elevation={0}
-            sx={{ direction: 'ltr', marginBottom: 5, maxWidth: '100%' }}
-          >
-            {/* <Carousel2 /> */}
-          </Paper>
-        </Hidden>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="baseline"
+          sx={{ marginTop: 8 }}
+        >
+          <Grid item sm={12} md={1}>
+            <Typography variant="subtitle1">Artists</Typography>
+            <Typography variant="subtitle1">Artworks</Typography>
+          </Grid>
+          <Grid item sm={12} md={10} sx={{ marginLeft: 4 }}>
+            {theArt && theArt.artist && (
+              <CarouselArtist artistId={theArt.artist._id} />
+            )}
+          </Grid>
+        </Grid>
       </Container>
     );
   };
