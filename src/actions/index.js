@@ -591,7 +591,7 @@
 //   }
 // };
 
-// export const fetchArtists = () => async (dispatch, getState) => {
+// export const fetchArtistList = () => async (dispatch, getState) => {
 //   try {
 //     dispatch({ type: ARTIST_LIST_REQUEST });
 //     const {

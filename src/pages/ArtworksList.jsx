@@ -1,13 +1,10 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-plusplus */
 import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
-import { Grid, Box, Paper, Hidden } from '@mui/material';
+import { Grid, Box, Paper, Hidden, Container } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Divider from '@mui/material/Divider';
@@ -23,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
     paddingTop: 0,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
   },
@@ -83,8 +80,16 @@ function ArtworksList() {
           {error}
         </Message>
       ) : (
-        <>
-          <Grid container direction="row" spacing={0}>
+        <Container>
+          <Grid container direction="row">
+            <Grid xs item>
+              hi
+            </Grid>
+            <Grid xs={10} item>
+              hi
+            </Grid>
+          </Grid>
+          <Grid container direction="row">
             <Grid item xs sx={{ marginTop: 0 }}>
               <Divider style={{ margin: 'auto' }} variant="middle" />
               <SideFilter name="مدیوم" />
@@ -92,12 +97,12 @@ function ArtworksList() {
               <SideFilter name="قیمت" />
               <SideFilter name="تعداد" />
             </Grid>
-            <Grid item xs={9} className={classes.root}>
+            <Grid item xs={10} className={classes.root}>
               <Box sx={{ overflowY: 'scroll' }}>
                 <Divider style={{ marginBottom: 30 }} variant="middle" />
                 <ImageList
                   variant="masonry"
-                  cols={3}
+                  cols={window.innerWidth < 800 ? 2 : 3}
                   gap={30}
                   sx={{ paddingRight: 5 }}
                 >
@@ -120,7 +125,7 @@ function ArtworksList() {
             </Grid>
           </Grid>
           <Grid>
-            <Hidden mdUp>
+            <Hidden smUp>
               <Grid container>
                 <Paper className={classes.responsive} elevation={0}>
                   {artworks.map((artwork) => (
@@ -134,7 +139,7 @@ function ArtworksList() {
               </Grid>
             </Hidden>
           </Grid>
-        </>
+        </Container>
       )}
     </div>
   );

@@ -20,7 +20,7 @@ import {
   headerStatus,
   fetchUsers,
   updateArtwork,
-  fetchArtists,
+  fetchArtistList,
   fetchArtistDetails,
   fetchOneArtWork,
 } from '../../actions/index.js';
@@ -94,7 +94,7 @@ export default function ArtworkEdit() {
     } else if (!artwork.title || artwork._id !== Number(artworkId)) {
       dispatch(fetchOneArtWork(artworkId));
       dispatch(fetchUsers());
-      dispatch(fetchArtists());
+      dispatch(fetchArtistList());
     } else {
       dispatch(fetchArtistDetails(artwork.artist));
       setAccountOwner(artwork.created_by);
@@ -796,7 +796,12 @@ export default function ArtworkEdit() {
           <Form
             onSubmit={onSubmit}
             validate={validate}
-            initialValues={{ isAnEdition, is_signed, is_authenticated, isPrice }}
+            initialValues={{
+              isAnEdition,
+              is_signed,
+              is_authenticated,
+              isPrice,
+            }}
             render={({ handleSubmit, submitting }) => (
               <form onSubmit={handleSubmit} noValidate>
                 <Grid container alignItems="flex-start" spacing={2}>

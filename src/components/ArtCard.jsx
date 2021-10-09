@@ -53,11 +53,7 @@ export default function ArtCard({ artwork }) {
               aria-label={`star ${artwork.title}`}
               style={{ zIndex: 10, bottom: '70px' }}
             >
-              {isFav ? (
-                <FavoriteIcon />
-              ) : (
-                <FavoriteBorder style={{ color: 'white' }} />
-              )}
+              {isFav ? <FavoriteIcon /> : <FavoriteBorder color="primary" />}
             </IconButton>
           }
         />

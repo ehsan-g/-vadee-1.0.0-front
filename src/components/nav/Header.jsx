@@ -99,7 +99,7 @@ const Header = () => {
                     alt="logo"
                     style={{ width: '80%' }}
                   />
-                  <Typography variant="subtitle1" color="secondary">
+                  <Typography variant="subtitle1" color="primary">
                     Change you lense, change your story
                   </Typography>
                 </Grid>

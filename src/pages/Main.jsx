@@ -14,9 +14,9 @@ import Message from '../components/Message';
 
 import { ARTWORK_DETAILS_RESET } from '../constants/artworkConstants';
 import CarouselTop from '../components/carousel/CarouselTop';
-import CarouselArtists from '../components/carousel/CarouselArtists';
+import CarouselArtistArtworks from '../components/carousel/CarouselArtistArtworks';
 import CarouselPopular from '../components/carousel/CarouselPopular';
-import CarouselNewArtist from '../components/carousel/CarouselNewArtist';
+import CarouselArtist from '../components/carousel/CarouselArtist';
 import CarouselCategory from '../components/carousel/CarouselCategory';
 import CarouselExhibition from '../components/carousel/CarouselExhibition';
 
@@ -38,13 +38,6 @@ const Main = () => {
     loading: loadingArtworkList,
     artworks,
   } = artworksList;
-
-  const artistList = useSelector((state) => state.artistList);
-  const {
-    error: errorArtisList,
-    loading: loadingArtistList,
-    artists,
-  } = artistList;
 
   const keyword = history.location.search;
 
@@ -79,7 +72,7 @@ const Main = () => {
           <Typography variant="h6">Followed</Typography>
         </Grid>
         <Grid item xs={8} sx={{ marginTop: 8 }}>
-          <CarouselArtists artists={artists} />
+          <CarouselArtistArtworks />
         </Grid>
       </Grid>
       <Grid
@@ -146,7 +139,7 @@ const Main = () => {
           <Typography variant="h6">New Artists</Typography>
         </Grid>
         <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 280 }}>
-          <CarouselNewArtist />
+          <CarouselArtist />
         </Grid>
       </Grid>
 
