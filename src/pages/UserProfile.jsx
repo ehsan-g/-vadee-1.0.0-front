@@ -1,11 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { Tab, Grid, Typography } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import SettingsIcon from '@mui/icons-material/Settings';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -15,8 +10,6 @@ import ProfileFavorite from '../components/profile/ProfileFavorite';
 // import AccountUserOrders from '../components/profile/ProfileOrders';
 
 export default function UserProfile() {
-  const dispatch = useDispatch();
-
   const [value, setValue] = useState('1');
 
   const handleChange = (event, newValue) => {

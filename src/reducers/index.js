@@ -4,6 +4,7 @@ import {
   artworkReducer,
   artworkUpdateReducer,
   artworkCreateReducer,
+  categoriesReducer,
 } from './artworkReducer.js';
 import cartReducer from './cartReducer.js';
 import {
@@ -27,6 +28,8 @@ import {
 } from './orderReducer';
 import headerReducer from './headerReducer';
 import { artistArtworksReducer, artistListReducer } from './artistReducer.js';
+import { articleListReducer } from './articleReducer.js';
+import { filterReducer } from './filterReducer.js';
 
 export default combineReducers({
   headerStatus: headerReducer,
@@ -53,4 +56,7 @@ export default combineReducers({
   myOrders: userOrderListReducer,
   orderPay: orderPayReducer,
   orderDeliver: orderDeliverReducer,
+  articlesList: articleListReducer,
+  filterOrigin: filterReducer,
+  categoryList: categoriesReducer,
 });

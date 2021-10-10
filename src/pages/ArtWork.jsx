@@ -1,19 +1,14 @@
-/* eslint-disable no-plusplus */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
 import Hidden from '@mui/material/Hidden';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import IconButton from '@mui/material/IconButton';
+
 import { Typography, Button, Container, Divider } from '@mui/material';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -75,7 +70,7 @@ function Artwork() {
     dispatch({ type: ARTIST_ARTWORKS_RESET });
     dispatch({ type: ARTIST_LIST_RESET });
     if (user && success) {
-      for (let i = 0; i < artwork.favorites.length; i++) {
+      for (let i = 0; i < artwork.favorites.length; i += 1) {
         if (artwork.favorites[i] === user._id) {
           setIsFav(true);
         } else {
@@ -83,7 +78,7 @@ function Artwork() {
         }
       }
     }
-  }, [user, artwork, success]);
+  }, [user, artwork, success, dispatch]);
 
   // fetch artwork if not success
   useEffect(() => {
@@ -391,9 +386,7 @@ function Artwork() {
                   marginLeft: 4,
                 }}
               >
-                {artwork && artwork.artist && (
-                  <CarouselArtist artistId={artwork.artist._id} />
-                )}
+                {artwork && artwork.artist && <CarouselArtist />}
               </Grid>
             </Grid>
           </Hidden>

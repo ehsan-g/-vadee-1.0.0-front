@@ -4,14 +4,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-import {
-  Typography,
-  Grid,
-  Box,
-  CardActionArea,
-  CardContent,
-  Card,
-} from '@mui/material';
+import { Typography, Box, CardContent, Card } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import { Link } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
@@ -99,6 +92,7 @@ function SamplePrevArrow(props) {
         color: 'transparent',
         margin: 2,
       }}
+      onClick={onClick}
     />
   );
 }

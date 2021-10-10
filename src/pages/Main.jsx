@@ -1,24 +1,18 @@
 /* eslint-disable prefer-destructuring */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { Typography, CardActionArea, Button, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import { makeStyles } from '@mui/styles';
 import { fetchAllArtWorks } from '../actions/artworkAction';
 import { cleanLocalCart } from '../actions/cartAction';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-
 import { ARTWORK_DETAILS_RESET } from '../constants/artworkConstants';
 import CarouselTop from '../components/carousel/CarouselTop';
 import CarouselArtistArtworks from '../components/carousel/CarouselArtistArtworks';
 import CarouselPopular from '../components/carousel/CarouselPopular';
 import CarouselArtist from '../components/carousel/CarouselArtist';
 import CarouselCategory from '../components/carousel/CarouselCategory';
-import CarouselExhibition from '../components/carousel/CarouselExhibition';
 
 const Main = () => {
   const dispatch = useDispatch();

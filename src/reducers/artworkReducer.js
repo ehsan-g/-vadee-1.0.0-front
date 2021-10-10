@@ -11,6 +11,9 @@ import {
   ARTWORK_UPDATE_SUCCESS,
   ARTWORK_UPDATE_FAIL,
   ARTWORK_UPDATE_RESET,
+  CATEGORY_LIST_REQUEST,
+  CATEGORY_LIST_SUCCESS,
+  CATEGORY_LIST_FAIL,
 } from '../constants/artworkConstants';
 
 export const artworkReducer = (state = { artwork: {} }, action) => {
@@ -54,6 +57,19 @@ export const artworkCreateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case ARTWORK_CREATE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const categoriesReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CATEGORY_LIST_REQUEST:
+      return { loading: true };
+    case CATEGORY_LIST_SUCCESS:
+      return { loading: false, success: true, categories: action.payload };
+    case CATEGORY_LIST_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

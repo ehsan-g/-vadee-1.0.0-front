@@ -4,10 +4,10 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-plusplus */
 import { makeStyles } from '@mui/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
-import { Grid, Box, Paper, Hidden } from '@mui/material';
+import { Grid, Paper, Hidden } from '@mui/material';
 import ArtCard from '../ArtCard';
 import Loader from '../Loader';
 import Message from '../Message';

@@ -11,7 +11,6 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { favArtwork } from '../actions/userAction';
-import { ARTWORK_LIST_RESET } from '../constants/artworkConstants';
 
 export default function ArtCard({ artwork }) {
   const dispatch = useDispatch();

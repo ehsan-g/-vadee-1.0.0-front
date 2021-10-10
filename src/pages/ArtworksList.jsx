@@ -4,17 +4,20 @@ import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
-import { Grid, Box, Paper, Hidden, Container } from '@mui/material';
+import { Grid, Box, Paper, Hidden, Container, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Divider from '@mui/material/Divider';
 import ArtCard from '../components/ArtCard';
-import { fetchAllArtWorks } from '../actions/artworkAction';
+import { fetchAllArtWorks, fetchCategories } from '../actions/artworkAction';
 import { cleanLocalCart } from '../actions/cartAction';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { ARTWORK_DETAILS_RESET } from '../constants/artworkConstants';
 import SideFilter from '../components/SideFilter';
+import { fetchArticlesList } from '../actions/articleAction';
+import { filterByRegion } from '../actions/filterAction';
+import { fetchArtistList } from '../actions/artistAction';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,17 +43,32 @@ function ArtworksList() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const favArtwork = useSelector((state) => state.favArtwork);
+  const { artworkId } = favArtwork;
+
   const artworksList = useSelector((state) => state.artworks);
   const { error, loading, artworks, pages } = artworksList;
 
-  const favArtwork = useSelector((state) => state.favArtwork);
-  const { artworkId } = favArtwork;
+  const articlesList = useSelector((state) => state.articlesList);
+  const { articles, success: successArticles } = articlesList;
+
+  const filterOrigin = useSelector((state) => state.filterOrigin);
+  const { origins, success: successOrigins } = filterOrigin;
+
+  const artistList = useSelector((state) => state.artistList);
+  const { artists, success: successArtistList } = artistList;
+
+  const categoryList = useSelector((state) => state.categoryList);
+  const { categories, success: successCategories } = categoryList;
 
   let keyword = history.location.search;
 
   useEffect(() => {
     dispatch(fetchAllArtWorks(keyword));
-  }, [dispatch, keyword, artworkId]);
+    if (!successArticles) {
+      dispatch(fetchArticlesList());
+    }
+  }, [dispatch, keyword, artworkId, successArticles]);
 
   // clean up
   useEffect(() => {
@@ -60,6 +78,21 @@ function ArtworksList() {
       dispatch(cleanLocalCart());
     };
   }, [dispatch]);
+
+  //  filter
+  useEffect(() => {
+    if (!successOrigins) {
+      dispatch(filterByRegion());
+    }
+    if (!successArtistList) {
+      dispatch(fetchArtistList());
+    }
+    if (!successCategories) {
+      dispatch(fetchCategories());
+    }
+  }, [successOrigins, successArtistList, successCategories, dispatch, history]);
+
+  useEffect(() => {}, [successArtistList, dispatch]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -73,29 +106,40 @@ function ArtworksList() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      {!artworks ? (
+      {loading ? (
         <Loader />
-      ) : error ? (
-        <Message variant="outlined" severity="error">
-          {error}
-        </Message>
       ) : (
         <Container>
-          <Grid container direction="row">
-            <Grid xs item>
-              hi
-            </Grid>
-            <Grid xs={10} item>
-              hi
-            </Grid>
-          </Grid>
+          {successArticles && articles[0] && (
+            <Paper className={classes.paper} elevation={0}>
+              <Grid container direction="row">
+                <Grid xs={12} sm={2} item>
+                  <Typography sx={{ fontWeight: 'bold' }}>
+                    {articles[0].title}
+                  </Typography>
+                </Grid>
+                <Grid xs={12} sm={8} md={6} item>
+                  <Typography variant="body1">{articles[0].content}</Typography>
+                </Grid>
+              </Grid>
+            </Paper>
+          )}
+
           <Grid container direction="row">
             <Grid item xs sx={{ marginTop: 0 }}>
               <Divider style={{ margin: 'auto' }} variant="middle" />
-              <SideFilter name="مدیوم" />
-              <SideFilter name="سایز" />
-              <SideFilter name="قیمت" />
-              <SideFilter name="تعداد" />
+              {origins && origins.origins && (
+                <SideFilter title="Region" list={origins.origins} />
+              )}
+              {artists && artists[0] && (
+                <SideFilter title="Artist" list={artists} />
+              )}
+              {categories && categories[0] && (
+                <SideFilter title="Genres" list={categories} />
+              )}
+              {artists && artists[0] && (
+                <SideFilter title="Price" list={artists} />
+              )}
             </Grid>
             <Grid item xs={10} className={classes.root}>
               <Box sx={{ overflowY: 'scroll' }}>
@@ -106,9 +150,10 @@ function ArtworksList() {
                   gap={30}
                   sx={{ paddingRight: 5 }}
                 >
-                  {artworks.map((artwork) => (
-                    <ArtCard key={artwork._id} artwork={artwork} />
-                  ))}
+                  {artworks &&
+                    artworks.map((artwork) => (
+                      <ArtCard key={artwork._id} artwork={artwork} />
+                    ))}
                 </ImageList>
               </Box>
               <Grid>
@@ -128,19 +173,38 @@ function ArtworksList() {
             <Hidden smUp>
               <Grid container>
                 <Paper className={classes.responsive} elevation={0}>
-                  {artworks.map((artwork) => (
-                    <Grid key={artwork._id}>
-                      <Paper className={classes.paper}>
-                        <ArtCard artwork={artwork} />
-                      </Paper>
-                    </Grid>
-                  ))}
+                  {artworks &&
+                    artworks.map((artwork) => (
+                      <Grid key={artwork._id}>
+                        <Paper className={classes.paper}>
+                          <ArtCard artwork={artwork} />
+                        </Paper>
+                      </Grid>
+                    ))}
                 </Paper>
               </Grid>
             </Hidden>
           </Grid>
         </Container>
       )}
+      {error ? (
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item>
+            <Message
+              variant="outlined"
+              severity="error"
+              sx={{ margin: 'auto' }}
+            >
+              {error}
+            </Message>
+          </Grid>
+        </Grid>
+      ) : null}
     </div>
   );
 }

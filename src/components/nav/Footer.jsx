@@ -13,7 +13,6 @@ import { styled } from '@mui/material/styles';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FormControl from '@mui/material/FormControl';
-import { green } from '@mui/material/colors';
 
 const Root = styled('div')(({ theme }) => ({
   [theme.breakpoints.down('md')]: {

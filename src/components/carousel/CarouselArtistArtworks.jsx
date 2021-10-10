@@ -117,12 +117,8 @@ export default function CarouselArtistArtworks({ artistId }) {
     <Grid className={classes.root}>
       {success && (
         <Slider {...settings} style={{ position: 'unset' }}>
-          {artworks.map((artwork) => (
-            <div
-              className="artworks-images"
-              key={artwork.title}
-              style={{ width: 300 }}
-            >
+          {artworks.map((artwork, index) => (
+            <div className="artworks-images" key={index} style={{ width: 300 }}>
               <img
                 srcSet={`${artwork.image}?w=164&h=164&fit=crop&auto=format 2x,
                   ${artwork.image}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
