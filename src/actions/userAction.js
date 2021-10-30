@@ -198,7 +198,7 @@ export const favArtwork = (artworkId) => async (dispatch, getState) => {
     };
 
     const { data } = await artworksBase.put(
-      `users/favorite/${artworkId}/`,
+      `users/artwork/favorite/${artworkId}/`,
       {}, // since there is no form we need this
       config
     );
@@ -233,7 +233,10 @@ export const fetchFavArtworkList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await artworksBase.get(`users/profile/favorites/`, config);
+    const { data } = await artworksBase.get(
+      `users/profile/artworks/favorites/`,
+      config
+    );
 
     dispatch({
       type: USER_FAVORITE_ARTWORK_LIST_SUCCESS,

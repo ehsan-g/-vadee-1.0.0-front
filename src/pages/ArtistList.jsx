@@ -4,7 +4,15 @@ import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
-import { Grid, Box, Paper, Hidden, Container, Typography } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Paper,
+  Hidden,
+  Container,
+  Typography,
+  IconButton,
+} from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Divider from '@mui/material/Divider';
@@ -38,20 +46,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ArtworksList() {
+const alphabets = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'U',
+  'R',
+  'S',
+  'T',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+];
+function ArtistList() {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [page, setPage] = useState(1);
 
-  const favArtwork = useSelector((state) => state.favArtwork);
-  const { artworkId } = favArtwork;
-
   const artworksList = useSelector((state) => state.artworks);
   const { error, loading, artworks, pages } = artworksList;
-
-  const articlesList = useSelector((state) => state.articlesList);
-  const { articles, success: successArticles } = articlesList;
 
   const filterOrigin = useSelector((state) => state.filterOrigin);
   const { origins, success: successOrigins } = filterOrigin;
@@ -61,15 +91,6 @@ function ArtworksList() {
 
   const categoryList = useSelector((state) => state.categoryList);
   const { categories, success: successCategories } = categoryList;
-
-  let keyword = history.location.search;
-
-  useEffect(() => {
-    dispatch(fetchAllArtWorks(keyword));
-    if (!successArticles) {
-      dispatch(fetchArticlesList());
-    }
-  }, [dispatch, keyword, artworkId, successArticles]);
 
   // clean up
   useEffect(() => {
@@ -93,14 +114,27 @@ function ArtworksList() {
     }
   }, [successOrigins, successArtistList, successCategories, dispatch, history]);
 
-  useEffect(() => {}, [successArtistList, dispatch]);
+  // keyword
+  useEffect(() => {
+    let keyword = history.location.search;
+    if (keyword && keyword.split('?regions=')[1]) {
+      keyword = keyword.split('?regions=')[1].split('&')[0]; // example: ?regions=iran&page=1  ===> iran
+    }
+    if (keyword && keyword.split('?artist=')[1]) {
+      keyword = keyword.split('?artist=')[1].split('&')[0]; // example: ?artist=اکبر&page=1  ===> اکبر
+    }
+    if (keyword && keyword.split('?category=')[1]) {
+      keyword = keyword.split('?category=')[1].split('&')[0]; // example: ?artist=اکبر&page=1  ===> اکبر
+    }
+
+    if (!successArtistList) {
+      dispatch(fetchAllArtWorks(keyword));
+      dispatch(fetchArtistList(keyword));
+    }
+  }, [dispatch, history]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    if (keyword) {
-      keyword = keyword.split('?keyword=')[1].split('&')[0]; // example: ?keyword=اکبر&page=1  ===> اکبر
-    }
-    history.push(`/artworks/?keyword=${keyword}&page=${value}`);
   };
 
   const classes = useStyles();
@@ -111,21 +145,20 @@ function ArtworksList() {
         <Loader />
       ) : (
         <Container>
-          {successArticles && articles[0] && (
-            <Paper className={classes.paper} elevation={0}>
-              <Grid container direction="row">
-                <Grid xs={12} sm={2} item>
-                  <Typography sx={{ fontWeight: 'bold' }}>
-                    {articles[0].title}
-                  </Typography>
-                </Grid>
-                <Grid xs={12} sm={8} md={6} item>
-                  <Typography variant="body1">{articles[0].content}</Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          )}
-
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ padding: 5 }}
+          >
+            {alphabets &&
+              alphabets.map((alphabet, index) => (
+                <IconButton key={index}>
+                  <Typography variant="subtitle1"> {alphabet}</Typography>
+                </IconButton>
+              ))}
+          </Grid>
           <Grid container direction="row">
             <Grid item xs sx={{ marginTop: 0 }}>
               <Divider style={{ margin: 'auto' }} variant="middle" />
@@ -133,17 +166,17 @@ function ArtworksList() {
                 <SideFilter
                   title="Region"
                   list={origins.origins}
-                  kind="artworks"
+                  kind="artists"
                 />
               )}
               {artists && artists[0] && (
-                <SideFilter title="Artist" list={artists} kind="artworks" />
+                <SideFilter title="Artist" list={artists} kind="artists" />
               )}
               {categories && categories[0] && (
-                <SideFilter title="Genres" list={categories} kind="artworks" />
+                <SideFilter title="Genres" list={categories} kind="artists" />
               )}
               {artists && artists[0] && (
-                <SideFilter title="Price" list={artists} kind="artworks" />
+                <SideFilter title="Price" list={artists} kind="artists" />
               )}
             </Grid>
             <Grid item xs={10} className={classes.root}>
@@ -214,4 +247,4 @@ function ArtworksList() {
   );
 }
 
-export default ArtworksList;
+export default ArtistList;

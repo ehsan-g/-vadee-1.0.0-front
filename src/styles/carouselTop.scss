@@ -4,19 +4,19 @@
   li {
     margin: 0.1rem;
     width: 10px;
-    button  {
+    button {
       margin: 0;
       padding: 0;
-     }
-    button:before  {
-      color: #99CCCC;
+    }
+    button:before {
+      color: #99cccc;
       opacity: 1;
-      content: ' \25A0';
+      content: " \25A0";
       font-size: 1rem;
     }
   }
   li.slick-active button:before {
-    color: #A2A28F;
+    color: #a2a28f;
   }
 }
 
@@ -28,21 +28,21 @@
     position: absolute;
     width: 100%;
     text-align: left;
-    top: 20px;
+    top: 50px;
     left: 50px;
   }
   h5 {
     position: absolute;
     width: 100%;
     text-align: left;
-    top: 38px;
+    top: 65px;
     left: 50px;
   }
   h4 {
     position: absolute;
     width: 100%;
     text-align: left;
-    top: 65px;
+    top: 90px;
     left: 50px;
     font-weight: bolder;
   }
@@ -50,13 +50,11 @@
     position: absolute;
     width: 100%;
     text-align: left;
-    top: 250px;
+    top: 400px;
     left: 50px;
     font-weight: bold;
-
   }
   a {
-    color: #99CCCC,;
+    color: white;
   }
 }
-

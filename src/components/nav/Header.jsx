@@ -43,7 +43,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   // marginTop: 4,
   color: 'inherit',
   border: 'solid 1px #A2A28F',
-  height: 30,
+  height: 35,
   width: '98%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -70,7 +70,7 @@ const Header = () => {
   }, [location, history]);
 
   const handleNavigation = (value) => {
-    if (value === 'photographers') {
+    if (value === 'artists') {
       setCurrent(0);
       history.push(`/${value}`);
     } else if (value === 'artworks') {
@@ -87,13 +87,13 @@ const Header = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ marginTop: 5, marginBottom: 5 }}>
+    <Container maxWidth="xl" sx={{ marginTop: 5, marginBottom: 5 }}>
       {isHeader && (
         <>
           <AppBar position="static" elevation={0}>
             <Toolbar>
               <Grid container direction="row">
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                   <img
                     src="/static/logo.svg"
                     alt="logo"
@@ -103,7 +103,7 @@ const Header = () => {
                     Change you lense, change your story
                   </Typography>
                 </Grid>
-                <Grid item xs={7} md={6}>
+                <Grid item xs={8} md={8}>
                   <Search>
                     <SearchIconWrapper>
                       <SearchIcon color="primary" />
@@ -170,7 +170,7 @@ const Header = () => {
               <Grid item>
                 <Link
                   to="#"
-                  onClick={() => handleNavigation('photographers')}
+                  onClick={() => handleNavigation('artists')}
                   style={{ color: current === 0 ? '#99CCCC' : 'black' }}
                 >
                   <Typography variant="body2" sx={{ padding: 1 }}>

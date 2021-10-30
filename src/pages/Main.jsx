@@ -1,16 +1,23 @@
 /* eslint-disable prefer-destructuring */
 import React, { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import { Typography, CardActionArea, Button, Box } from '@mui/material';
+import {
+  Typography,
+  CardActionArea,
+  Button,
+  Box,
+  Container,
+  Stack,
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import { fetchAllArtWorks } from '../actions/artworkAction';
+import { fetchAllArtWorks, fetchCategories } from '../actions/artworkAction';
 import { cleanLocalCart } from '../actions/cartAction';
 import { ARTWORK_DETAILS_RESET } from '../constants/artworkConstants';
 import CarouselTop from '../components/carousel/CarouselTop';
 import CarouselArtistArtworks from '../components/carousel/CarouselArtistArtworks';
-import CarouselPopular from '../components/carousel/CarouselPopular';
+import CarouselCategories from '../components/carousel/CarouselCategories';
 import CarouselArtist from '../components/carousel/CarouselArtist';
 import CarouselCategory from '../components/carousel/CarouselCategory';
 
@@ -18,14 +25,8 @@ const Main = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    dispatch(cleanLocalCart());
-    dispatch({ type: ARTWORK_DETAILS_RESET });
-    return () => {
-      dispatch(cleanLocalCart());
-    };
-  }, [dispatch]);
-
+  const categoryList = useSelector((state) => state.categoryList);
+  const { categories, success: successCategories } = categoryList;
   const artworksList = useSelector((state) => state.artworks);
   const {
     error: errorArtworkList,
@@ -35,10 +36,25 @@ const Main = () => {
 
   const keyword = history.location.search;
 
+  // artworks
   useEffect(() => {
     dispatch(fetchAllArtWorks(keyword));
   }, [dispatch, keyword]);
 
+  useEffect(() => {
+    dispatch(cleanLocalCart());
+    dispatch({ type: ARTWORK_DETAILS_RESET });
+    return () => {
+      dispatch(cleanLocalCart());
+    };
+  }, [dispatch]);
+
+  //  categories
+  useEffect(() => {
+    if (!successCategories) {
+      dispatch(fetchCategories());
+    }
+  }, [successCategories, dispatch, history]);
   return (
     <Grid
       container
@@ -55,7 +71,7 @@ const Main = () => {
         direction="row"
         justifyContent="space-around"
         sx={{
-          backgroundColor: '#A2A28F',
+          backgroundColor: '#d1d3c8',
           minHeight: '35vh',
           width: '100%',
         }}
@@ -75,68 +91,20 @@ const Main = () => {
         justifyContent="space-around"
         sx={{
           minHeight: '35vh',
-          width: '100%',
+          width: '90%',
         }}
       >
         <Grid item xs={1} sx={{ marginTop: 8 }}>
-          <Typography variant="h6">Photos by</Typography>
-          <Typography variant="h6">Popular</Typography>
-          <Typography variant="h6">Photographers</Typography>
+          <Typography variant="h6">Featured</Typography>
+          <Typography variant="h6">Categories</Typography>
         </Grid>
-        <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 300 }}>
-          <CarouselPopular />
-        </Grid>
+        {successCategories && (
+          <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 300 }}>
+            <CarouselCategories categories={categories} />
+          </Grid>
+        )}
       </Grid>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        sx={{
-          color: 'white',
-          backgroundColor: 'black',
-          minHeight: '30vh',
-          width: '100%',
-        }}
-      >
-        <Grid item xs={5}>
-          <Typography variant="h6">Most Recently viewed</Typography>
-          <Typography variant="h3">Artist Name</Typography>
-          <Typography variant="h6">Title</Typography>
-          <br />
-          <Typography variant="span">Browse Works</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Card sx={{ maxWidth: 250, maxHeight: 130 }}>
-            <CardActionArea>
-              <img
-                style={{ height: '100%', width: '100%' }}
-                srcSet={`/static/20091127124116_shadi_ghadirian_qajar_vacuum.jpeg?w=164&h=164&fit=crop&auto=format 1x,
-              /static/20091127124116_shadi_ghadirian_qajar_vacuum.jpeg?w=250&h=180&fit=crop&auto=format&dpr=2 2x`}
-                alt=""
-                loading="lazy"
-              />
-            </CardActionArea>
-          </Card>
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-around"
-        sx={{
-          minHeight: '35vh',
-          width: '100%',
-        }}
-      >
-        <Grid item xs={1} sx={{ marginTop: 8 }}>
-          <Typography variant="h6">New Artists</Typography>
-        </Grid>
-        <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 280 }}>
-          <CarouselArtist />
-        </Grid>
-      </Grid>
-
+      {/* Categories */}
       <Grid item xs={6} sx={{ marginTop: 8, maxWidth: '80% !important' }}>
         <Box
           component="div"
@@ -147,16 +115,57 @@ const Main = () => {
             overflowX: 'scroll',
           }}
         >
-          {/* <Stack direction="row" spacing={1}> */}
-          {/* {itemData.map((item) => (
-              <Button key={item.title} color="secondary" variant="contained">
-                {item.title}
-              </Button>
-            ))} */}
-          {/* </Stack> */}
+          <Stack direction="row" spacing={1}>
+            {categories &&
+              categories.map((category) => (
+                <Button
+                  key={category.title}
+                  color="secondary"
+                  variant="contained"
+                >
+                  {category.title}
+                </Button>
+              ))}
+          </Stack>
         </Box>
       </Grid>
-
+      {/* Last artwork */}
+      <Container maxWidth="xl" sx={{ padding: '0 !important' }}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          sx={{
+            color: 'white',
+            backgroundColor: 'black',
+            minHeight: '30vh',
+            width: '100%',
+            padding: 5,
+          }}
+        >
+          <Grid item xs={5}>
+            <Typography variant="h6">Most Recently viewed</Typography>
+            <Typography variant="h3">Artist Name</Typography>
+            <Typography variant="h6">Title</Typography>
+            <br />
+            <Typography variant="span">Browse Works</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Card sx={{ maxWidth: 250, maxHeight: 130 }}>
+              <CardActionArea>
+                <img
+                  style={{ height: '100%', width: '100%' }}
+                  srcSet={`/static/20091127124116_shadi_ghadirian_qajar_vacuum.jpeg?w=164&h=164&fit=crop&auto=format 1x,
+              /static/20091127124116_shadi_ghadirian_qajar_vacuum.jpeg?w=250&h=180&fit=crop&auto=format&dpr=2 2x`}
+                  alt=""
+                  loading="lazy"
+                />
+              </CardActionArea>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
       <Grid
         container
         direction="column"

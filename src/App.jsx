@@ -13,6 +13,7 @@ import Footer from './components/nav/Footer';
 import ArtworksList from './pages/ArtworksList';
 import ArtWork from './pages/ArtWork';
 import UserProfile from './pages/UserProfile';
+import ArtistList from './pages/ArtistList';
 
 const App = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const App = () => {
             <Route exact path="/" component={Main} />
             <Route path="/artworks/:workId" component={ArtWork} />
             <Route path="/artworks/" component={ArtworksList} />
+            <Route path="/artists/" component={ArtistList} />
             <Route exact path="/users/profile" component={UserProfile} />
 
             {/* <Route

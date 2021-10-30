@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import Checkbox from '@mui/material/Checkbox';
 import { useHistory } from 'react-router-dom';
 
-export default function SideFilter({ title, list }) {
+export default function SideFilter({ title, list, kind }) {
   const history = useHistory();
   const dispatch = useDispatch();
   console.log(list);
@@ -47,15 +47,15 @@ export default function SideFilter({ title, list }) {
     setValue(e.target.name);
     if (item.country) {
       const country = e.target.name;
-      history.push(`/artworks/?regions=${country.toLowerCase()}`); // filter after push
+      history.push(`/${kind}/?regions=${country.toLowerCase()}`); // filter after push
     }
     if (item.firstName) {
       const artist = e.target.name;
-      history.push(`/artworks/?artist=${artist.toLowerCase()}`); // filter after push
+      history.push(`/${kind}/?artist=${artist.toLowerCase()}`); // filter after push
     }
     if (item.name) {
       const category = e.target.name;
-      history.push(`/artworks/?category=${category}`); // filter after push
+      history.push(`/${kind}/?category=${category}`); // filter after push
     }
   };
 
@@ -115,4 +115,5 @@ export default function SideFilter({ title, list }) {
 SideFilter.propTypes = {
   title: PropTypes.string.isRequired,
   list: PropTypes.array,
+  kind: PropTypes.string.isRequired, // push to artwork or artist url
 };
