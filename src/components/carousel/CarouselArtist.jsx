@@ -51,6 +51,7 @@ export default function CarouselArtist() {
       },
     ],
   };
+
   return (
     <Slider {...settings}>
       {success &&

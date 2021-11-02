@@ -21,7 +21,6 @@ import { useHistory } from 'react-router-dom';
 export default function SideFilter({ title, list, kind }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log(list);
 
   const [value, setValue] = useState();
 

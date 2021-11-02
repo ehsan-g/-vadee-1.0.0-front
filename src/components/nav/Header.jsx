@@ -56,7 +56,7 @@ const Header = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [isHeader, setIsHeader] = useState(true);
@@ -94,16 +94,21 @@ const Header = () => {
             <Toolbar>
               <Grid container direction="row">
                 <Grid item xs={12} md={3}>
-                  <img
-                    src="/static/logo.svg"
-                    alt="logo"
-                    style={{ width: '80%' }}
-                  />
-                  <Typography variant="subtitle1" color="primary">
-                    Change you lense, change your story
-                  </Typography>
+                  <Link
+                    to="/"
+                    style={{ color: current === 0 ? '#99CCCC' : 'black' }}
+                  >
+                    <img
+                      src="/static/logo.svg"
+                      alt="logo"
+                      style={{ width: '80%' }}
+                    />
+                    <Typography variant="subtitle1" color="primary">
+                      Change you lense, change your story
+                    </Typography>
+                  </Link>
                 </Grid>
-                <Grid item xs={8} md={8}>
+                <Grid item xs={8} md={7}>
                   <Search>
                     <SearchIconWrapper>
                       <SearchIcon color="primary" />
@@ -168,34 +173,40 @@ const Header = () => {
           >
             <Grid item xs={12} container direction="row">
               <Grid item>
-                <Link
-                  to="#"
-                  onClick={() => handleNavigation('artists')}
-                  style={{ color: current === 0 ? '#99CCCC' : 'black' }}
-                >
-                  <Typography variant="body2" sx={{ padding: 1 }}>
+                <Link to="#" onClick={() => handleNavigation('artists')}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      padding: 1,
+                      color: current === 0 ? '#99CCCC' : 'black',
+                    }}
+                  >
                     Photographers
                   </Typography>
                 </Link>
               </Grid>
               <Grid item>
-                <Link
-                  to="#"
-                  onClick={() => handleNavigation('artworks')}
-                  style={{ color: current === 1 ? '#99CCCC' : 'black' }}
-                >
-                  <Typography variant="body2" sx={{ padding: 1 }}>
+                <Link to="#" onClick={() => handleNavigation('artworks')}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      padding: 1,
+                      color: current === 1 ? '#99CCCC' : 'black',
+                    }}
+                  >
                     Artworks
                   </Typography>
                 </Link>
               </Grid>
               <Grid item>
-                <Link
-                  to="#"
-                  onClick={() => handleNavigation('regions')}
-                  style={{ color: current === 2 ? '#99CCCC' : 'black' }}
-                >
-                  <Typography variant="body2" sx={{ padding: 1 }}>
+                <Link to="#" onClick={() => handleNavigation('regions')}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      padding: 1,
+                      color: current === 2 ? '#99CCCC' : 'black',
+                    }}
+                  >
                     Regions
                   </Typography>
                 </Link>

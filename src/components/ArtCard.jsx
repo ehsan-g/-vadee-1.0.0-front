@@ -1,5 +1,4 @@
 /* eslint-disable no-plusplus */
-/* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -10,9 +9,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { favArtwork } from '../actions/userAction';
 
-export default function ArtCard({ artwork }) {
+export default function ArtCard({ data }) {
+  console.log(data);
   const dispatch = useDispatch();
 
   const [isFav, setIsFav] = useState(false);
@@ -20,17 +21,18 @@ export default function ArtCard({ artwork }) {
   const userDetails = useSelector((state) => state.userDetails);
   const { user } = userDetails;
 
+  // favorite artworks
   useEffect(() => {
     if (user) {
-      for (let i = 0; i < artwork.favorites.length; i++) {
-        if (artwork.favorites[i] === user._id) {
+      for (let i = 0; i < data.favorites.length; i++) {
+        if (data.favorites[i] === user._id) {
           setIsFav(true);
         } else {
           setIsFav(true);
         }
       }
     }
-  }, [user, artwork]);
+  }, [user, data]);
 
   return (
     <Grid
@@ -47,35 +49,79 @@ export default function ArtCard({ artwork }) {
           style={{ background: 'transparent' }}
           actionPosition="right"
           actionIcon={
-            <IconButton
-              onClick={() => dispatch(favArtwork(artwork._id))}
-              aria-label={`star ${artwork.title}`}
-              style={{ zIndex: 10, bottom: '70px' }}
-            >
-              {isFav ? <FavoriteIcon /> : <FavoriteBorder color="primary" />}
-            </IconButton>
+            data.artist ? (
+              <IconButton
+                onClick={() => dispatch(favArtwork(data._id))}
+                aria-label={`star ${data.title}`}
+                style={{ zIndex: 10, bottom: '70px' }}
+              >
+                {isFav ? <FavoriteIcon /> : <FavoriteBorder color="primary" />}
+              </IconButton>
+            ) : (
+              <IconButton
+                // onClick={() => dispatch(favArtwork(data._id))}
+                aria-label={`star ${data.title}`}
+                style={{ zIndex: 10, bottom: '70px' }}
+              >
+                {/* {isFav ? <FavoriteIcon /> : <FavoriteBorder color="primary" />} */}
+              </IconButton>
+            )
           }
         />
-        <Link
-          style={{ position: 'absolute', width: '100%', height: '100%' }}
-          to={`/artworks/${artwork._id}`}
-        />
-        <img
-          srcSet={`${artwork.image}?w=161&fit=crop&auto=format 1x,
-                  ${artwork.image}?w=161&fit=crop&auto=format&dpr=2 2x`}
-          alt={artwork.title}
-          loading="lazy"
-        />
-        <Typography variant="h6">
-          {artwork.artist.firstName} {artwork.artist.lastName}
-        </Typography>
-        <Typography variant="subtitle1" sx={{ width: '100%', margin: 0 }}>
-          {artwork.title}
-        </Typography>
-        <Typography variant="subtitle1" sx={{ width: '100%', margin: 0 }}>
-          ${artwork.price}
-        </Typography>
+        {data.artist ? (
+          <Link
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            to={`/artworks/${data._id}`}
+          />
+        ) : (
+          <Link
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            to={`/artists/${data._id}`}
+          />
+        )}
+        {data.artist ? (
+          <img
+            srcSet={`${data.image}?w=161&fit=crop&auto=format 1x,
+                  ${data.image}?w=161&fit=crop&auto=format&dpr=2 2x`}
+            alt={data.title}
+            loading="lazy"
+          />
+        ) : (
+          <img
+            srcSet={`${data.photo}?w=161&fit=crop&auto=format 1x,
+                ${data.photo}?w=161&fit=crop&auto=format&dpr=2 2x`}
+            alt={data.firstName}
+            loading="lazy"
+          />
+        )}
+        {data.artist ? (
+          <Typography variant="h6">
+            {data.artist.firstName} {data.artist.lastName}
+          </Typography>
+        ) : (
+          <Typography variant="h6">
+            {data.firstName} {data.lastName}
+          </Typography>
+        )}
+        {data.artist ? (
+          <Typography variant="subtitle1" sx={{ width: '100%', margin: 0 }}>
+            {data.title}
+          </Typography>
+        ) : (
+          <Typography variant="subtitle1" sx={{ width: '100%', margin: 0 }}>
+            {data.nationality}
+          </Typography>
+        )}
+        {data.artist && (
+          <Typography variant="subtitle1" sx={{ width: '100%', margin: 0 }}>
+            ${data.price}
+          </Typography>
+        )}
       </ImageListItem>
     </Grid>
   );
 }
+
+ArtCard.propTypes = {
+  data: PropTypes.object.isRequired, // artist or artwork
+};

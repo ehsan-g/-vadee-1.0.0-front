@@ -23,7 +23,6 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { ARTWORK_DETAILS_RESET } from '../constants/artworkConstants';
 import SideFilter from '../components/SideFilter';
-import { fetchArticlesList } from '../actions/articleAction';
 import { filterByRegion } from '../actions/filterAction';
 import { fetchArtistList } from '../actions/artistAction';
 
@@ -91,7 +90,6 @@ function ArtistList() {
 
   const categoryList = useSelector((state) => state.categoryList);
   const { categories, success: successCategories } = categoryList;
-
   // clean up
   useEffect(() => {
     dispatch(cleanLocalCart());
@@ -169,14 +167,9 @@ function ArtistList() {
                   kind="artists"
                 />
               )}
-              {artists && artists[0] && (
-                <SideFilter title="Artist" list={artists} kind="artists" />
-              )}
+
               {categories && categories[0] && (
                 <SideFilter title="Genres" list={categories} kind="artists" />
-              )}
-              {artists && artists[0] && (
-                <SideFilter title="Price" list={artists} kind="artists" />
               )}
             </Grid>
             <Grid item xs={10} className={classes.root}>
@@ -188,9 +181,9 @@ function ArtistList() {
                   gap={30}
                   sx={{ paddingRight: 5 }}
                 >
-                  {artworks &&
-                    artworks.map((artwork) => (
-                      <ArtCard key={artwork._id} artwork={artwork} />
+                  {artists &&
+                    artists.map((artist) => (
+                      <ArtCard key={artist._id} data={artist} />
                     ))}
                 </ImageList>
               </Box>
@@ -211,11 +204,11 @@ function ArtistList() {
             <Hidden smUp>
               <Grid container>
                 <Paper className={classes.responsive} elevation={0}>
-                  {artworks &&
-                    artworks.map((artwork) => (
+                  {artists &&
+                    artists.map((artwork) => (
                       <Grid key={artwork._id}>
                         <Paper className={classes.paper}>
-                          <ArtCard artwork={artwork} />
+                          <ArtCard data={artwork} />
                         </Paper>
                       </Grid>
                     ))}

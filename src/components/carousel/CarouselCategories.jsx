@@ -36,12 +36,11 @@ function SampleNextArrow(props) {
 }
 
 export default function CarouselCategories({ categories }) {
-  console.log(categories);
   const settings = {
     className: 'center',
     dots: false,
     infinite: true,
-    slidesToShow: 4,
+    slidesToShow: 3,
     slidesToScroll: 1,
     variableWidth: true,
     nextArrow: <SampleNextArrow />,
@@ -76,11 +75,11 @@ export default function CarouselCategories({ categories }) {
       <div>
         <Slider {...settings}>
           {categories.map(
-            (category) =>
+            (category, index) =>
               category.is_featured && (
                 <Grid
                   className="mid-images"
-                  key={category.title}
+                  key={index}
                   sx={{ padding: 2, textAlign: 'left' }}
                 >
                   <Card sx={{ width: 260 }} elevation={0}>

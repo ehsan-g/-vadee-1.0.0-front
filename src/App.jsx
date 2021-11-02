@@ -10,10 +10,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Main from './pages/Main';
 import Header from './components/nav/Header';
 import Footer from './components/nav/Footer';
-import ArtworksList from './pages/ArtworksList';
-import ArtWork from './pages/ArtWork';
+import ArtworksList from './pages/ArtworkList';
+import Artwork from './pages/Artwork';
 import UserProfile from './pages/UserProfile';
 import ArtistList from './pages/ArtistList';
+import Artist from './pages/Artist';
 
 const App = () => {
   const location = useLocation();
@@ -27,16 +28,13 @@ const App = () => {
         <React.StrictMode>
           <Switch>
             <Route exact path="/" component={Main} />
-            <Route path="/artworks/:workId" component={ArtWork} />
+            <Route path="/artworks/:workId" component={Artwork} />
             <Route path="/artworks/" component={ArtworksList} />
+            <Route path="/artists/:artistId" component={Artist} />
             <Route path="/artists/" component={ArtistList} />
             <Route exact path="/users/profile" component={UserProfile} />
 
-            {/* <Route
-            path="/admin-panel/artwork/:artworkId/edit"
-            component={ArtworkEdit}
-          />
-          <Route path="/cart/shippingAddress/:workId?" component={Cart} />
+            {/* <Route path="/cart/shippingAddress/:workId?" component={Cart} />
           <Route path="/cart/placeOrder/:workId?" component={Cart} />
           <Route path="/orders/:orderId" component={Cart} />
           <Route exact path="/login" component={EnterForm} />

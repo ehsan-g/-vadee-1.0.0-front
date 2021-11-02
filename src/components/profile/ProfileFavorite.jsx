@@ -62,7 +62,7 @@ function FavoriteList() {
                 sx={{ paddingRight: 5 }}
               >
                 {favArtworks.favorites.map((artwork) => (
-                  <ArtCard key={artwork._id} artwork={artwork} />
+                  <ArtCard key={artwork._id} data={artwork} />
                 ))}
               </ImageList>
             </Grid>

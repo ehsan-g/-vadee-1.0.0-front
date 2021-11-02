@@ -12,11 +12,11 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import { fetchArtistById } from '../../actions/artistAction';
+import { fetchArtistById, fetchArtistList } from '../../actions/artistAction';
 
 const useStyles = makeStyles(() => ({
   root: {
-    maxWidth: '80%',
+    // maxWidth: '80%',
     position: 'relative',
     // overflowX: 'scroll',
     '&::-webkit-scrollbar': {
@@ -60,7 +60,7 @@ function SamplePrevArrow(props) {
       fontSize="large"
       className={className}
       style={{
-        display: 'block',
+        display: 'none',
         color: 'black',
         margin: 2,
         left: 0,
@@ -70,33 +70,33 @@ function SamplePrevArrow(props) {
   );
 }
 
-export default function CarouselArtistArtworks({ artistId }) {
+export default function CarouselArtistList() {
   const dispatch = useDispatch();
 
-  const theArtist = useSelector((state) => state.theArtist);
-  const { error, loading, artist, success } = theArtist;
+  const artistList = useSelector((state) => state.artistList);
+  const { artists, success: successArtistList } = artistList;
 
   useEffect(() => {
-    if (!success) {
-      dispatch(fetchArtistById(artistId));
+    if (!successArtistList) {
+      dispatch(fetchArtistList());
     }
-  }, [success, dispatch, artistId]);
+  }, [dispatch, successArtistList]);
 
   const settings = {
     className: 'slider variable-width',
     dots: false,
     infinite: true,
     centerMode: true,
-    slidesToShow: 1,
+    slidesToShow: 6,
     slidesToScroll: 1,
-    variableWidth: true,
+    // variableWidth: true,
     nextArrow: <SampleNextArrow />,
-    // prevArrow: <SamplePrevArrow />,
+    prevArrow: <SamplePrevArrow />,
     responsive: [
       {
-        breakpoint: 900,
+        breakpoint: 980,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },
@@ -114,17 +114,22 @@ export default function CarouselArtistArtworks({ artistId }) {
 
   return (
     <Grid className={classes.root}>
-      {success && (
+      {successArtistList && (
         <Slider {...settings} style={{ position: 'unset' }}>
-          {artist.artworks.map((artwork, index) => (
-            <div className="artworks-images" key={index} style={{ width: 300 }}>
-              <img
-                srcSet={`${artwork.image}?w=164&h=164&fit=crop&auto=format 2x,
-                  ${artwork.image}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
-                alt={artwork.title}
-                loading="lazy"
-                style={{ maxWidth: 250, marginBottom: 20 }}
-              />
+          {artists.map((artist, index) => (
+            <div
+              className="artworks-images"
+              key={index}
+              style={{ height: '80px' }}
+            >
+              <div>
+                <img
+                  srcSet={artist.photo}
+                  alt={artist.firstName}
+                  loading="lazy"
+                  style={{ maxWidth: 100, height: 100, marginBottom: 20 }}
+                />
+              </div>
 
               <Typography
                 variant="subtitle2"
@@ -132,11 +137,12 @@ export default function CarouselArtistArtworks({ artistId }) {
                   padding: 0,
                   margin: 0,
                   lineHeight: 1,
+                  fontSize: '0.8rem',
                   fontWeight: 'bold',
                 }}
               >
                 <Link style={{ color: 'black' }} to="#">
-                  {artwork.title}
+                  {artist.firstName} {artist.lastName}
                 </Link>
               </Typography>
               <Typography
@@ -147,17 +153,20 @@ export default function CarouselArtistArtworks({ artistId }) {
                   lineHeight: 1,
                 }}
               >
-                {artwork.artist.nationality}
+                {artist.origin}
               </Typography>
               <Typography
-                variant="body1"
+                variant="subtitle2"
                 sx={{
                   padding: 0,
                   margin: 0,
                   lineHeight: 1,
+                  fontSize: '0.8rem',
                 }}
               >
-                ${artwork.price.toLocaleString()}
+                <Link style={{ color: 'white' }} to={`/artists/${artist._id}`}>
+                  View
+                </Link>
               </Typography>
             </div>
           ))}

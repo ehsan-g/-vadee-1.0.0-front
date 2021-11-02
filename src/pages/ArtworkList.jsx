@@ -157,7 +157,7 @@ function ArtworksList() {
                 >
                   {artworks &&
                     artworks.map((artwork) => (
-                      <ArtCard key={artwork._id} artwork={artwork} />
+                      <ArtCard key={artwork._id} data={artwork} />
                     ))}
                 </ImageList>
               </Box>
@@ -182,7 +182,7 @@ function ArtworksList() {
                     artworks.map((artwork) => (
                       <Grid key={artwork._id}>
                         <Paper className={classes.paper}>
-                          <ArtCard artwork={artwork} />
+                          <ArtCard data={artwork} />
                         </Paper>
                       </Grid>
                     ))}

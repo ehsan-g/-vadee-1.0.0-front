@@ -27,7 +27,7 @@ import {
   orderDeliverReducer,
 } from './orderReducer';
 import headerReducer from './headerReducer';
-import { artistArtworksReducer, artistListReducer } from './artistReducer.js';
+import { artistByIdReducer, artistListReducer } from './artistReducer.js';
 import { articleListReducer } from './articleReducer.js';
 import { filterReducer } from './filterReducer.js';
 
@@ -41,7 +41,7 @@ export default combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   artistList: artistListReducer,
-  artistArtworkList: artistArtworksReducer,
+  theArtist: artistByIdReducer,
   artworkUpdate: artworkUpdateReducer, // update artwork from admin
   userUpdateProfile: userUpdateProfileReducer,
   favArtwork: favArtworkReducer,

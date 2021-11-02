@@ -23,7 +23,7 @@ import CarouselArtistArtworks from '../components/carousel/CarouselArtistArtwork
 import RelatedCategory from '../components/carousel/RelatedCategory';
 import CarouselArtist from '../components/carousel/CarouselArtist';
 import {
-  ARTIST_ARTWORKS_RESET,
+  ARTIST_BY_ID_RESET,
   ARTIST_LIST_RESET,
 } from '../constants/artistConstants';
 
@@ -67,7 +67,7 @@ function Artwork() {
 
   // user favorite artwork + reset artist works
   useEffect(() => {
-    dispatch({ type: ARTIST_ARTWORKS_RESET });
+    dispatch({ type: ARTIST_BY_ID_RESET });
     dispatch({ type: ARTIST_LIST_RESET });
     if (user && success) {
       for (let i = 0; i < artwork.favorites.length; i += 1) {
@@ -172,7 +172,7 @@ function Artwork() {
                     </Typography>
                     <Typography>
                       {artwork.artist &&
-                        `${artwork.artist.nationality}, ${artwork.artist.birthday}`}
+                        `${artwork.artist.origin}, ${artwork.artist.birthday}`}
                     </Typography>
                     <Button
                       variant="contained"
@@ -306,7 +306,7 @@ function Artwork() {
               </Grid>
             </Hidden>
             <Grid item xs={10} sx={{ marginLeft: 4 }}>
-              <TheTab artwork={artwork} />
+              <TheTab artist={artwork.artist} />
             </Grid>
           </Grid>
           <Hidden smDown>

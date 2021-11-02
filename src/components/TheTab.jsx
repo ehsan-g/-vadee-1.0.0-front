@@ -15,13 +15,14 @@ function a11yProps(index) {
   };
 }
 
-export default function TheTab(props) {
+export default function TheTab({ artist }) {
+  console.log(artist);
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
-    <div style={{ maxWidth: '500px', textAlign: 'center' }}>
+    <div style={{ maxWidth: '500px', textAlign: 'left' }}>
       <Box
         sx={{
           borderBottom: 1,
@@ -40,13 +41,13 @@ export default function TheTab(props) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {props.artwork.about_work}
+        {artist.biography}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {props.artwork.about_work}
+        {artist.achievements}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {props.artwork.about_work}
+        {artist.cv}
       </TabPanel>
     </div>
   );

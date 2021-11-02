@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import {
   Typography,
@@ -10,7 +10,7 @@ import {
   Stack,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import { fetchAllArtWorks, fetchCategories } from '../actions/artworkAction';
 import { cleanLocalCart } from '../actions/cartAction';
@@ -20,19 +20,27 @@ import CarouselArtistArtworks from '../components/carousel/CarouselArtistArtwork
 import CarouselCategories from '../components/carousel/CarouselCategories';
 import CarouselArtist from '../components/carousel/CarouselArtist';
 import CarouselCategory from '../components/carousel/CarouselCategory';
+import CarouselArtistList from '../components/carousel/CarouselArtistList';
 
+const priceFilter = [
+  'Under $500',
+  'Under $1000',
+  'Under $2000',
+  'Under $5000',
+  'Under $10000',
+  'Under $15000',
+  'Under $20000',
+];
 const Main = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [lastArtwork, setLastArtwork] = useState();
+
   const categoryList = useSelector((state) => state.categoryList);
   const { categories, success: successCategories } = categoryList;
   const artworksList = useSelector((state) => state.artworks);
-  const {
-    error: errorArtworkList,
-    loading: loadingArtworkList,
-    artworks,
-  } = artworksList;
+  const { artworks } = artworksList;
 
   const keyword = history.location.search;
 
@@ -55,6 +63,14 @@ const Main = () => {
       dispatch(fetchCategories());
     }
   }, [successCategories, dispatch, history]);
+
+  useEffect(() => {
+    if (artworks && artworks[0]) {
+      const theLastArtwork = artworks[artworks.length - 1];
+      setLastArtwork(theLastArtwork);
+    }
+  }, [artworks]);
+
   return (
     <Grid
       container
@@ -66,106 +82,281 @@ const Main = () => {
       <Grid item xs={12} sx={{ width: '100%', marginBottom: 2 }}>
         {artworks && <CarouselTop artworks={artworks} />}
       </Grid>
+
+      {/* photographers */}
+      <Container
+        maxWidth="100%"
+        sx={{
+          backgroundColor: '#d1d3c8',
+          padding: '0 !important',
+          margin: '0 !important',
+        }}
+      >
+        <Container maxWidth="xl" sx={{ padding: '10 !important' }}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-end"
+            // alignItems="center"
+            sx={{
+              minHeight: '25vh',
+              marginTop: 2,
+            }}
+          >
+            <Grid item xs={2} sx={{ marginTop: 2, color: 'black' }}>
+              <Typography variant="h6">Photographers</Typography>
+            </Grid>
+            <Grid item xs={10} sx={{ marginTop: 2 }}>
+              <CarouselArtistList artistId={1} />
+            </Grid>
+          </Grid>
+        </Container>
+      </Container>
+
+      {/* Categories */}
+      <Container maxWidth="xl" sx={{ padding: '10 !important' }}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-around"
+          sx={{
+            width: '95%',
+            marginBottom: 8,
+          }}
+        >
+          <Grid item xs={1} sx={{ marginTop: 8 }}>
+            <Typography variant="h6">Featured</Typography>
+            <Typography variant="h6">Categories</Typography>
+          </Grid>
+          {successCategories && (
+            <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 200 }}>
+              <CarouselCategories categories={categories} />
+            </Grid>
+          )}
+          {/* Categories */}
+          <Grid item xs={12}>
+            <Box
+              component="div"
+              sx={{
+                p: 2,
+                width: '100%',
+                border: '1px solid #A2A28F',
+                overflowX: 'hidden',
+                marginTop: 5,
+              }}
+            >
+              <Stack direction="row" spacing={1}>
+                <Grid item xs={2}>
+                  <Typography variant="subtitle1">Start</Typography>
+                  <Typography variant="subtitle1">Explore</Typography>
+                </Grid>
+                {categories &&
+                  categories.map((category, index) => (
+                    <Button
+                      key={index}
+                      color="primary"
+                      sx={{ textTransform: 'none !important' }}
+                    >
+                      {category.name}
+                    </Button>
+                  ))}
+              </Stack>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* Last artwork */}
+      {lastArtwork && (
+        <Container maxWidth="xl" sx={{ padding: '10 !important' }}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-end"
+            // alignItems="center"
+            sx={{
+              color: 'white',
+              backgroundColor: 'black',
+              minHeight: '30vh',
+              width: '100%',
+              padding: 5,
+            }}
+          >
+            <Grid item xs={2}>
+              <Typography variant="subtitle2">Last</Typography>
+              <Typography variant="subtitle2">Artwork</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h3">
+                {lastArtwork.artist.firstName} {lastArtwork.artist.lastName}
+              </Typography>
+              <Typography variant="h6">{lastArtwork.title}</Typography>
+              <br />
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  padding: 0,
+                  margin: 0,
+                  lineHeight: 1,
+                  fontSize: '0.8rem',
+                }}
+              >
+                <Link
+                  style={{ color: 'white' }}
+                  to={`/artworks/${lastArtwork._id}`}
+                >
+                  Browse work
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Card sx={{ maxWidth: 250, maxHeight: 130 }}>
+                <CardActionArea
+                  onClick={() => history.push(`artworks/${lastArtwork._id}`)}
+                >
+                  <img
+                    style={{ height: '100%', width: '100%' }}
+                    srcSet={lastArtwork.image}
+                    alt=""
+                    loading="lazy"
+                  />
+                </CardActionArea>
+              </Card>
+            </Grid>
+          </Grid>
+        </Container>
+      )}
+      <Container maxWidth="xl" sx={{ padding: '10 !important' }}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-around"
+          sx={{
+            width: '95%',
+            marginBottom: 8,
+          }}
+        >
+          {/* Categories */}
+          <Grid item xs={12}>
+            <Box
+              component="div"
+              sx={{
+                p: 2,
+                width: '100%',
+                border: '1px solid #A2A28F',
+                overflowX: 'hidden',
+                marginTop: 5,
+              }}
+            >
+              <Stack direction="row" spacing={1}>
+                <Grid item xs={2}>
+                  <Typography variant="subtitle1">Shop By</Typography>
+                  <Typography variant="subtitle1">Price</Typography>
+                </Grid>
+                {priceFilter.map((priceCat, index) => (
+                  <Button
+                    key={index}
+                    color="primary"
+                    sx={{ textTransform: 'none !important' }}
+                  >
+                    {priceCat}
+                  </Button>
+                ))}
+              </Stack>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* Talented photographer */}
+      {lastArtwork && (
+        <Container maxWidth="xl" sx={{ padding: '10 !important' }}>
+          <Card>
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-end"
+              sx={{
+                minHeight: '30vh',
+                width: '100%',
+                padding: 5,
+              }}
+            >
+              <Grid item xs={12} md={5}>
+                <Typography variant="h6">Talented Photographer</Typography>
+
+                <Typography variant="h3">
+                  {lastArtwork.artist.firstName} {lastArtwork.artist.lastName}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    marginTop: 10,
+                    marginBottom: 5,
+                    fontSize: '0.8rem',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    maxHeight: '400px',
+                    whiteSpace: 'normal',
+                    // Addition lines for 2 line or multiline ellipsis
+                    display: ' -webkit-box !important',
+                    WebkitLineClamp: 8,
+                    WebkitBoxOrient: 'vertical',
+                  }}
+                >
+                  {lastArtwork.artist.biography}
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    padding: 0,
+                    margin: 0,
+                    lineHeight: 1,
+                    fontSize: '0.9rem',
+                    fontWeight: 'bolder',
+                  }}
+                >
+                  <Link
+                    style={{ color: 'black' }}
+                    to={`/artworks/${lastArtwork._id}`}
+                  >
+                    Browse work
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={7}>
+                <CardActionArea
+                  onClick={() => history.push(`artworks/${lastArtwork._id}`)}
+                >
+                  <img
+                    style={{ height: '100%', width: '100%', padding: 20 }}
+                    srcSet={lastArtwork.image}
+                    alt=""
+                    loading="lazy"
+                  />
+                </CardActionArea>
+              </Grid>
+            </Grid>
+          </Card>
+        </Container>
+      )}
       <Grid
         container
         direction="row"
         justifyContent="space-around"
         sx={{
-          backgroundColor: '#d1d3c8',
           minHeight: '35vh',
           width: '100%',
         }}
       >
-        <Grid item xs={2} sx={{ marginTop: 8, color: 'white' }}>
-          <Typography variant="h6">Artists</Typography>
-          <Typography variant="h6">You</Typography>
-          <Typography variant="h6">Followed</Typography>
-        </Grid>
-        <Grid item xs={8} sx={{ marginTop: 8 }}>
-          <CarouselArtistArtworks />
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-around"
-        sx={{
-          minHeight: '35vh',
-          width: '90%',
-        }}
-      >
         <Grid item xs={1} sx={{ marginTop: 8 }}>
-          <Typography variant="h6">Featured</Typography>
-          <Typography variant="h6">Categories</Typography>
+          <Typography variant="h6">Street</Typography>
+          <Typography variant="h6">Category</Typography>
         </Grid>
-        {successCategories && (
-          <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 300 }}>
-            <CarouselCategories categories={categories} />
-          </Grid>
-        )}
-      </Grid>
-      {/* Categories */}
-      <Grid item xs={6} sx={{ marginTop: 8, maxWidth: '80% !important' }}>
-        <Box
-          component="div"
-          sx={{
-            p: 4,
-            width: '100%',
-            border: '1px solid #A2A28F',
-            overflowX: 'scroll',
-          }}
-        >
-          <Stack direction="row" spacing={1}>
-            {categories &&
-              categories.map((category) => (
-                <Button
-                  key={category.title}
-                  color="secondary"
-                  variant="contained"
-                >
-                  {category.title}
-                </Button>
-              ))}
-          </Stack>
-        </Box>
-      </Grid>
-      {/* Last artwork */}
-      <Container maxWidth="xl" sx={{ padding: '0 !important' }}>
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          sx={{
-            color: 'white',
-            backgroundColor: 'black',
-            minHeight: '30vh',
-            width: '100%',
-            padding: 5,
-          }}
-        >
-          <Grid item xs={5}>
-            <Typography variant="h6">Most Recently viewed</Typography>
-            <Typography variant="h3">Artist Name</Typography>
-            <Typography variant="h6">Title</Typography>
-            <br />
-            <Typography variant="span">Browse Works</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Card sx={{ maxWidth: 250, maxHeight: 130 }}>
-              <CardActionArea>
-                <img
-                  style={{ height: '100%', width: '100%' }}
-                  srcSet={`/static/20091127124116_shadi_ghadirian_qajar_vacuum.jpeg?w=164&h=164&fit=crop&auto=format 1x,
-              /static/20091127124116_shadi_ghadirian_qajar_vacuum.jpeg?w=250&h=180&fit=crop&auto=format&dpr=2 2x`}
-                  alt=""
-                  loading="lazy"
-                />
-              </CardActionArea>
-            </Card>
-          </Grid>
+        <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 300 }}>
+          <CarouselCategory />
         </Grid>
-      </Container>
+      </Grid>
       <Grid
         container
         direction="column"
@@ -204,22 +395,6 @@ const Main = () => {
         </Grid>
         <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 300 }}>
           <CarouselCategory />
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-around"
-        sx={{
-          minHeight: '35vh',
-          width: '100%',
-        }}
-      >
-        <Grid item xs={1} sx={{ marginTop: 8 }}>
-          <Typography variant="h6">Exhibition</Typography>
-        </Grid>
-        <Grid item xs={9} sx={{ marginTop: 6, maxHeight: 300 }}>
-          {/* <CarouselExhibition /> */}
         </Grid>
       </Grid>
     </Grid>

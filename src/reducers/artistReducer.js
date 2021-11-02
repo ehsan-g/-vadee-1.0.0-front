@@ -1,24 +1,24 @@
 import {
-  ARTIST_ARTWORKS_FAIL,
-  ARTIST_ARTWORKS_REQUEST,
-  ARTIST_ARTWORKS_RESET,
-  ARTIST_ARTWORKS_SUCCESS,
+  ARTIST_BY_ID_FAIL,
+  ARTIST_BY_ID_REQUEST,
+  ARTIST_BY_ID_RESET,
+  ARTIST_BY_ID_SUCCESS,
   ARTIST_LIST_FAIL,
   ARTIST_LIST_REQUEST,
   ARTIST_LIST_RESET,
   ARTIST_LIST_SUCCESS,
 } from '../constants/artistConstants';
 
-export const artistArtworksReducer = (state = { artworks: [] }, action) => {
+export const artistByIdReducer = (state = {}, action) => {
   switch (action.type) {
-    case ARTIST_ARTWORKS_REQUEST:
+    case ARTIST_BY_ID_REQUEST:
       return { loading: true };
-    case ARTIST_ARTWORKS_SUCCESS:
-      return { loading: false, success: true, artworks: action.payload };
-    case ARTIST_ARTWORKS_FAIL:
+    case ARTIST_BY_ID_SUCCESS:
+      return { loading: false, success: true, artist: action.payload };
+    case ARTIST_BY_ID_FAIL:
       return { loading: false, error: action.payload };
-    case ARTIST_ARTWORKS_RESET:
-      return { artworks: [] };
+    case ARTIST_BY_ID_RESET:
+      return {};
     default:
       return state;
   }
