@@ -22,7 +22,9 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import PropTypes from 'prop-types';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router';
+
 import { useSelector, useDispatch } from 'react-redux';
 import Dialog from '@mui/material/Dialog';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -32,7 +34,13 @@ import { login, logout, register } from '../../actions/userAction';
 
 export default function AccountMenu({ anchorEl, setAnchorEl }) {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
+
+  const redirect = location.search
+    ? // eslint-disable-next-line no-restricted-globals
+      location.search.split('redirect=')[1]
+    : '/artworks';
 
   const [loginDialogue, setLoginDialogue] = useState(false);
   const [registerDialogue, setRegisterDialogue] = useState(false);
@@ -54,8 +62,11 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
     if (success) {
       setLoginDialogue(false);
       setRegisterDialogue(false);
+    } else if (redirect === '/login') {
+      // e.g. cart button need auth
+      setLoginDialogue(true);
     }
-  }, [success]);
+  }, [success, location, redirect]);
 
   const handleClose = () => {
     setAnchorEl(null);

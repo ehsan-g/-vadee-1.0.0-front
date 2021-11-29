@@ -6,12 +6,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { useHistory, useLocation } from 'react-router';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import UserMenu from './UserMenu';
 
 const Search = styled('div')(({ theme }) => ({
@@ -62,7 +61,10 @@ const Header = () => {
   const [isHeader, setIsHeader] = useState(true);
 
   useEffect(() => {
-    if (location.pathname === '/users/profile') {
+    if (
+      location.pathname === '/users/profile' ||
+      location.pathname.includes('/cart/shippingAddress/')
+    ) {
       setIsHeader(false);
     } else {
       setIsHeader(true);

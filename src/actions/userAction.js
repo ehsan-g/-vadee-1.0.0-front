@@ -109,7 +109,7 @@ export const register =
     }
   };
 
-export const fetchUserDetails = (id) => async (dispatch, getState) => {
+export const fetchUserDetails = () => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
     const {
@@ -123,7 +123,7 @@ export const fetchUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await artworksBase.get(`users/${id}/`, config);
+    const { data } = await artworksBase.get(`users/profile`, config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -155,9 +155,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
+    const formData = new FormData();
+    formData.set('firstName', user.firstName);
+    formData.set('lastName', user.lastName);
+
     const { data } = await artworksBase.put(
       `users/profile/update/`,
-      user,
+      formData,
       config
     );
 
@@ -166,11 +170,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     });
     // login the user with new data and update local storage
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data,
-    });
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    // dispatch({
+    //   type: USER_LOGIN_SUCCESS,
+    //   payload: data,
+    // });
+    // localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (e) {
     // check for generic and custom message to return using ternary statement
     dispatch({

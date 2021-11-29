@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import Hidden from '@mui/material/Hidden';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
 import { Typography, Button, Container, Divider } from '@mui/material';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams, useLocation } from 'react-router-dom';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -47,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 // match params has the id from the router /:workId
 function Artwork() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
   const { workId } = useParams();
 
@@ -99,7 +99,7 @@ function Artwork() {
       dispatch(addToCart(workId));
       history.push(`/cart/shippingAddress/${workId}?title=${artwork.title}`);
     } else {
-      history.push(`/login`);
+      history.push(`/artworks/${workId}?redirect=/login`);
     }
   };
 

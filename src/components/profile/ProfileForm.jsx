@@ -62,7 +62,7 @@ function ProfileForm() {
   const { userInfo } = userLogin;
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  const { success } = userUpdateProfile;
+  const { success: successUpdate } = userUpdateProfile;
 
   // value change
   const handleChange = (prop) => (event) => {
@@ -71,9 +71,9 @@ function ProfileForm() {
   useEffect(() => {
     if (!userInfo) {
       history.push('/login');
-    } else if (!profileSuccess) {
+    } else if (!profileSuccess || successUpdate) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
-      dispatch(fetchUserDetails('profile'));
+      dispatch(fetchUserDetails());
     } else {
       setValues({
         ...values,
@@ -87,22 +87,21 @@ function ProfileForm() {
         email: user.email,
       });
     }
-  }, [dispatch, history, userInfo, user, profileSuccess]);
+  }, [dispatch, history, userInfo, user, profileSuccess, successUpdate]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(300);
     if (values.password === values.confirmPassword) {
       dispatch(
         updateUserProfile({
-          id: user._id,
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
           password: values.password,
         })
       );
-      dispatch(fetchUserDetails('profile'));
     }
   };
 
@@ -215,7 +214,18 @@ function ProfileForm() {
                 onChange={handleChange('password')}
               />
             </Grid>
-
+            <Grid item xs={12} sx={{ width: '100%' }}>
+              <TextField
+                label="Repeat Password"
+                name="re-password"
+                value={values.password || ''}
+                margin="none"
+                sx={{ width: '100%' }}
+                variant="outlined"
+                type="password"
+                onChange={handleChange('re-password')}
+              />
+            </Grid>
             <Grid item xs={12} sx={{ width: '100%', marginTop: 5 }}>
               <Button
                 variant="contained"
