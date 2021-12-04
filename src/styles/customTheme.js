@@ -83,6 +83,18 @@ const customTheme = createTheme({
             textDecoration: 'none',
           },
         },
+        custom: {
+          backgroundColor: '#99CCCC',
+          textTransform: 'none',
+          minWidth: '80px',
+          color: 'white',
+          borderRadius: 0,
+          '&:hover': {
+            color: 'white',
+            backgroundColor: '#A2A28F',
+            textDecoration: 'none',
+          },
+        },
         outlined: {
           borderRadius: 0,
           '&:hover': {

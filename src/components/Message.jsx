@@ -13,7 +13,7 @@ export default function Message({ icon, variant, children, severity }) {
 
 Message.propTypes = {
   icon: PropTypes.node,
-  variant: PropTypes.string.isRequired,
+  variant: PropTypes.string,
   children: PropTypes.string,
   severity: PropTypes.string.isRequired,
 };

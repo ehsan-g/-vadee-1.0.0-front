@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function PurchaseCard() {
-  const { workId, orderId } = useParams();
+  const { workId } = useParams();
   const dispatch = useDispatch();
 
   const theArtwork = useSelector((state) => state.theArtwork);
@@ -38,30 +38,6 @@ export default function PurchaseCard() {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { orderById } = orderDetails;
 
-  useEffect(() => {
-    dispatch(headerStatus(false));
-  }, [dispatch]);
-
-  // adding shipping price to the cart - toFixed for decimal
-  useEffect(() => {
-    if (workId && (!artwork._id || !theCart.totalCartPrice)) {
-      dispatch(fetchOneArtWork(workId));
-    } else if (!workId && cartItems[0]) {
-      // dispatch(fetchOneArtWork(cartItems[0].artworkId));
-    } else if (orderById.orderItems) {
-      dispatch(fetchOneArtWork(orderById.orderItems[0].artwork));
-      dispatch(addToCart(orderById.orderItems[0].artwork));
-    }
-  }, [artwork, cartItems, dispatch, orderById, theCart, workId]);
-
-  theCart.shipping_price = (Number(artwork.price) > 100000 ? 0 : 10000).toFixed(
-    0
-  );
-  theCart.taxPrice = (artwork.price * 0.09).toFixed(0);
-  theCart.totalCartPrice =
-    Number(artwork.price) +
-    Number(theCart.shipping_price) +
-    Number(theCart.taxPrice);
   const classes = useStyles();
 
   return (

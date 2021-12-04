@@ -7,7 +7,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import CartShipForm from '../components/cart/CartShipForm';
 import ProfileFavorite from '../components/profile/ProfileFavorite';
-// import AccountUserOrders from '../components/profile/ProfileOrders';
+import PurchaseCard from '../components/cart/PurchaseCard';
 
 export default function Cart() {
   const [value, setValue] = useState('1');
@@ -70,6 +70,9 @@ export default function Cart() {
               </Box>
             </TabContext>
           </Box>
+        </Grid>
+        <Grid>
+          <PurchaseCard />
         </Grid>
       </Grid>
     </>
