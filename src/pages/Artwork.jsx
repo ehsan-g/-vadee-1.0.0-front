@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-
+import LoadingButton from '@mui/lab/LoadingButton';
 import { Typography, Button, Container, Divider } from '@mui/material';
 import { Link, useHistory, useParams, useLocation } from 'react-router-dom';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
@@ -46,30 +46,44 @@ const useStyles = makeStyles((theme) => ({
 // match params has the id from the router /:workId
 function Artwork() {
   const dispatch = useDispatch();
-  const location = useLocation();
   const history = useHistory();
   const { workId } = useParams();
 
-  const [disabled, setDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFav, setIsFav] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const theArtwork = useSelector((state) => state.theArtwork);
-  const { error, loading, success, artwork } = theArtwork;
+  const {
+    error,
+    loading: loadingArtwork,
+    success: successArtwork,
+    artwork,
+  } = theArtwork;
 
   const theCart = useSelector((state) => state.theCart);
-  const { loadingCart } = theCart;
+  const { loading: loadingCart, success: successCart } = theCart;
 
   const userDetails = useSelector((state) => state.userDetails);
   const { user } = userDetails;
+
+  // loading button
+  useEffect(() => {
+    if (loadingCart) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [loadingCart]);
 
   // user favorite artwork + reset artist works
   useEffect(() => {
     dispatch({ type: ARTIST_BY_ID_RESET });
     dispatch({ type: ARTIST_LIST_RESET });
-    if (user && success) {
+    if (user && successArtwork) {
       for (let i = 0; i < artwork.favorites.length; i += 1) {
         if (artwork.favorites[i] === user._id) {
           setIsFav(true);
@@ -78,26 +92,33 @@ function Artwork() {
         }
       }
     }
-  }, [user, artwork, success, dispatch]);
+  }, [user, artwork, successArtwork, dispatch]);
 
   // fetch artwork if not success
   useEffect(() => {
-    if (!success && workId) {
+    if (!successArtwork && workId) {
       dispatch(fetchOneArtWork(workId));
     }
-  }, [dispatch, workId, success]);
+  }, [dispatch, workId, successArtwork]);
 
   // quantity = 0
   useEffect(() => {
     if (artwork && artwork.quantity < 1) {
-      setDisabled(true);
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
     }
   }, [artwork]);
+
+  useEffect(() => {
+    if (successCart) {
+      history.push(`/cart/shippingAddress/${workId}?title=${artwork.title}`);
+    }
+  }, [successCart]);
 
   const onAddToCart = () => {
     if (userInfo) {
       dispatch(addToCart(workId));
-      history.push(`/cart/shippingAddress/${workId}?title=${artwork.title}`);
     } else {
       history.push(`/artworks/${workId}?redirect=/login`);
     }
@@ -185,7 +206,7 @@ function Artwork() {
                           backgroundColor: 'black',
                         },
                       }}
-                      disabled={disabled}
+                      disabled={isDisabled}
                     >
                       Follow
                     </Button>
@@ -243,15 +264,16 @@ function Artwork() {
                     $ {artwork.price.toLocaleString()}
                   </span>
                 </Typography>
-                <Button
+                <LoadingButton
+                  loading={isLoading}
                   onClick={(e) => onAddToCart(e)}
                   variant="contained"
                   type="submit"
                   fullWidth
-                  disabled={disabled}
+                  disabled={isDisabled}
                 >
-                  {loadingCart ? <CircularProgress /> : `Purchase Artwork`}
-                </Button>
+                  Purchase Artwork
+                </LoadingButton>
 
                 <Link to="/">
                   <Typography variant="subtitle2">{artwork.name}</Typography>
@@ -298,7 +320,7 @@ function Artwork() {
                         backgroundColor: 'black',
                       },
                     }}
-                    disabled={disabled}
+                    disabled={isDisabled}
                   >
                     Follow
                   </Button>
@@ -398,7 +420,7 @@ function Artwork() {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        {loading === undefined ? (
+        {loadingArtwork === undefined ? (
           <Loader />
         ) : error ? (
           <Message variant="outlined" severity="error">

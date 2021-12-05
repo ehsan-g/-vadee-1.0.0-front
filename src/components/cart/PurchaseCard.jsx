@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -12,16 +12,11 @@ import { fetchOneArtWork, addToCart, headerStatus } from '../../actions/index';
 const useStyles = makeStyles(() => ({
   root: {
     padding: 0,
-    marginTop: 60,
+    marginTop: window.innerWidth > 900 ? 130 : 20,
+    marginBottom: 50,
   },
   media: {
     minHeight: 100,
-  },
-  notif: {
-    paddingTop: 24,
-    // [theme.breakpoints.down('md')]: {
-    //   paddingLeft: 0,
-    // },
   },
 }));
 
@@ -29,6 +24,9 @@ export default function PurchaseCard() {
   const { workId } = useParams();
   const dispatch = useDispatch();
 
+  const [shippingPrice, setShippingPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [serviceFee, setServiceFee] = useState(10);
   const theArtwork = useSelector((state) => state.theArtwork);
   const { artwork } = theArtwork;
 
@@ -38,128 +36,100 @@ export default function PurchaseCard() {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { orderById } = orderDetails;
 
-  const classes = useStyles();
+  useEffect(() => {
+    if (cartItems[0]) {
+      setShippingPrice(0);
+      setTotalPrice(cartItems[0].price + shippingPrice);
+    }
+  }, [cartItems, shippingPrice]);
 
+  const classes = useStyles();
   return (
     <>
       {!cartItems[0] ? null : (
-        <>
-          <Paper
-            className={classes.root}
-            elevation={0}
-            variant="outlined"
-            square
+        <Paper className={classes.root} elevation={0} variant="outlined" square>
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            sx={{
+              padding: 3,
+              ':hover': {
+                opacity: [0.9, 0.8, 0.7],
+              },
+            }}
           >
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              sx={{
-                padding: 3,
-                ':hover': {
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}
-            >
-              <Grid container sx={{ marginBottom: 8 }}>
-                <Grid item xs={7}>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {cartItems[0].title}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {cartItems[0].subtitle}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {cartItems[0].editionNum} از {cartItems[0].editionSize}{' '}
-                    شماره
-                  </Typography>
-                </Grid>
-                <Grid item xs={5}>
-                  <img
-                    src={`${cartItems[0].image}`}
-                    alt="Art work"
-                    style={{ maxWidth: '100%', height: 'auto' }}
-                  />
-                </Grid>
+            <Grid item xs={5}>
+              <Grid item>
+                <img
+                  src={`${cartItems[0].image}`}
+                  alt="Art work"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                />
               </Grid>
-
-              <Grid container sx={{ borderTop: '1px solid #e0e0e0' }}>
-                <Grid item xs={4}>
-                  <Typography gutterBottom variant="subtitle1" component="p">
-                    قیمت
-                  </Typography>
-                </Grid>
-                <Grid item xs>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {`${cartItems[0].price} تومان`}
-                  </Typography>
-                </Grid>
+            </Grid>
+            <Grid item xs={7} sx={{ padding: 1 }}>
+              <Grid item>
+                <Typography variant="h6">
+                  {cartItems[0].firstName} {cartItems[0].lastName}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {cartItems[0].title}
+                </Typography>
               </Grid>
-              <Grid container>
-                <Grid item xs={4}>
-                  <Typography gutterBottom variant="subtitle1" component="p">
-                    حمل و نقل
-                  </Typography>
+              <Grid
+                container
+                direction="column"
+                alignItems="flex-end"
+                sx={{
+                  borderTop: '1px solid #e0e0e0',
+                  marginTop: 5,
+                }}
+              >
+                <Grid container sx={{ marginTop: 1 }}>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">Price</Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="body2">
+                      {cartItems[0].price.toLocaleString()}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {`${theCart.shipping_price} تومان`}
-                  </Typography>
+                <Grid container sx={{ marginTop: 1 }}>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">Shipping</Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="body2">
+                      {shippingPrice.toLocaleString()}
+                    </Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item xs={4}>
-                  <Typography gutterBottom variant="subtitle1" component="p">
-                    (۹٪)مالیات
-                  </Typography>
+                <Grid container sx={{ marginTop: 1 }}>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">Service fee</Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="body2">
+                      {serviceFee.toLocaleString()}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {`${theCart.taxPrice} تومان`}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid container sx={{ borderTop: '1px solid #e0e0e0' }}>
-                <Grid item xs={4}>
-                  <Typography gutterBottom variant="subtitle1" component="p">
-                    جمع
-                  </Typography>
-                </Grid>
-                <Grid item xs>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {`${theCart.totalCartPrice} تومان`}
-                  </Typography>
+                <Grid container sx={{ marginTop: 1 }}>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">Total</Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="body2">
+                      {totalPrice.toLocaleString()}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Paper>
-          <Grid item ali="center" className={classes.notif}>
-            <Paper
-              sx={{
-                height: 100,
-                padding: 3,
-                backgroundColor: '#e5e5e5',
-                ':hover': {
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}
-              square
-            >
-              <Typography variant="body2">
-                <VerifiedUserIcon sx={{ paddingTop: 1 }} />
-                پرداخت شما به وسیله بانک مرکزی و فتا خیلی امنه{' '}
-              </Typography>
-            </Paper>
           </Grid>
-        </>
+        </Paper>
       )}
     </>
   );

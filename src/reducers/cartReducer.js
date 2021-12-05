@@ -1,11 +1,12 @@
 /* eslint-disable no-case-declarations */
 import {
-  CART_CREATE_SUCCESS,
+  CART_ADD_SUCCESS,
   CART_SAVE_SHIPPING_ADDRESS,
   CART_REMOVE_ITEMS,
   CHANGE_CART_STEP,
   CART_SAVE_PAYMENT_METHOD,
-  CART_CREATE_REQUEST,
+  CART_ADD_REQUEST,
+  CART_ADD_FAIL,
 } from '../constants/cartConstants';
 
 export default (
@@ -13,9 +14,9 @@ export default (
   action
 ) => {
   switch (action.type) {
-    case CART_CREATE_REQUEST:
-      return { loadingCart: true, cartItems: [], shippingAddress: {} };
-    case CART_CREATE_SUCCESS:
+    case CART_ADD_REQUEST:
+      return { loading: true, cartItems: [], shippingAddress: {} };
+    case CART_ADD_SUCCESS:
       const item = action.payload;
       const existItem = state.cartItems.find(
         (x) => x.artworkId === item.artworkId
@@ -23,7 +24,8 @@ export default (
       if (existItem) {
         return {
           ...state,
-          loadingCart: false,
+          loading: false,
+          success: true,
           cartItems: state.cartItems.map((x) =>
             x.artworkId === existItem.artworkId ? item : x
           ),
@@ -32,7 +34,8 @@ export default (
 
       return {
         ...state,
-        loadingCart: false,
+        loading: false,
+        success: true,
         cartItems: [...state.cartItems, item],
       };
 
@@ -57,6 +60,9 @@ export default (
         ...state,
         paymentMethod: action.payload,
       };
+
+    case CART_ADD_FAIL:
+      return { loading: false, success: false, error: action.payload };
 
     default:
       return state;

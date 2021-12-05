@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
-import { Tab, Grid, Typography } from '@mui/material';
+import { Tab, Grid, Typography, Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -17,14 +17,12 @@ export default function Cart() {
   };
 
   return (
-    <>
+    <Container maxWidth="lg">
       <Grid
         container
         direction="row"
         sx={{
           textAlign: 'left',
-          paddingLeft: 5,
-          paddingRight: 5,
         }}
       >
         <Grid item xs={12} md={4}>
@@ -36,19 +34,20 @@ export default function Cart() {
       </Grid>
       <Grid
         container
-        direction="row"
-        alignItems="start"
+        direction="row-reverse"
+        justifyContent="center"
         sx={{
-          paddingLeft: 2,
-          paddingRight: 2,
-          marginTop: 5,
+          marginTop: 2,
           minHeight: '80vh',
         }}
       >
+        <Grid item md={4} xs={10}>
+          <PurchaseCard />
+        </Grid>
         <Grid item md={8} xs={12}>
-          <Box sx={{ typography: 'body1' }}>
+          <Box sx={{ typography: 'body1', padding: 5 }}>
             <TabContext value={value}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Box sx={{ borderColor: 'divider' }}>
                 <TabList
                   onChange={handleChange}
                   aria-label="lab API tabs example"
@@ -71,10 +70,7 @@ export default function Cart() {
             </TabContext>
           </Box>
         </Grid>
-        <Grid>
-          <PurchaseCard />
-        </Grid>
       </Grid>
-    </>
+    </Container>
   );
 }

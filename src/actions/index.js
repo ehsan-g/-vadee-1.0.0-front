@@ -19,8 +19,8 @@
 // } from '../constants/artworkConstants';
 
 // import {
-//   CART_CREATE_REQUEST,
-//   CART_CREATE_SUCCESS,
+//   CART_ADD_REQUEST,
+//   CART_ADD_SUCCESS,
 //   CART_SAVE_SHIPPING_ADDRESS,
 //   CART_REMOVE_ITEMS,
 //   CHANGE_CART_STEP,
@@ -130,9 +130,9 @@
 
 // export const addToCart = (workId) => async (dispatch, getState) => {
 //   const { data } = await artworksBase.get(`artworks/${workId}/`);
-//   dispatch({ type: CART_CREATE_REQUEST });
+//   dispatch({ type: CART_ADD_REQUEST });
 //   dispatch({
-//     type: CART_CREATE_SUCCESS,
+//     type: CART_ADD_SUCCESS,
 //     payload: {
 //       artworkId: data._id,
 //       title: data.title,

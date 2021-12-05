@@ -22,6 +22,7 @@ const customTheme = createTheme({
         },
       },
     },
+
     MuiTab: {
       styleOverrides: {
         root: {

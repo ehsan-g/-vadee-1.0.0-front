@@ -55,8 +55,9 @@ export default function CarouselArtist() {
   return (
     <Slider {...settings}>
       {success &&
-        artists.map((artist) => (
+        artists.map((artist, index) => (
           <Grid
+            key={index}
             container
             direction="row"
             justifyContent="center"

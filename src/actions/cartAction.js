@@ -1,44 +1,44 @@
 import artworksBase from '../apis/artworksBase';
 import {
-  CART_CREATE_REQUEST,
-  CART_CREATE_SUCCESS,
-  CART_CREATE_FAIL,
+  CART_ADD_REQUEST,
+  CART_ADD_SUCCESS,
+  CART_ADD_FAIL,
   CART_REMOVE_ITEMS,
   CART_SAVE_SHIPPING_ADDRESS,
 } from '../constants/cartConstants';
 
 export const addToCart = (workId) => async (dispatch, getState) => {
   try {
+    console.log(workId);
+    dispatch({ type: CART_ADD_REQUEST });
+
     const { data } = await artworksBase.get(`/artworks/${workId}/`);
-    dispatch({ type: CART_CREATE_REQUEST });
+
     dispatch({
-      type: CART_CREATE_SUCCESS,
+      type: CART_ADD_SUCCESS,
       payload: {
-        productId: data.the_product.id,
+        artworkId: data._id,
         quantityToBuy: 1,
-        owner: data.the_product.user.firstName,
-        title: data.the_product.title,
-        description: data.the_product.description,
-        cover: data.the_product.cover,
-        price: data.the_product.price,
-        category: data.the_product.category.name,
-        subCategory: data.the_product.sub_category.name,
-        identifierType: data.the_product.identifier,
-        identifierNumber: data.the_product.identifier_num,
-        gradingCompany: data.the_product.grading_company,
-        grade: data.the_product.grade,
+        firstName: data.artist.firstName,
+        lastName: data.artist.lastName,
+        title: data.title,
+        description: data.description,
+        image: data.image,
+        price: data.price,
+        category: data.category.name,
+        subCategory: data.sub_category.name,
       },
     });
     // save the item in browser local storage. It needs to be parsed back to an object to be used
-    // eslint-disable-next-line no-undef
     localStorage.setItem(
       'cartItems',
       JSON.stringify(getState().theCart.cartItems)
     );
   } catch (e) {
+    console.log(e);
     // check for generic and custom message to return using ternary statement
     dispatch({
-      type: CART_CREATE_FAIL,
+      type: CART_ADD_FAIL,
       payload:
         e.response && e.response.data.detail
           ? e.response.data.detail

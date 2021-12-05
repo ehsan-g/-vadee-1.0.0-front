@@ -96,7 +96,7 @@ function CartShipForm() {
     // confirmPassword: Yup.string()
     //   .required('Confirm Password is required')
     //   .oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
-    acceptTerms: Yup.bool().oneOf([true], ''),
+    acceptTerms: Yup.bool(),
   });
 
   const {
@@ -120,6 +120,7 @@ function CartShipForm() {
           <Grid container direction="row" alignItems="flex-start" spacing={2}>
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
+                required
                 label="First Name"
                 name="firstName"
                 margin="none"
@@ -132,6 +133,7 @@ function CartShipForm() {
             </Grid>
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
+                required
                 label="Last Name"
                 name="lastName"
                 margin="none"
@@ -143,7 +145,7 @@ function CartShipForm() {
             </Grid>
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
-                onClickCapture={(e) => console.log(e)}
+                required
                 label="Country"
                 name="country"
                 margin="none"
@@ -156,6 +158,7 @@ function CartShipForm() {
             </Grid>
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
+                required
                 label="City"
                 name="city"
                 margin="none"
@@ -168,6 +171,7 @@ function CartShipForm() {
             </Grid>
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
+                required
                 label="Province"
                 name="province"
                 margin="none"
@@ -181,6 +185,7 @@ function CartShipForm() {
 
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
+                required
                 label="Postal Code"
                 name="postalCode"
                 margin="none"
@@ -193,6 +198,7 @@ function CartShipForm() {
             </Grid>
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
+                required
                 label="Address"
                 name="address"
                 margin="none"
@@ -205,6 +211,7 @@ function CartShipForm() {
             </Grid>
             <Grid item xs={12} md={6} sx={{ width: '100%' }}>
               <TextField
+                required
                 label="Phone"
                 name="phoneNumber"
                 margin="none"
@@ -234,7 +241,7 @@ function CartShipForm() {
                 }
                 label={
                   <Typography color={errors.acceptTerms ? 'error' : 'inherit'}>
-                    I have read and agree to the Terms *
+                    save shipping address
                   </Typography>
                 }
               />
