@@ -28,7 +28,13 @@ const Root2 = styled('div')(({ theme }) => ({
 }));
 
 const Footer = () => (
-  <Box sx={{ flexGrow: 1 }}>
+  <Box
+    sx={{
+      flexGrow: 1,
+      clear: 'both',
+      position: 'relative',
+    }}
+  >
     <Root>
       <Grid
         container

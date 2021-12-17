@@ -10,7 +10,6 @@ import { Typography, Button, Container, Divider } from '@mui/material';
 import { Link, useHistory, useParams, useLocation } from 'react-router-dom';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
-import CircularProgress from '@mui/material/CircularProgress';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { fetchOneArtWork } from '../actions/artworkAction';
@@ -30,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     // marginTop: 100,
+    minHeight: '100vh',
     marginBottom: 100,
   },
   container: {
@@ -51,6 +51,7 @@ function Artwork() {
 
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const [isFav, setIsFav] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -165,6 +166,7 @@ function Artwork() {
             <Grid item xs sx={{ textAlign: 'center', margin: 'auto' }}>
               <Paper className={classes.paper} elevation={1}>
                 <img
+                  onLoad={() => setIsImageLoading(true)}
                   src={`${artwork.image}`}
                   alt="Art work"
                   style={{ width: '100%', maxWidth: '500px' }}
@@ -420,7 +422,7 @@ function Artwork() {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        {loadingArtwork === undefined ? (
+        {loadingArtwork ? (
           <Loader />
         ) : error ? (
           <Message variant="outlined" severity="error">
