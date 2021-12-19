@@ -16,14 +16,11 @@ import { fetchOneArtWork } from '../actions/artworkAction';
 import { addToCart } from '../actions/cartAction';
 import Dialog from '../components/Dialog';
 import TheTab from '../components/TheTab';
-import { favArtwork } from '../actions/userAction';
+import { favArtwork, fetchUserDetails } from '../actions/userAction';
 import CarouselArtistArtworks from '../components/carousel/CarouselArtistArtworks';
 import RelatedCategory from '../components/carousel/RelatedCategory';
 import CarouselArtist from '../components/carousel/CarouselArtist';
-import {
-  ARTIST_BY_ID_RESET,
-  ARTIST_LIST_RESET,
-} from '../constants/artistConstants';
+import { ARTIST_LIST_RESET } from '../constants/artistConstants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +66,7 @@ function Artwork() {
   const { loading: loadingCart, success: successCart } = theCart;
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { user } = userDetails;
+  const { user, success: successUserDetails } = userDetails;
 
   // loading button
   useEffect(() => {
@@ -80,9 +77,14 @@ function Artwork() {
     }
   }, [loadingCart]);
 
+  // check user auth
+  useEffect(() => {
+    dispatch(fetchUserDetails());
+    history.replace(`/artworks/${workId}`);
+  }, [dispatch, userInfo]);
+
   // user favorite artwork + reset artist works
   useEffect(() => {
-    dispatch({ type: ARTIST_BY_ID_RESET });
     dispatch({ type: ARTIST_LIST_RESET });
     if (user && successArtwork) {
       for (let i = 0; i < artwork.favorites.length; i += 1) {
@@ -98,6 +100,7 @@ function Artwork() {
   // fetch artwork if not success
   useEffect(() => {
     if (!successArtwork && workId) {
+      console.log(workId);
       dispatch(fetchOneArtWork(workId));
     }
   }, [dispatch, workId, successArtwork]);
@@ -111,18 +114,9 @@ function Artwork() {
     }
   }, [artwork]);
 
-  useEffect(() => {
-    if (successCart) {
-      history.push(`/cart/shippingAddress/${workId}?title=${artwork.title}`);
-    }
-  }, [successCart]);
-
   const onAddToCart = () => {
-    if (userInfo) {
-      dispatch(addToCart(workId));
-    } else {
-      history.push(`/artworks/${workId}?redirect=/login`);
-    }
+    dispatch(addToCart(workId));
+    history.push(`/cart/shippingAddress/${workId}?title=${artwork.title}`);
   };
 
   const classes = useStyles();
@@ -268,13 +262,20 @@ function Artwork() {
                 </Typography>
                 <LoadingButton
                   loading={isLoading}
-                  onClick={(e) => onAddToCart(e)}
-                  variant="contained"
+                  onClick={
+                    successUserDetails
+                      ? (e) => onAddToCart(e)
+                      : () =>
+                          history.push(`/artworks/${workId}?redirect=/login`)
+                  }
+                  variant={!successUserDetails ? 'outlined' : 'contained'}
                   type="submit"
                   fullWidth
                   disabled={isDisabled}
                 >
-                  Purchase Artwork
+                  {successUserDetails
+                    ? 'Purchase Artwork'
+                    : 'Login To Purchase'}
                 </LoadingButton>
 
                 <Link to="/">

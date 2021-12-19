@@ -52,9 +52,9 @@ function ProfileForm() {
 
   const userDetails = useSelector((state) => state.userDetails);
   const {
-    error: profileError,
-    loading: profileLoading,
-    success: profileSuccess,
+    error: errorUserDetails,
+    loading: loadingUserDetails,
+    success: successUserDetails,
     user,
   } = userDetails;
 
@@ -68,10 +68,11 @@ function ProfileForm() {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
   useEffect(() => {
-    if (!userInfo) {
-      history.push('/login');
-    } else if (!profileSuccess || successUpdate) {
+    if (!successUserDetails) {
+      history.push('/users/profile/?redirect=/login');
+    } else if (!successUserDetails || successUpdate) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(fetchUserDetails());
     } else {
@@ -87,7 +88,7 @@ function ProfileForm() {
         email: user.email,
       });
     }
-  }, [dispatch, history, userInfo, user, profileSuccess, successUpdate]);
+  }, [dispatch, history, userInfo, user, successUserDetails, successUpdate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -239,10 +240,10 @@ function ProfileForm() {
           </Grid>
         </Paper>
       </form>
-      {profileError && (
-        <Message severity="profileError">{profileError}</Message>
+      {errorUserDetails && (
+        <Message severity="error">{errorUserDetails}</Message>
       )}
-      {profileLoading && <Loader />}
+      {loadingUserDetails && <Loader />}
     </div>
   );
 }

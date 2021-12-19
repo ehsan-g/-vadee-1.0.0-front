@@ -21,59 +21,44 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { fetchUserDetails, updateUserProfile } from '../../actions/userAction';
 import Message from '../Message';
 import Loader from '../Loader';
-import { USER_UPDATE_PROFILE_RESET } from '../../constants/userConstants';
+import {
+  USER_DETAILS_RESET,
+  USER_UPDATE_PROFILE_RESET,
+} from '../../constants/userConstants';
 
-function CartShipForm() {
+function CartShipForm({ setTabValue, formValues, setFormValues }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    country: '',
-    city: '',
-    province: '',
-    phoneNumber: '',
-    postalCode: '',
-    address: '',
-  });
+  const [checked, setChecked] = React.useState(true);
 
   const userDetails = useSelector((state) => state.userDetails);
   const {
-    error: profileError,
-    loading: profileLoading,
-    success: profileSuccess,
+    error: errorUserDetails,
+    loading: loadingUserDetails,
+    success: successUserDetails,
     user,
   } = userDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  // value change
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success: successUpdate } = userUpdateProfile;
 
   useEffect(() => {
-    if (!userInfo) {
-      history.push('/login');
-    } else if (!profileSuccess) {
+    if (successUpdate && formValues) {
+      dispatch({ type: USER_DETAILS_RESET });
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
-      dispatch(fetchUserDetails('profile'));
-    } else {
-      setValues({
-        ...values,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        country: user.country,
-        city: user.city,
-        province: user.province,
-        phoneNumber: user.phoneNumber,
-        postalCode: user.postalCode,
-        address: user.address,
-      });
+      setTabValue('2');
     }
-  }, [dispatch, history, userInfo, user, profileSuccess]);
+  }, [successUpdate]);
+
+  useEffect(() => {
+    if (!successUserDetails) {
+      history.push('/login');
+    }
+  }, [userInfo, successUserDetails]);
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('Please enter your first name'),
@@ -108,166 +93,193 @@ function CartShipForm() {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log('JSON.stringify(data, null, 2)');
+  const onSubmit = async (data) => {
     console.log(JSON.stringify(data, null, 2));
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(300);
+    dispatch(
+      updateUserProfile({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        country: checked && data.country,
+        city: checked && data.city,
+        province: checked && data.province,
+        phoneNumber: checked && data.phoneNumber,
+        postalCode: checked && data.postalCode,
+        address: checked && data.address,
+        checked,
+      })
+    );
+    setFormValues({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      country: data.country,
+      city: data.city,
+      province: data.province,
+      phoneNumber: data.phoneNumber,
+      postalCode: data.postalCode,
+      address: data.address,
+    });
   };
 
   return (
     <div>
-      <form onSubmit={onSubmit} noValidate>
-        <Paper sx={{ padding: 2 }} elevation={0}>
-          <Grid container direction="row" alignItems="flex-start" spacing={2}>
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="First Name"
-                name="firstName"
-                margin="none"
-                variant="outlined"
-                sx={{ width: '100%' }}
-                onChange={handleChange('firstName')}
-                {...register('firstName')}
-                error={!!errors.firstName}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="Last Name"
-                name="lastName"
-                margin="none"
-                sx={{ width: '100%' }}
-                variant="outlined"
-                {...register('lastName')}
-                error={!!errors.lastName}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="Country"
-                name="country"
-                margin="none"
-                sx={{ width: '100%' }}
-                variant="outlined"
-                onChange={handleChange('country')}
-                {...register('country')}
-                error={!!errors.country}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="City"
-                name="city"
-                margin="none"
-                sx={{ width: '100%' }}
-                variant="outlined"
-                onChange={handleChange('city')}
-                {...register('city')}
-                error={!!errors.city}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="Province"
-                name="province"
-                margin="none"
-                sx={{ width: '100%' }}
-                variant="outlined"
-                onChange={handleChange('province')}
-                {...register('province')}
-                error={!!errors.province}
-              />
-            </Grid>
+      {successUserDetails && (
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <Paper sx={{ padding: 2 }} elevation={0}>
+            <Grid container direction="row" alignItems="flex-start" spacing={2}>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.firstName}
+                  control={control}
+                  label="First Name"
+                  margin="none"
+                  variant="outlined"
+                  sx={{ width: '100%' }}
+                  {...register('firstName')}
+                  error={!!errors.firstName}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.lastName}
+                  label="Last Name"
+                  margin="none"
+                  sx={{ width: '100%' }}
+                  variant="outlined"
+                  {...register('lastName')}
+                  error={!!errors.lastName}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.country}
+                  label="Country"
+                  margin="none"
+                  sx={{ width: '100%' }}
+                  variant="outlined"
+                  {...register('country')}
+                  error={!!errors.country}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.city}
+                  label="City"
+                  margin="none"
+                  sx={{ width: '100%' }}
+                  variant="outlined"
+                  {...register('city')}
+                  error={!!errors.city}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.province}
+                  label="Province"
+                  margin="none"
+                  sx={{ width: '100%' }}
+                  variant="outlined"
+                  {...register('province')}
+                  error={!!errors.province}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="Postal Code"
-                name="postalCode"
-                margin="none"
-                sx={{ width: '100%' }}
-                variant="outlined"
-                onChange={handleChange('postalCode')}
-                {...register('postalCode')}
-                error={!!errors.postalCode}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="Address"
-                name="address"
-                margin="none"
-                sx={{ width: '100%' }}
-                variant="outlined"
-                onChange={handleChange('address')}
-                {...register('address')}
-                error={!!errors.address}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ width: '100%' }}>
-              <TextField
-                required
-                label="Phone"
-                name="phoneNumber"
-                margin="none"
-                sx={{ width: '100%' }}
-                variant="outlined"
-                onChange={handleChange('phoneNumber')}
-                {...register('phoneNumber')}
-                error={!!errors.phoneNumber}
-              />
-            </Grid>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.postalCode}
+                  label="Postal Code"
+                  margin="none"
+                  sx={{ width: '100%' }}
+                  variant="outlined"
+                  {...register('postalCode')}
+                  error={!!errors.postalCode}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.address}
+                  label="Address"
+                  margin="none"
+                  sx={{ width: '100%' }}
+                  variant="outlined"
+                  {...register('address')}
+                  error={!!errors.address}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} sx={{ width: '100%' }}>
+                <TextField
+                  required
+                  defaultValue={user.phoneNumber}
+                  label="Phone"
+                  margin="none"
+                  sx={{ width: '100%' }}
+                  variant="outlined"
+                  {...register('phoneNumber')}
+                  error={!!errors.phoneNumber}
+                />
+              </Grid>
 
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Controller
-                    control={control}
-                    name="acceptTerms"
-                    defaultValue="false"
-                    inputRef={register()}
-                    render={({ field: { onChange } }) => (
-                      <Checkbox
-                        color="primary"
-                        onChange={(e) => onChange(e.target.checked)}
-                      />
-                    )}
-                  />
-                }
-                label={
-                  <Typography color={errors.acceptTerms ? 'error' : 'inherit'}>
-                    save shipping address
-                  </Typography>
-                }
-              />
-              <br />
-              <Typography variant="inherit" color="textSecondary">
-                {errors.acceptTerms ? `${errors.acceptTerms.message}` : ''}
-              </Typography>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Controller
+                      control={control}
+                      name="acceptTerms"
+                      inputRef={register()}
+                      render={({ field: { onChange } }) => (
+                        <Checkbox
+                          checked={checked}
+                          color="primary"
+                          type="checkbox"
+                          {...register('checkbox')}
+                          onChange={(e) =>
+                            onChange(setChecked(e.target.checked))
+                          }
+                        />
+                      )}
+                    />
+                  }
+                  label={
+                    <Typography
+                      color={errors.acceptTerms ? 'error' : 'inherit'}
+                    >
+                      save shipping address
+                    </Typography>
+                  }
+                />
+                <br />
+                <Typography variant="inherit" color="textSecondary">
+                  {errors.acceptTerms ? `${errors.acceptTerms.message}` : ''}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sx={{ width: '100%', marginTop: 5 }}>
+                <Button
+                  variant="custom"
+                  color="primary"
+                  type="submit"
+                  sx={{ width: '100%' }}
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Continue
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sx={{ width: '100%', marginTop: 5 }}>
-              <Button
-                variant="custom"
-                color="primary"
-                type="submit"
-                sx={{ width: '100%' }}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Continue
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      </form>
-      {profileError && (
-        <Message severity="profileError">{profileError}</Message>
+          </Paper>
+        </form>
       )}
-      {profileLoading && <Loader />}
+
+      {errorUserDetails && (
+        <Message severity="error">{errorUserDetails}</Message>
+      )}
+      {loadingUserDetails && <Loader />}
     </div>
   );
 }

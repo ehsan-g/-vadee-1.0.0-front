@@ -80,7 +80,7 @@ const Header = () => {
       history.push(`/${value}`);
     } else if (value === 'regions') {
       setCurrent(2);
-      history.push(`/${value}`);
+      // history.push(`/${value}`);
     }
   };
 

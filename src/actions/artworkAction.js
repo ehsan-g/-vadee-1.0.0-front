@@ -27,7 +27,7 @@ export const fetchAllArtWorks =
         type: ARTWORK_LIST_FAIL,
         payload:
           e.response && e.response.data.detail
-            ? e.response.data.detail
+            ? e.response.data.details
             : e.message,
       });
     }
@@ -36,6 +36,7 @@ export const fetchAllArtWorks =
 export const fetchOneArtWork = (workId) => async (dispatch) => {
   try {
     await dispatch({ type: ARTWORK_DETAILS_REQUEST });
+
     const response = await artworksBase.get(`/artworks/${workId}`);
 
     dispatch({
@@ -47,7 +48,7 @@ export const fetchOneArtWork = (workId) => async (dispatch) => {
       type: ARTWORK_DETAILS_FAIL,
       payload:
         e.response && e.response.data.detail
-          ? e.response.data.detail
+          ? e.response.data.details
           : e.message,
     });
   }
@@ -67,7 +68,7 @@ export const fetchCategories = () => async (dispatch) => {
       type: CATEGORY_LIST_FAIL,
       payload:
         e.response && e.response.data.detail
-          ? e.response.data.detail
+          ? e.response.data.details
           : e.message,
     });
   }

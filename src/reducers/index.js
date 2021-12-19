@@ -30,6 +30,7 @@ import headerReducer from './headerReducer';
 import { artistByIdReducer, artistListReducer } from './artistReducer.js';
 import { articleListReducer } from './articleReducer.js';
 import { filterReducer } from './filterReducer.js';
+import { walletConnectionReducer } from './LazyFactoryReducer.js';
 
 export default combineReducers({
   headerStatus: headerReducer,
@@ -59,4 +60,5 @@ export default combineReducers({
   articlesList: articleListReducer,
   filterOrigin: filterReducer,
   categoryList: categoriesReducer,
+  walletConnection: walletConnectionReducer,
 });

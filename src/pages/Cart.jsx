@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, Grid, Typography, Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
@@ -8,12 +8,17 @@ import TabPanel from '@mui/lab/TabPanel';
 import CartShipForm from '../components/cart/CartShipForm';
 import ProfileFavorite from '../components/profile/ProfileFavorite';
 import PurchaseCard from '../components/cart/PurchaseCard';
+import CartReview from '../components/cart/CartReview';
 
 export default function Cart() {
-  const [value, setValue] = useState('1');
+  const [tabValue, setTabValue] = useState('1');
+  const [formValues, setFormValues] = useState();
+  useEffect(() => {
+    // setTabValue('1');
+  }, []);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setTabValue(newValue);
   };
 
   return (
@@ -46,23 +51,29 @@ export default function Cart() {
         </Grid>
         <Grid item md={8} xs={12}>
           <Box sx={{ typography: 'body1', padding: 5 }}>
-            <TabContext value={value}>
+            <TabContext value={tabValue}>
               <Box sx={{ borderColor: 'divider' }}>
-                <TabList
-                  onChange={handleChange}
-                  aria-label="lab API tabs example"
-                >
-                  <Tab label="Shipping" value="1" />
-                  <Tab label="Review" disabled value="2" />
-                  <Tab label="Payment" value="3" />
+                <TabList onChange={handleChange} aria-label="lab tabs">
+                  <Tab disabled={tabValue !== '1'} label="Shipping" value="1" />
+                  <Tab disabled={tabValue !== '2'} label="Review" value="2" />
+                  <Tab disabled={tabValue !== '3'} label="Payment" value="3" />
                 </TabList>
               </Box>
 
               <Box>
                 <TabPanel value="1">
-                  <CartShipForm />
+                  <CartShipForm
+                    formValues={formValues}
+                    setFormValues={setFormValues}
+                    setTabValue={setTabValue}
+                  />
                 </TabPanel>
-                <TabPanel value="2">{/* <AccountUserOrders /> */}</TabPanel>
+                <TabPanel value="2">
+                  <CartReview
+                    setTabValue={setTabValue}
+                    formValues={formValues}
+                  />
+                </TabPanel>
                 <TabPanel value="3">
                   <ProfileFavorite />
                 </TabPanel>

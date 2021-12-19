@@ -74,7 +74,7 @@ function FavoriteList() {
                   {favArtworks.favorites.map((artwork) => (
                     <Grid key={artwork._id}>
                       <Paper className={classes.paper}>
-                        <ArtCard artwork={artwork} />
+                        <ArtCard data={artwork} />
                       </Paper>
                     </Grid>
                   ))}

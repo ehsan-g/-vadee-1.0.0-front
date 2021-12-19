@@ -50,7 +50,7 @@ export const login = (username, password) => async (dispatch) => {
       type: USER_LOGIN_FAIL,
       payload:
         e.response && e.response.data.detail
-          ? e.response.data.detail
+          ? e.response.data.details
           : e.message,
     });
   }
@@ -103,7 +103,7 @@ export const register =
         type: USER_REGISTER_FAIL,
         payload:
           e.response && e.response.data.detail
-            ? e.response.data.detail
+            ? e.response.data.details
             : e.message,
       });
     }
@@ -135,7 +135,7 @@ export const fetchUserDetails = () => async (dispatch, getState) => {
       type: USER_DETAILS_FAIL,
       payload:
         e.response && e.response.data.detail
-          ? e.response.data.detail
+          ? e.response.data.details
           : e.message,
     });
   }
@@ -158,6 +158,16 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     const formData = new FormData();
     formData.set('firstName', user.firstName);
     formData.set('lastName', user.lastName);
+    if (user.checked) {
+      formData.set('country', user.country);
+      formData.set('city', user.city);
+      formData.set('phoneNumber', user.phoneNumber);
+      formData.set('province', user.province);
+      formData.set('postalCode', user.postalCode);
+      formData.set('address', user.address);
+      formData.set('checked', user.checked);
+    }
+    console.log(user);
 
     const { data } = await artworksBase.put(
       `users/profile/update/`,
@@ -181,7 +191,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_FAIL,
       payload:
         e.response && e.response.data.detail
-          ? e.response.data.detail
+          ? e.response.data.details
           : e.message,
     });
   }
@@ -217,7 +227,7 @@ export const favArtwork = (artworkId) => async (dispatch, getState) => {
       type: USER_FAVORITE_ARTWORK_FAIL,
       payload:
         e.response && e.response.data.detail
-          ? e.response.data.detail
+          ? e.response.data.details
           : e.message,
     });
   }
@@ -252,7 +262,7 @@ export const fetchFavArtworkList = () => async (dispatch, getState) => {
       type: USER_FAVORITE_ARTWORK_LIST_FAIL,
       payload:
         e.response && e.response.data.detail
-          ? e.response.data.detail
+          ? e.response.data.details
           : e.message,
     });
   }
